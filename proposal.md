@@ -4,7 +4,9 @@
 Pathfinding comes up in a variety of contexts, from role-playing games to ride-sharing apps.
 The basic setup is as follows: given a graph (a list of connected nodes), a
 starting node and a goal node, we want to find the shortest path from the start
-to the goal. Pathfinder is a visualization tool that aims to demonstrate
+to the goal.
+
+Pathfinder is a visualization tool that aims to demonstrate
 functionality and efficiency of two such algorithms - Breadth First Search and A\*.
 Breadth First Search is a brute-force, slow, algorithm, while A* is significantly more efficient, and the standard choice in various real-world
 pathfinding scenarios.
@@ -22,7 +24,8 @@ In addition, the project will include:
 
 ## Wireframe
 ![Pathfinder wireframe][wireframe]
-[wireframe]: docs/pathfinder_wireframe.png
+
+[wireframe]: /docs/pathfinder_wireframe.png
 
 ## Architecture and Technologies
 This project will be built with the following technologies:
@@ -65,7 +68,7 @@ Finish the `graphNode` class and implement the BFS and A\* algorithms.
 Implement the `Search` class and render the statuses of nodes at each step of the search algorithm.
 
 **Goal:** Animate an expanding frontier of searched nodes and a final
-final calculated path. 
+final calculated path.
 
 ### Day 4:
 Update styling, add instructions modal and add documentation.
