@@ -1,5 +1,4 @@
-import Cell from './cell';
-window.Cell = Cell;
+import graphNode from './graph_node';
 
 class Board {
   constructor(stage) {
@@ -13,18 +12,14 @@ class Board {
   }
 
   handleClick(e) {
-    const currX = Math.floor(e.stageX/10)*10;
-    const currY = Math.floor(e.stageY/10)*10;
-
-
     const gridX = Math.floor(e.stageX/10);
     const gridY = Math.floor(e.stageY/10);
-    const cell = this.grid[gridX][gridY];
-    if(this.start === cell || this.goal === cell) {
+    const node = this.grid[gridX][gridY];
+    if(this.start === node || this.goal === node) {
       return false;
     }
 
-    cell.toggleIsObstacle();
+    node.toggleIsObstacle();
     return true;
   }
 
@@ -36,14 +31,14 @@ class Board {
 
     //only allow pressmove in discrete cells
     if (currX !== prevX || currY !== prevY) {
-        const cell = this.grid[currX/10][currY/10];
+        const node = this.grid[currX/10][currY/10];
 
         if (this.isStart(prevX, prevY)) {
-          this.setStart(cell);
+          this.setStart(node);
         } else if (this.isGoal(prevX, prevY)) {
-          this.setGoal(cell);
+          this.setGoal(node);
         } else {
-          cell.toggleIsObstacle();
+          node.toggleIsObstacle();
         }
 
         this.handleMouseMove.prevX = currX;
@@ -59,21 +54,21 @@ class Board {
     return x === this.goal.easelCell.x && y === this.goal.easelCell.y;
   }
 
-  setStart(cell) {
+  setStart(node) {
     if(this.start) {
       this.start.fillByString('empty');
     }
 
-    cell.fillByString('start');
-    this.start = cell;
+    node.fillByString('start');
+    this.start = node;
   }
 
-  setGoal(cell) {
+  setGoal(node) {
     if(this.goal) {
       this.goal.fillByString('empty');
     }
-    cell.fillByString('goal');
-    this.goal = cell;
+    node.fillByString('goal');
+    this.goal = node;
   }
 
   drawGrid() {
@@ -83,9 +78,9 @@ class Board {
       grid.push([]);
 
       for(let j = 0; j < 15; j ++){
-        const cell = new Cell(i*10, j*10);
-        this.stage.addChild(cell.easelCell);
-        grid[i].push(cell);
+        const node = new graphNode(i*10, j*10);
+        this.stage.addChild(node.easelCell);
+        grid[i].push(node);
       }
     }
 

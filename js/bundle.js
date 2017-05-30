@@ -72,15 +72,13 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _cell = __webpack_require__(2);
+	var _graph_node = __webpack_require__(3);
 	
-	var _cell2 = _interopRequireDefault(_cell);
+	var _graph_node2 = _interopRequireDefault(_graph_node);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	window.Cell = _cell2.default;
 	
 	var Board = function () {
 	  function Board(stage) {
@@ -98,17 +96,14 @@
 	  _createClass(Board, [{
 	    key: 'handleClick',
 	    value: function handleClick(e) {
-	      var currX = Math.floor(e.stageX / 10) * 10;
-	      var currY = Math.floor(e.stageY / 10) * 10;
-	
 	      var gridX = Math.floor(e.stageX / 10);
 	      var gridY = Math.floor(e.stageY / 10);
-	      var cell = this.grid[gridX][gridY];
-	      if (this.start === cell || this.goal === cell) {
+	      var node = this.grid[gridX][gridY];
+	      if (this.start === node || this.goal === node) {
 	        return false;
 	      }
 	
-	      cell.toggleIsObstacle();
+	      node.toggleIsObstacle();
 	      return true;
 	    }
 	  }, {
@@ -121,14 +116,14 @@
 	
 	      //only allow pressmove in discrete cells
 	      if (currX !== prevX || currY !== prevY) {
-	        var cell = this.grid[currX / 10][currY / 10];
+	        var node = this.grid[currX / 10][currY / 10];
 	
 	        if (this.isStart(prevX, prevY)) {
-	          this.setStart(cell);
+	          this.setStart(node);
 	        } else if (this.isGoal(prevX, prevY)) {
-	          this.setGoal(cell);
+	          this.setGoal(node);
 	        } else {
-	          cell.toggleIsObstacle();
+	          node.toggleIsObstacle();
 	        }
 	
 	        this.handleMouseMove.prevX = currX;
@@ -147,22 +142,22 @@
 	    }
 	  }, {
 	    key: 'setStart',
-	    value: function setStart(cell) {
+	    value: function setStart(node) {
 	      if (this.start) {
 	        this.start.fillByString('empty');
 	      }
 	
-	      cell.fillByString('start');
-	      this.start = cell;
+	      node.fillByString('start');
+	      this.start = node;
 	    }
 	  }, {
 	    key: 'setGoal',
-	    value: function setGoal(cell) {
+	    value: function setGoal(node) {
 	      if (this.goal) {
 	        this.goal.fillByString('empty');
 	      }
-	      cell.fillByString('goal');
-	      this.goal = cell;
+	      node.fillByString('goal');
+	      this.goal = node;
 	    }
 	  }, {
 	    key: 'drawGrid',
@@ -175,9 +170,9 @@
 	        grid.push([]);
 	
 	        for (var j = 0; j < 15; j++) {
-	          var cell = new _cell2.default(i * 10, j * 10);
-	          this.stage.addChild(cell.easelCell);
-	          grid[i].push(cell);
+	          var node = new _graph_node2.default(i * 10, j * 10);
+	          this.stage.addChild(node.easelCell);
+	          grid[i].push(node);
 	        }
 	      }
 	
@@ -201,7 +196,8 @@
 	exports.default = Board;
 
 /***/ }),
-/* 2 */
+/* 2 */,
+/* 3 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -214,9 +210,9 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var Cell = function () {
-	  function Cell(x, y) {
-	    _classCallCheck(this, Cell);
+	var graphNode = function () {
+	  function graphNode(x, y) {
+	    _classCallCheck(this, graphNode);
 	
 	    this.easelCell = new createjs.Shape();
 	    this.drawBorder();
@@ -226,7 +222,7 @@
 	    this.moveTo(x, y);
 	  }
 	
-	  _createClass(Cell, [{
+	  _createClass(graphNode, [{
 	    key: 'toggleIsObstacle',
 	    value: function toggleIsObstacle() {
 	      this.isObstacle = !this.isObstacle;
@@ -241,8 +237,8 @@
 	  }, {
 	    key: 'fillByString',
 	    value: function fillByString(colorString) {
-	      this.color = Cell.COLORS[colorString];
-	      this._fill(Cell.COLORS[colorString]);
+	      this.color = graphNode.COLORS[colorString];
+	      this._fill(graphNode.COLORS[colorString]);
 	    }
 	  }, {
 	    key: 'drawBorder',
@@ -257,17 +253,17 @@
 	    }
 	  }]);
 	
-	  return Cell;
+	  return graphNode;
 	}();
 	
-	Cell.COLORS = {
+	graphNode.COLORS = {
 	  'empty': '#e8e8e8',
 	  'start': '#ff0000',
 	  'goal': '#0000ff',
 	  'obstacle': '#c1c1c1'
 	};
 	
-	exports.default = Cell;
+	exports.default = graphNode;
 
 /***/ })
 /******/ ]);

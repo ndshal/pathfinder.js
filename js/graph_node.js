@@ -1,4 +1,4 @@
-class Cell {
+class graphNode {
   constructor(x, y) {
     this.easelCell = new createjs.Shape();
     this.drawBorder();
@@ -19,8 +19,8 @@ class Cell {
   }
 
   fillByString(colorString) {
-    this.color = Cell.COLORS[colorString];
-    this._fill(Cell.COLORS[colorString]);
+    this.color = graphNode.COLORS[colorString];
+    this._fill(graphNode.COLORS[colorString]);
   }
 
   drawBorder() {
@@ -37,11 +37,11 @@ class Cell {
   }
 }
 
-Cell.COLORS = {
+graphNode.COLORS = {
   'empty': '#e8e8e8',
   'start': '#ff0000',
   'goal': '#0000ff',
   'obstacle': '#c1c1c1'
 };
 
-export default Cell;
+export default graphNode;
