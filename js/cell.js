@@ -1,21 +1,21 @@
 class Cell {
   constructor(x, y) {
-    this.cell = new createjs.Shape();
+    this.easelCell = new createjs.Shape();
+    this.drawBorder();
     this.isObstacle = false;
-    this.color = Cell.COLORS['empty'];
+    this.fillByString('empty')
 
     this.moveTo(x, y);
-    this.on = this.cell.on.bind(this.cell);
   }
 
   toggleIsObstacle() {
-    this.color =  this.isObstacle? Cell.COLORS['obstacle'] : Cell.COLORS['empty'];
-    this.fill(this.color)
     this.isObstacle = !this.isObstacle;
+    const str =  this.isObstacle? 'obstacle' : 'empty';
+    this.fillByString(str);
   }
 
   _fill(color) {
-    this.cell.graphics.beginFill(color).drawRect(0,0,10,10);
+    this.easelCell.graphics.beginFill(color).drawRect(0,0,10,10);
   }
 
   fillByString(colorString) {
@@ -23,13 +23,17 @@ class Cell {
     this._fill(Cell.COLORS[colorString]);
   }
 
-  moveTo(x, y) {
-    this.cell.x = x;
-    this.cell.y = y;
+  drawBorder() {
+    this.easelCell
+      .graphics
+      .setStrokeStyle(0.5)
+      .beginStroke('#ffffff')
+      .drawRect(0,0,10,10);
   }
 
-  easelObj() {
-    return this.cell;
+  moveTo(x, y) {
+    this.easelCell.x = x;
+    this.easelCell.y = y;
   }
 }
 

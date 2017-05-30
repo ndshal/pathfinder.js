@@ -58,7 +58,6 @@
 	  var stage = new createjs.Stage('main-canvas');
 	  var board = new _board2.default(stage);
 	  window.board = board;
-	  board.drawGrid();
 	});
 
 /***/ }),
@@ -85,48 +84,26 @@
 	
 	var Board = function () {
 	  function Board(stage) {
-	    var _this = this;
-	
 	    _classCallCheck(this, Board);
 	
 	    this.stage = stage;
-	    createjs.Ticker.addEventListener("tick", function (evt) {
-	      if (!evt.paused) {
-	        _this.stage.update();
-	      }
-	    });
+	    createjs.Ticker.addEventListener('tick', this.stage);
 	
+	    this.handleClick = this.handleClick.bind(this);
 	    this.handleMouseMove = this.handleMouseMove.bind(this);
-	    this.toggleObstacle = this.toggleObstacle.bind(this);
+	
+	    this.grid = this.drawGrid();
 	  }
 	
 	  _createClass(Board, [{
-	    key: 'handleMouseMove',
-	    value: function handleMouseMove(e) {
+	    key: 'handleClick',
+	    value: function handleClick(e) {
 	      var currX = Math.floor(e.stageX / 10) * 10;
 	      var currY = Math.floor(e.stageY / 10) * 10;
-	      var prevX = this.handleMouseMove.prevX;
-	      var prevY = this.handleMouseMove.prevY;
-	      console.log(currX, currY);
 	
-	      //only allow pressmove in discrete cells
-	      if (currX !== prevX || currY !== prevY) {
-	        var cell = this.stage.getObjectUnderPoint(currX, currY);
-	        if (this.isStart(prevX, prevY)) {
-	          this.setStart(cell);
-	        } else if (this.isGoal(prevX, prevY)) {
-	          this.setGoal(cell);
-	        } else {
-	          this.toggleObstacle(cell);
-	        }
-	
-	        this.handleMouseMove.prevX = currX;
-	        this.handleMouseMove.prevY = currY;
-	      }
-	    }
-	  }, {
-	    key: 'toggleObstacle',
-	    value: function toggleObstacle(cell) {
+	      var gridX = Math.floor(e.stageX / 10);
+	      var gridY = Math.floor(e.stageY / 10);
+	      var cell = this.grid[gridX][gridY];
 	      if (this.start === cell || this.goal === cell) {
 	        return false;
 	      }
@@ -135,14 +112,38 @@
 	      return true;
 	    }
 	  }, {
+	    key: 'handleMouseMove',
+	    value: function handleMouseMove(e) {
+	      var currX = Math.floor(e.stageX / 10) * 10;
+	      var currY = Math.floor(e.stageY / 10) * 10;
+	      var prevX = this.handleMouseMove.prevX;
+	      var prevY = this.handleMouseMove.prevY;
+	
+	      //only allow pressmove in discrete cells
+	      if (currX !== prevX || currY !== prevY) {
+	        var cell = this.grid[currX / 10][currY / 10];
+	
+	        if (this.isStart(prevX, prevY)) {
+	          this.setStart(cell);
+	        } else if (this.isGoal(prevX, prevY)) {
+	          this.setGoal(cell);
+	        } else {
+	          cell.toggleIsObstacle();
+	        }
+	
+	        this.handleMouseMove.prevX = currX;
+	        this.handleMouseMove.prevY = currY;
+	      }
+	    }
+	  }, {
 	    key: 'isStart',
 	    value: function isStart(x, y) {
-	      return x === this.start.x && y === this.start.y;
+	      return x === this.start.easelCell.x && y === this.start.easelCell.y;
 	    }
 	  }, {
 	    key: 'isGoal',
 	    value: function isGoal(x, y) {
-	      return x === this.goal.x && y === this.goal.y;
+	      return x === this.goal.easelCell.x && y === this.goal.easelCell.y;
 	    }
 	  }, {
 	    key: 'setStart',
@@ -150,6 +151,7 @@
 	      if (this.start) {
 	        this.start.fillByString('empty');
 	      }
+	
 	      cell.fillByString('start');
 	      this.start = cell;
 	    }
@@ -165,28 +167,31 @@
 	  }, {
 	    key: 'drawGrid',
 	    value: function drawGrid() {
-	      var _this2 = this;
+	      var _this = this;
+	
+	      var grid = [];
 	
 	      for (var i = 0; i < 15; i++) {
+	        grid.push([]);
+	
 	        for (var j = 0; j < 15; j++) {
 	          var cell = new _cell2.default(i * 10, j * 10);
-	          cell.on('click', function (e) {
-	            return _this2.toggleObstacle(e.target);
-	          });
-	          this.stage.addChild(cell.easelObj());
+	          this.stage.addChild(cell.easelCell);
+	          grid[i].push(cell);
 	        }
 	      }
 	
-	      this.setStart(this.stage.getChildAt(10));
-	      this.setGoal(this.stage.getChildAt(98));
+	      this.setStart(grid[10][11]);
+	      this.setGoal(grid[1][7]);
 	
+	      this.stage.on('click', this.handleClick);
 	      this.stage.on('pressmove', this.handleMouseMove);
 	      this.stage.on('pressup', function () {
-	        console.log('pressup');
-	
-	        _this2.handleMouseMove.prevX = null;
-	        _this2.handleMouseMove.prevY = null;
+	        _this.handleMouseMove.prevX = null;
+	        _this.handleMouseMove.prevY = null;
 	      });
+	
+	      return grid;
 	    }
 	  }]);
 	
@@ -213,25 +218,25 @@
 	  function Cell(x, y) {
 	    _classCallCheck(this, Cell);
 	
-	    this.cell = new createjs.Shape();
+	    this.easelCell = new createjs.Shape();
+	    this.drawBorder();
 	    this.isObstacle = false;
-	    this.color = Cell.COLORS['empty'];
+	    this.fillByString('empty');
 	
 	    this.moveTo(x, y);
-	    this.on = this.cell.on.bind(this.cell);
 	  }
 	
 	  _createClass(Cell, [{
 	    key: 'toggleIsObstacle',
 	    value: function toggleIsObstacle() {
-	      this.color = this.isObstacle ? Cell.COLORS['obstacle'] : Cell.COLORS['empty'];
-	      this.fill(this.color);
 	      this.isObstacle = !this.isObstacle;
+	      var str = this.isObstacle ? 'obstacle' : 'empty';
+	      this.fillByString(str);
 	    }
 	  }, {
 	    key: '_fill',
 	    value: function _fill(color) {
-	      this.cell.graphics.beginFill(color).drawRect(0, 0, 10, 10);
+	      this.easelCell.graphics.beginFill(color).drawRect(0, 0, 10, 10);
 	    }
 	  }, {
 	    key: 'fillByString',
@@ -240,15 +245,15 @@
 	      this._fill(Cell.COLORS[colorString]);
 	    }
 	  }, {
-	    key: 'moveTo',
-	    value: function moveTo(x, y) {
-	      this.cell.x = x;
-	      this.cell.y = y;
+	    key: 'drawBorder',
+	    value: function drawBorder() {
+	      this.easelCell.graphics.setStrokeStyle(0.5).beginStroke('#ffffff').drawRect(0, 0, 10, 10);
 	    }
 	  }, {
-	    key: 'easelObj',
-	    value: function easelObj() {
-	      return this.cell;
+	    key: 'moveTo',
+	    value: function moveTo(x, y) {
+	      this.easelCell.x = x;
+	      this.easelCell.y = y;
 	    }
 	  }]);
 	

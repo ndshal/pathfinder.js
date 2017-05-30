@@ -6,5 +6,4 @@ document.addEventListener('DOMContentLoaded', ()=> {
   const stage = new createjs.Stage('main-canvas');
   const board = new Board(stage);
   window.board = board;
-  board.drawGrid();
 });

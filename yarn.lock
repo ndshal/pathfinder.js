@@ -1932,3 +1932,7 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
+
+yuki-createjs@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/yuki-createjs/-/yuki-createjs-0.0.3.tgz#cdf25a7dd08116d6ab31fef17144e85771be4219"
