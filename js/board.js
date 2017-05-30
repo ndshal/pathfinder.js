@@ -1,3 +1,6 @@
+import Cell from './cell';
+window.Cell = Cell;
+
 class Board {
   constructor(stage) {
     this.stage = stage;
@@ -39,9 +42,7 @@ class Board {
       return false;
     }
 
-    const color = cell.isObstacle? '#e8e8e8' : '#c1c1c1';
-    cell.graphics.beginFill(color).drawRect(0,0,10,10);
-    cell.isObstacle = !cell.isObstacle;
+    cell.toggleIsObstacle();
     return true;
   }
 
@@ -55,33 +56,26 @@ class Board {
 
   setStart(cell) {
     if(this.start) {
-      this.colorCell(this.start, '#e8e8e8');
+      this.start.fillByString('empty');
     }
-    this.colorCell(cell, '#ff0000');
+    cell.fillByString('start');
     this.start = cell;
   }
 
   setGoal(cell) {
     if(this.goal) {
-      this.colorCell(this.goal, '#e8e8e8');
+      this.goal.fillByString('empty');
     }
-    this.colorCell(cell, '#0000ff');
+    cell.fillByString('goal');
     this.goal = cell
-  }
-
-  colorCell(cell, color) {
-    cell.graphics.beginFill(color).drawRect(0,0,10,10);
   }
 
   drawGrid() {
     for(let i = 0; i < 15; i ++ ){
       for(let j = 0; j < 15; j ++){
-        const cell = new createjs.Shape().set({x: i*10, y: j*10});
-        cell.graphics.setStrokeStyle(0.5).beginStroke("#ffffff");
-        cell.isObstacle = false;
+        const cell = new Cell(i*10, j*10);
         cell.on('click', (e) => this.toggleObstacle(e.target))
-        cell.graphics.beginFill('#e8e8e8').drawRect(0, 0, 10, 10);
-        this.stage.addChild(cell)
+        this.stage.addChild(cell.easelObj())
       }
     }
 

@@ -63,7 +63,7 @@
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -73,7 +73,15 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+	var _cell = __webpack_require__(2);
+	
+	var _cell2 = _interopRequireDefault(_cell);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	window.Cell = _cell2.default;
 	
 	var Board = function () {
 	  function Board(stage) {
@@ -123,9 +131,7 @@
 	        return false;
 	      }
 	
-	      var color = cell.isObstacle ? '#e8e8e8' : '#c1c1c1';
-	      cell.graphics.beginFill(color).drawRect(0, 0, 10, 10);
-	      cell.isObstacle = !cell.isObstacle;
+	      cell.toggleIsObstacle();
 	      return true;
 	    }
 	  }, {
@@ -142,24 +148,19 @@
 	    key: 'setStart',
 	    value: function setStart(cell) {
 	      if (this.start) {
-	        this.colorCell(this.start, '#e8e8e8');
+	        this.start.fillByString('empty');
 	      }
-	      this.colorCell(cell, '#ff0000');
+	      cell.fillByString('start');
 	      this.start = cell;
 	    }
 	  }, {
 	    key: 'setGoal',
 	    value: function setGoal(cell) {
 	      if (this.goal) {
-	        this.colorCell(this.goal, '#e8e8e8');
+	        this.goal.fillByString('empty');
 	      }
-	      this.colorCell(cell, '#0000ff');
+	      cell.fillByString('goal');
 	      this.goal = cell;
-	    }
-	  }, {
-	    key: 'colorCell',
-	    value: function colorCell(cell, color) {
-	      cell.graphics.beginFill(color).drawRect(0, 0, 10, 10);
 	    }
 	  }, {
 	    key: 'drawGrid',
@@ -168,14 +169,11 @@
 	
 	      for (var i = 0; i < 15; i++) {
 	        for (var j = 0; j < 15; j++) {
-	          var cell = new createjs.Shape().set({ x: i * 10, y: j * 10 });
-	          cell.graphics.setStrokeStyle(0.5).beginStroke("#ffffff");
-	          cell.isObstacle = false;
+	          var cell = new _cell2.default(i * 10, j * 10);
 	          cell.on('click', function (e) {
 	            return _this2.toggleObstacle(e.target);
 	          });
-	          cell.graphics.beginFill('#e8e8e8').drawRect(0, 0, 10, 10);
-	          this.stage.addChild(cell);
+	          this.stage.addChild(cell.easelObj());
 	        }
 	      }
 	
@@ -196,6 +194,75 @@
 	}();
 	
 	exports.default = Board;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Cell = function () {
+	  function Cell(x, y) {
+	    _classCallCheck(this, Cell);
+	
+	    this.cell = new createjs.Shape();
+	    this.isObstacle = false;
+	    this.color = Cell.COLORS['empty'];
+	
+	    this.moveTo(x, y);
+	    this.on = this.cell.on.bind(this.cell);
+	  }
+	
+	  _createClass(Cell, [{
+	    key: 'toggleIsObstacle',
+	    value: function toggleIsObstacle() {
+	      this.color = this.isObstacle ? Cell.COLORS['obstacle'] : Cell.COLORS['empty'];
+	      this.fill(this.color);
+	      this.isObstacle = !this.isObstacle;
+	    }
+	  }, {
+	    key: '_fill',
+	    value: function _fill(color) {
+	      this.cell.graphics.beginFill(color).drawRect(0, 0, 10, 10);
+	    }
+	  }, {
+	    key: 'fillByString',
+	    value: function fillByString(colorString) {
+	      this.color = Cell.COLORS[colorString];
+	      this._fill(Cell.COLORS[colorString]);
+	    }
+	  }, {
+	    key: 'moveTo',
+	    value: function moveTo(x, y) {
+	      this.cell.x = x;
+	      this.cell.y = y;
+	    }
+	  }, {
+	    key: 'easelObj',
+	    value: function easelObj() {
+	      return this.cell;
+	    }
+	  }]);
+	
+	  return Cell;
+	}();
+	
+	Cell.COLORS = {
+	  'empty': '#e8e8e8',
+	  'start': '#ff0000',
+	  'goal': '#0000ff',
+	  'obstacle': '#c1c1c1'
+	};
+	
+	exports.default = Cell;
 
 /***/ })
 /******/ ]);
