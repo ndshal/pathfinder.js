@@ -35,9 +35,14 @@ class Board {
   }
 
   toggleObstacle(cell) {
+    if (this.start === cell || this.goal === cell) {
+      return false;
+    }
+
     const color = cell.isObstacle? '#e8e8e8' : '#c1c1c1';
     cell.graphics.beginFill(color).drawRect(0,0,10,10);
     cell.isObstacle = !cell.isObstacle;
+    return true;
   }
 
   isStart(x, y) {
@@ -74,6 +79,7 @@ class Board {
         const cell = new createjs.Shape().set({x: i*10, y: j*10});
         cell.graphics.setStrokeStyle(0.5).beginStroke("#ffffff");
         cell.isObstacle = false;
+        cell.on('click', (e) => this.toggleObstacle(e.target))
         cell.graphics.beginFill('#e8e8e8').drawRect(0, 0, 10, 10);
         this.stage.addChild(cell)
       }
