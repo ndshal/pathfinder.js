@@ -36,6 +36,13 @@ class graphNode {
     this.easelCell.x = x;
     this.easelCell.y = y;
   }
+
+  gridCoords() {
+    return [
+      Math.floor(this.easelCell.x/10),
+      Math.floor(this.easelCell.y/10)
+    ].toString();
+  }
 }
 
 graphNode.COLORS = {

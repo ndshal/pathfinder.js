@@ -294,6 +294,11 @@
 	      this.easelCell.x = x;
 	      this.easelCell.y = y;
 	    }
+	  }, {
+	    key: 'gridCoords',
+	    value: function gridCoords() {
+	      return [Math.floor(this.easelCell.x / 10), Math.floor(this.easelCell.y / 10)].toString();
+	    }
 	  }]);
 	
 	  return graphNode;
@@ -489,9 +494,11 @@
 	    value: function processNeighbors(node) {
 	      var neighbors = this.board.neighbors(node);
 	      for (var i = 0; i < neighbors.length; i++) {
-	        this.frontier.enqueue(neighbors[i]);
-	        neighbors[i].fillByString('frontier');
-	        this.cameFrom[neighbors[i]] = this.start;
+	        if (!(neighbors[i].gridCoords() in this.cameFrom)) {
+	          this.frontier.enqueue(neighbors[i]);
+	          neighbors[i].fillByString('frontier');
+	          this.cameFrom[neighbors[i].gridCoords()] = node.gridCoords();
+	        }
 	      }
 	    }
 	  }]);
@@ -520,7 +527,7 @@
 	    _classCallCheck(this, Search);
 	
 	    this.cameFrom = {};
-	    this.cameFrom[board.start] = null;
+	    this.cameFrom[board.start.gridCoords()] = null;
 	
 	    this.board = board;
 	    this.goal = board.goal;
@@ -542,25 +549,17 @@
 	      this.buildPath();
 	    }
 	  }, {
-	    key: "updateCameFrom",
-	    value: function updateCameFrom(node, parent) {
-	      var nodeCoords = [Math.floor(node.easelCell.x / 10), Math.floor(node.easelCell.y / 10)];
-	      var parentCoords = [Math.floor(parent.easelCell.x / 10), Math.floor(parent.easelCell.y / 10)];
-	
-	      this.cameFrom[nodeCoords] = parentCoords;
-	    }
-	  }, {
 	    key: "buildPath",
 	    value: function buildPath() {
-	      if (!this.cameFrom[this.goal]) {
+	      if (!this.cameFrom[this.goal.gridCoords()]) {
 	        return null;
 	      }
 	
-	      var current = this.goal;
+	      var current = this.goal.gridCoords();
 	      var path = [];
 	
 	      while (current) {
-	        path.shift(current);
+	        path.unshift(current);
 	        current = this.cameFrom[current];
 	      }
 	

@@ -1,7 +1,7 @@
 class Search {
   constructor(board) {
     this.cameFrom = {};
-    this.cameFrom[board.start] = null;
+    this.cameFrom[board.start.gridCoords()] = null;
 
     this.board = board;
     this.goal = board.goal;
@@ -21,29 +21,16 @@ class Search {
     this.buildPath();
   }
 
-  updateCameFrom(node, parent) {
-    const nodeCoords = [
-      Math.floor(node.easelCell.x/10),
-      Math.floor(node.easelCell.y/10),
-    ];
-    const parentCoords = [
-      Math.floor(parent.easelCell.x/10),
-      Math.floor(parent.easelCell.y/10),
-    ];
-
-    this.cameFrom[nodeCoords] = parentCoords;
-  }
-
   buildPath() {
-    if(!this.cameFrom[this.goal]) {
+    if(!this.cameFrom[this.goal.gridCoords()]) {
       return null;
     }
 
-    let current = this.goal;
+    let current = this.goal.gridCoords();
     let path = [];
 
     while(current) {
-      path.shift(current);
+      path.unshift(current);
       current = this.cameFrom[current];
     }
 
