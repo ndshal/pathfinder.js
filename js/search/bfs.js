@@ -1,5 +1,5 @@
 import Search from './search';
-import { Queue } from '../data_structures'
+import { Queue } from '../data_structures';
 
 class BFS extends Search {
   initializeFrontier() {
@@ -9,8 +9,10 @@ class BFS extends Search {
   }
 
   updateFrontier() {
-    const current = this.frontier.dequeue;
-    this.processNeighbors(current)
+    const current = this.frontier.dequeue();
+    console.log(current);
+
+    this.processNeighbors(current);
     current.fillByString('visited');
   }
 
@@ -19,7 +21,7 @@ class BFS extends Search {
     for(let i = 0; i < neighbors.length; i ++) {
       this.frontier.enqueue(neighbors[i]);
       neighbors[i].fillByString('frontier');
-      this.cameFrom(neighbors[i]) = this.start;
+      this.cameFrom[neighbors[i]] = this.start;
     }
   }
 }

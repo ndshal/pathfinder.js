@@ -5,6 +5,7 @@ class Search {
 
     this.board = board;
     this.goal = board.goal;
+    this.start = board.start;
     this.initializeFrontier();
   }
 
@@ -18,6 +19,19 @@ class Search {
     }
 
     this.buildPath();
+  }
+
+  updateCameFrom(node, parent) {
+    const nodeCoords = [
+      Math.floor(node.easelCell.x/10),
+      Math.floor(node.easelCell.y/10),
+    ];
+    const parentCoords = [
+      Math.floor(parent.easelCell.x/10),
+      Math.floor(parent.easelCell.y/10),
+    ];
+
+    this.cameFrom[nodeCoords] = parentCoords;
   }
 
   buildPath() {

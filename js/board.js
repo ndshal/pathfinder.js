@@ -96,6 +96,14 @@ class Board {
     return grid;
   }
 
+  inGridBounds(gridX, gridY) {
+    if (!this.grid[gridX] || !this.grid[gridX][gridY]) {
+      return false;
+    }
+
+    return true;
+  }
+
   neighbors(node) {
     const {x, y} = node.easelCell;
     const gridX = Math.floor(x/10);
@@ -104,11 +112,12 @@ class Board {
     let neighbors = [];
     for(let dx  = -1; dx < 2; dx ++) {
       for(let dy  = -1; dy < 2; dy ++) {
-        if(dx === 0 && dy === 0) {
+        if((dx === 0 && dy === 0) ||
+            !this.inGridBounds(gridX + dx, gridY + dy)) {
           continue;
         }
 
-        let potentialNeighbor = this.grid[x + dx][y + dy];
+        let potentialNeighbor = this.grid[gridX + dx][gridY + dy];
         if(potentialNeighbor) {
           neighbors.push(potentialNeighbor);
         }

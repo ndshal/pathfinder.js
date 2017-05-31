@@ -3,7 +3,7 @@ export class Queue {
     this.store = [];
     // make me a linked list later?
 
-    this.dequeue = this.store.pop;
+    this.dequeue = () => this.store.pop();
     this.enqueue = item => this.store.unshift(item);
     this.isEmpty = () => this.store.length === 0;
   }

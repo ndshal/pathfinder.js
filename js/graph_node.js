@@ -44,7 +44,7 @@ graphNode.COLORS = {
   'goal': '#00f',
   'obstacle': '#c1c1c1',
   'visited': '#98fb98',
-  'frontier': '#0ff';
+  'frontier': '#0ff'
 };
 
 export default graphNode;

@@ -52,9 +52,15 @@
 	
 	var _data_structures = __webpack_require__(5);
 	
+	var _bfs = __webpack_require__(6);
+	
+	var _bfs2 = _interopRequireDefault(_bfs);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	window.PriorityQueue = _data_structures.PriorityQueue;
+	
+	window.BFS = _bfs2.default;
 	
 	document.addEventListener('DOMContentLoaded', function () {
 	  var stage = new createjs.Stage('main-canvas');
@@ -74,7 +80,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _graph_node = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./graph_node\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _graph_node = __webpack_require__(3);
 	
 	var _graph_node2 = _interopRequireDefault(_graph_node);
 	
@@ -190,6 +196,15 @@
 	      return grid;
 	    }
 	  }, {
+	    key: 'inGridBounds',
+	    value: function inGridBounds(gridX, gridY) {
+	      if (!this.grid[gridX] || !this.grid[gridX][gridY]) {
+	        return false;
+	      }
+	
+	      return true;
+	    }
+	  }, {
 	    key: 'neighbors',
 	    value: function neighbors(node) {
 	      var _node$easelCell = node.easelCell,
@@ -202,11 +217,11 @@
 	      var neighbors = [];
 	      for (var dx = -1; dx < 2; dx++) {
 	        for (var dy = -1; dy < 2; dy++) {
-	          if (dx === 0 && dy === 0) {
+	          if (dx === 0 && dy === 0 || !this.inGridBounds(gridX + dx, gridY + dy)) {
 	            continue;
 	          }
 	
-	          var potentialNeighbor = this.grid[x + dx][y + dy];
+	          var potentialNeighbor = this.grid[gridX + dx][gridY + dy];
 	          if (potentialNeighbor) {
 	            neighbors.push(potentialNeighbor);
 	          }
@@ -224,7 +239,78 @@
 
 /***/ }),
 /* 2 */,
-/* 3 */,
+/* 3 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var graphNode = function () {
+	  function graphNode(x, y) {
+	    _classCallCheck(this, graphNode);
+	
+	    this.easelCell = new createjs.Shape();
+	    this.drawBorder();
+	    this.isObstacle = false;
+	    this.scale = 1;
+	    this.fillByString('empty');
+	
+	    this.moveTo(x, y);
+	  }
+	
+	  _createClass(graphNode, [{
+	    key: 'toggleIsObstacle',
+	    value: function toggleIsObstacle() {
+	      this.isObstacle = !this.isObstacle;
+	      var str = this.isObstacle ? 'obstacle' : 'empty';
+	      this.fillByString(str);
+	    }
+	  }, {
+	    key: '_fill',
+	    value: function _fill(color) {
+	      this.easelCell.graphics.beginFill(color).drawRect(0, 0, 10, 10);
+	    }
+	  }, {
+	    key: 'fillByString',
+	    value: function fillByString(colorString) {
+	      this.color = graphNode.COLORS[colorString];
+	      this._fill(graphNode.COLORS[colorString]);
+	    }
+	  }, {
+	    key: 'drawBorder',
+	    value: function drawBorder() {
+	      this.easelCell.graphics.setStrokeStyle(0.5).beginStroke('#ffffff').drawRect(0, 0, 10, 10);
+	    }
+	  }, {
+	    key: 'moveTo',
+	    value: function moveTo(x, y) {
+	      this.easelCell.x = x;
+	      this.easelCell.y = y;
+	    }
+	  }]);
+	
+	  return graphNode;
+	}();
+	
+	graphNode.COLORS = {
+	  'empty': '#e8e8e8',
+	  'start': '#f00',
+	  'goal': '#00f',
+	  'obstacle': '#c1c1c1',
+	  'visited': '#98fb98',
+	  'frontier': '#0ff'
+	};
+	
+	exports.default = graphNode;
+
+/***/ }),
 /* 4 */,
 /* 5 */
 /***/ (function(module, exports) {
@@ -247,7 +333,9 @@
 	  this.store = [];
 	  // make me a linked list later?
 	
-	  this.dequeue = this.store.pop;
+	  this.dequeue = function () {
+	    return _this.store.pop();
+	  };
 	  this.enqueue = function (item) {
 	    return _this.store.unshift(item);
 	  };
@@ -344,6 +432,146 @@
 
 	  return PriorityQueue;
 	}();
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _search = __webpack_require__(7);
+	
+	var _search2 = _interopRequireDefault(_search);
+	
+	var _data_structures = __webpack_require__(5);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BFS = function (_Search) {
+	  _inherits(BFS, _Search);
+	
+	  function BFS() {
+	    _classCallCheck(this, BFS);
+	
+	    return _possibleConstructorReturn(this, (BFS.__proto__ || Object.getPrototypeOf(BFS)).apply(this, arguments));
+	  }
+	
+	  _createClass(BFS, [{
+	    key: 'initializeFrontier',
+	    value: function initializeFrontier() {
+	      this.frontier = new _data_structures.Queue();
+	
+	      this.processNeighbors(this.start);
+	    }
+	  }, {
+	    key: 'updateFrontier',
+	    value: function updateFrontier() {
+	      var current = this.frontier.dequeue();
+	      console.log(current);
+	
+	      this.processNeighbors(current);
+	      current.fillByString('visited');
+	    }
+	  }, {
+	    key: 'processNeighbors',
+	    value: function processNeighbors(node) {
+	      var neighbors = this.board.neighbors(node);
+	      for (var i = 0; i < neighbors.length; i++) {
+	        this.frontier.enqueue(neighbors[i]);
+	        neighbors[i].fillByString('frontier');
+	        this.cameFrom[neighbors[i]] = this.start;
+	      }
+	    }
+	  }]);
+	
+	  return BFS;
+	}(_search2.default);
+	
+	exports.default = BFS;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Search = function () {
+	  function Search(board) {
+	    _classCallCheck(this, Search);
+	
+	    this.cameFrom = {};
+	    this.cameFrom[board.start] = null;
+	
+	    this.board = board;
+	    this.goal = board.goal;
+	    this.start = board.start;
+	    this.initializeFrontier();
+	  }
+	
+	  _createClass(Search, [{
+	    key: "run",
+	    value: function run() {
+	      while (!this.frontier.isEmpty()) {
+	        if (this.cameFrom[this.goal]) {
+	          break;
+	        }
+	
+	        this.updateFrontier();
+	      }
+	
+	      this.buildPath();
+	    }
+	  }, {
+	    key: "updateCameFrom",
+	    value: function updateCameFrom(node, parent) {
+	      var nodeCoords = [Math.floor(node.easelCell.x / 10), Math.floor(node.easelCell.y / 10)];
+	      var parentCoords = [Math.floor(parent.easelCell.x / 10), Math.floor(parent.easelCell.y / 10)];
+	
+	      this.cameFrom[nodeCoords] = parentCoords;
+	    }
+	  }, {
+	    key: "buildPath",
+	    value: function buildPath() {
+	      if (!this.cameFrom[this.goal]) {
+	        return null;
+	      }
+	
+	      var current = this.goal;
+	      var path = [];
+	
+	      while (current) {
+	        path.shift(current);
+	        current = this.cameFrom[current];
+	      }
+	
+	      return path;
+	    }
+	  }]);
+	
+	  return Search;
+	}();
+	
+	exports.default = Search;
 
 /***/ })
 /******/ ]);
