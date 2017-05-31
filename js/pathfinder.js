@@ -4,7 +4,9 @@ window.PriorityQueue = PriorityQueue;
 
 import BFS from './search/bfs';
 import Dijkstra from './search/dijkstra';
-import BestFirst from './search/best_first'
+import BestFirst from './search/best_first';
+import AStar from './search/a_star';
+window.AStar = AStar;
 window.Dijkstra = Dijkstra;
 window.BFS = BFS;
 window.BestFirst = BestFirst;
