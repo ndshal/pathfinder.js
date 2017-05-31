@@ -25,8 +25,7 @@ class Board {
     this.stage.on('click', this.handleClick.bind(this));
     this.stage.on('pressmove', this.handleMouseMove.bind(this));
     this.stage.on('pressup', () => {
-      this.handleMouseMove.prevX = null;
-      this.handleMouseMove.prevY = null;
+      this.handleMouseMove.prevCoords = null;
     });
   }
 
@@ -43,6 +42,8 @@ class Board {
 
   handleMouseMove(e) {
     const currCoords = this._getCoordsFromEvent(e);
+    if (!this.grid[currCoords]) return false;
+
     const prevCoords = this.handleMouseMove.prevCoords;
 
     //only allow pressmove in discrete cells
@@ -52,8 +53,10 @@ class Board {
       } else if (this.goal === prevCoords) {
         this.setGoal(currCoords);
       } else {
-        const node = this.grid[currCoords];
-        node.toggleIsObstacle();
+        if (this.start !== currCoords && this.goal !== currCoords) {
+          const node = this.grid[currCoords];
+          node.toggleIsObstacle();
+        }
       }
 
       this.handleMouseMove.prevCoords = currCoords;

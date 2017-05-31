@@ -123,8 +123,7 @@
 	      this.stage.on('click', this.handleClick.bind(this));
 	      this.stage.on('pressmove', this.handleMouseMove.bind(this));
 	      this.stage.on('pressup', function () {
-	        _this.handleMouseMove.prevX = null;
-	        _this.handleMouseMove.prevY = null;
+	        _this.handleMouseMove.prevCoords = null;
 	      });
 	    }
 	  }, {
@@ -144,6 +143,8 @@
 	    key: 'handleMouseMove',
 	    value: function handleMouseMove(e) {
 	      var currCoords = this._getCoordsFromEvent(e);
+	      if (!this.grid[currCoords]) return false;
+	
 	      var prevCoords = this.handleMouseMove.prevCoords;
 	
 	      //only allow pressmove in discrete cells
@@ -153,8 +154,10 @@
 	        } else if (this.goal === prevCoords) {
 	          this.setGoal(currCoords);
 	        } else {
-	          var node = this.grid[currCoords];
-	          node.toggleIsObstacle();
+	          if (this.start !== currCoords && this.goal !== currCoords) {
+	            var node = this.grid[currCoords];
+	            node.toggleIsObstacle();
+	          }
 	        }
 	
 	        this.handleMouseMove.prevCoords = currCoords;
