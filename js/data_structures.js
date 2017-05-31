@@ -23,7 +23,7 @@ export class PriorityQueue {
     return this.store.length;
   }
 
-  deleteMin() {
+  dequeue() {
     if(this.isEmpty()) {
       return null;
     } else if (this.store.length === 2) {

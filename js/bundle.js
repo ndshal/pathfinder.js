@@ -347,8 +347,8 @@
 	      return this.store.length;
 	    }
 	  }, {
-	    key: "deleteMin",
-	    value: function deleteMin() {
+	    key: "dequeue",
+	    value: function dequeue() {
 	      if (this.isEmpty()) {
 	        return null;
 	      } else if (this.store.length === 2) {

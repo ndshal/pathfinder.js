@@ -11,12 +11,6 @@ class Dijkstra extends Search {
     this.processNeighbors(this.board.start);
   }
 
-  updateFrontier() {
-    const current = this.frontier.deleteMin();
-    this.processNeighbors(current);
-    this.board.grid[current].setType('visited');
-  }
-
   processNeighbors(current) {
     this.board.neighbors(current).forEach(
       function(neighbor) {
@@ -24,18 +18,15 @@ class Dijkstra extends Search {
         const cost = type === 'obstacle' ? 100 : 0;
         const newCost = this.costSoFar[current] + cost;
 
-        if (!(neighbor in this.cameFrom)) {
-          if(type === 'empty') {
-            this.frontier.insert(neighbor, 0);
+        if (!(neighbor in this.costSoFar) ||
+            newCost < this.costSoFar[neighbor]) {
+            this.frontier.insert(neighbor, newCost);
             this.cameFrom[neighbor] = current;
+            this.costSoFar[neighbor] = newCost;
             this.board.grid[neighbor].setType('frontier');
-          } else if (type === 'goal'){
-            this.cameFrom[neighbor] = current;
-            this.foundGoal = true;
           }
-        }
-      }.bind(this)
-    );
+        }.bind(this)
+      );
   }
 }
 
