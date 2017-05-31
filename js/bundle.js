@@ -78,6 +78,8 @@
 	  value: true
 	});
 	
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _graph_node = __webpack_require__(2);
@@ -93,137 +95,110 @@
 	    _classCallCheck(this, Board);
 	
 	    this.stage = stage;
-	    // createjs.Ticker.addEventListener('tick', this.stage)
-	
-	    this.handleClick = this.handleClick.bind(this);
-	    this.handleMouseMove = this.handleMouseMove.bind(this);
-	
-	    this.grid = this.drawGrid();
+	    this.grid = this.buildGrid();
+	    this.addListeners();
 	  }
 	
 	  _createClass(Board, [{
-	    key: 'handleClick',
-	    value: function handleClick(e) {
-	      var gridX = Math.floor(e.stageX / 10);
-	      var gridY = Math.floor(e.stageY / 10);
-	      var node = this.grid[gridX][gridY];
-	      if (this.start === node || this.goal === node) {
-	        return false;
-	      }
+	    key: 'buildGrid',
+	    value: function buildGrid() {
+	      var grid = {};
 	
-	      node.toggleIsObstacle();
-	      return true;
-	    }
-	  }, {
-	    key: 'handleMouseMove',
-	    value: function handleMouseMove(e) {
-	      var currX = Math.floor(e.stageX / 10) * 10;
-	      var currY = Math.floor(e.stageY / 10) * 10;
-	      var prevX = this.handleMouseMove.prevX;
-	      var prevY = this.handleMouseMove.prevY;
-	
-	      //only allow pressmove in discrete cells
-	      if (currX !== prevX || currY !== prevY) {
-	        var node = this.grid[currX / 10][currY / 10];
-	
-	        if (this.isStart(prevX, prevY)) {
-	          this.setStart(node);
-	        } else if (this.isGoal(prevX, prevY)) {
-	          this.setGoal(node);
-	        } else {
-	          node.toggleIsObstacle();
-	        }
-	
-	        this.handleMouseMove.prevX = currX;
-	        this.handleMouseMove.prevY = currY;
-	      }
-	    }
-	  }, {
-	    key: 'isStart',
-	    value: function isStart(x, y) {
-	      return x === this.start.easelCell.x && y === this.start.easelCell.y;
-	    }
-	  }, {
-	    key: 'isGoal',
-	    value: function isGoal(x, y) {
-	      return x === this.goal.easelCell.x && y === this.goal.easelCell.y;
-	    }
-	  }, {
-	    key: 'setStart',
-	    value: function setStart(node) {
-	      if (this.start) {
-	        this.start.fillByString('empty');
-	      }
-	
-	      node.fillByString('start');
-	      this.start = node;
-	    }
-	  }, {
-	    key: 'setGoal',
-	    value: function setGoal(node) {
-	      if (this.goal) {
-	        this.goal.fillByString('empty');
-	      }
-	      node.fillByString('goal');
-	      this.goal = node;
-	    }
-	  }, {
-	    key: 'drawGrid',
-	    value: function drawGrid() {
-	      var _this = this;
-	
-	      var grid = [];
-	
-	      for (var i = 0; i < 15; i++) {
-	        grid.push([]);
-	        for (var j = 0; j < 15; j++) {
-	          var node = new _graph_node2.default(i * 10, j * 10);
+	      for (var i = 0; i < Board.DIM_X; i += Board.dx) {
+	        for (var j = 0; j < Board.DIM_Y; j += Board.dy) {
+	          var node = new _graph_node2.default(i, j);
+	          grid[node.coords] = node;
 	          this.stage.addChild(node.easelCell);
-	          grid[i].push(node);
 	        }
 	      }
-	
-	      this.setStart(grid[10][11]);
-	      this.setGoal(grid[1][7]);
-	
-	      this.stage.on('click', this.handleClick);
-	      this.stage.on('pressmove', this.handleMouseMove);
-	      this.stage.on('pressup', function () {
-	        _this.handleMouseMove.prevX = null;
-	        _this.handleMouseMove.prevY = null;
-	      });
 	
 	      return grid;
 	    }
 	  }, {
-	    key: 'inGridBounds',
-	    value: function inGridBounds(gridX, gridY) {
-	      if (!this.grid[gridX] || !this.grid[gridX][gridY]) {
-	        return false;
-	      }
+	    key: 'addListeners',
+	    value: function addListeners() {
+	      var _this = this;
 	
-	      return true;
+	      this.stage.on('click', this.handleClick.bind(this));
+	      this.stage.on('pressmove', this.handleMouseMove.bind(this));
+	      this.stage.on('pressup', function () {
+	        _this.handleMouseMove.prevX = null;
+	        _this.handleMouseMove.prevY = null;
+	      });
 	    }
 	  }, {
-	    key: 'neighbors',
-	    value: function neighbors(node) {
-	      var _node$easelCell = node.easelCell,
-	          x = _node$easelCell.x,
-	          y = _node$easelCell.y;
+	    key: 'init',
+	    value: function init() {
+	      this.setStart('1,1');
+	      this.setGoal('11,10');
+	      createjs.Ticker.addEventListener('tick', this.stage);
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(e) {
+	      var node = this.grid[this._getCoordsFromEvent(e)];
+	      node.toggleIsObstacle();
+	    }
+	  }, {
+	    key: 'handleMouseMove',
+	    value: function handleMouseMove(e) {
+	      var currCoords = this._getCoordsFromEvent(e);
+	      var prevCoords = this.handleMouseMove.prevCoords;
 	
-	      var gridX = Math.floor(x / 10);
-	      var gridY = Math.floor(y / 10);
+	      //only allow pressmove in discrete cells
+	      if (currCoords !== prevCoords) {
+	        if (this.start === prevCoords) {
+	          this.setStart(currCoords);
+	        } else if (this.goal === prevCoords) {
+	          this.setGoal(currCoords);
+	        } else {
+	          var node = this.grid[currCoords];
+	          node.toggleIsObstacle();
+	        }
+	
+	        this.handleMouseMove.prevCoords = currCoords;
+	      }
+	    }
+	  }, {
+	    key: 'setStart',
+	    value: function setStart(coords) {
+	      if (this.start) this.grid[this.start].setType('empty');
+	      this.start = coords;
+	      this.grid[coords].setType('start');
+	    }
+	  }, {
+	    key: 'setGoal',
+	    value: function setGoal(coords) {
+	      if (this.goal) this.grid[this.goal].setType('empty');
+	      this.goal = coords;
+	      this.grid[coords].setType('goal');
+	    }
+	  }, {
+	    key: '_getCoordsFromEvent',
+	    value: function _getCoordsFromEvent(e) {
+	      return [Math.floor(e.stageX / Board.dx) * Board.dx, Math.floor(e.stageY / Board.dx) * Board.dy].toString();
+	    }
+	  }, {
+	    key: 'neigbors',
+	    value: function neigbors(coords) {
+	      var _coords$split$map = coords.split(',').map(function (str) {
+	        return parseInt(str);
+	      }),
+	          _coords$split$map2 = _slicedToArray(_coords$split$map, 2),
+	          x = _coords$split$map2[0],
+	          y = _coords$split$map2[1];
+	
+	      //array of coords that are neighbors
+	
 	
 	      var neighbors = [];
 	      for (var dx = -1; dx < 2; dx++) {
 	        for (var dy = -1; dy < 2; dy++) {
-	          if (dx === 0 && dy === 0 || !this.inGridBounds(gridX + dx, gridY + dy)) {
-	            continue;
-	          }
+	          if (dx === 0 && dy === 0) continue;
 	
-	          var potentialNeighbor = this.grid[gridX + dx][gridY + dy];
-	          if (potentialNeighbor) {
-	            neighbors.push(potentialNeighbor);
+	          var testCoords = [x + Board.dx * dx, y + Board.dy * dy].toString();
+	          if (this.grid[testCoords]) {
+	            neighbors.push(testCoords);
 	          }
 	        }
 	      }
@@ -234,6 +209,11 @@
 	
 	  return Board;
 	}();
+	
+	Board.dx = 10;
+	Board.dy = 10;
+	Board.DIM_X = 150; //pixels, not # gridpoints
+	Board.DIM_Y = 150;
 	
 	exports.default = Board;
 
