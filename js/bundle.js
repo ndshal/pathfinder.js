@@ -256,8 +256,10 @@
 	  _createClass(graphNode, [{
 	    key: 'setType',
 	    value: function setType(type) {
-	      this.type = type;
-	      this._fill(graphNode.COLORS[type]);
+	      if (this.type !== 'goal') {
+	        this.type = type;
+	        this._fill(graphNode.COLORS[type]);
+	      }
 	    }
 	  }, {
 	    key: 'setCoords',
