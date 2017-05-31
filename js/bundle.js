@@ -321,11 +321,17 @@
 	  }, {
 	    key: "deleteMin",
 	    value: function deleteMin() {
-	      var min = this.store[1];
-	      this.store[1] = this.store.pop();
-	      this._percolateDown();
+	      if (this.isEmpty()) {
+	        return null;
+	      } else if (this.store.length === 2) {
+	        return this.store.pop();
+	      } else {
+	        var min = this.store[1];
+	        this.store[1] = this.store.pop();
+	        this._percolateDown();
 	
-	      return min;
+	        return min;
+	      }
 	    }
 	  }, {
 	    key: "_percolateUp",
@@ -343,13 +349,18 @@
 	      }
 	    }
 	  }, {
+	    key: "isEmpty",
+	    value: function isEmpty() {
+	      return this.store.length === 1;
+	    }
+	  }, {
 	    key: "_percolateDown",
 	    value: function _percolateDown() {
 	      var idx = 1;
 	      var minChildIdx = this._getMinChildIdx(idx);
 	
-	      while (this.store[idx].priority > this.store[minChildIdx].priority) {
-	        var _ref2 = [this.store[minChildIdx].this.store[idx]];
+	      while (minChildIdx && this.store[idx].priority > this.store[minChildIdx].priority) {
+	        var _ref2 = [this.store[minChildIdx], this.store[idx]];
 	        this.store[idx] = _ref2[0];
 	        this.store[minChildIdx] = _ref2[1];
 	
@@ -367,8 +378,10 @@
 	          minPriority = void 0;
 	      if (rightChild) {
 	        minPriority = Math.min(leftChild.priority, rightChild.priority);
-	      } else {
+	      } else if (leftChild) {
 	        minPriority = leftChild.priority;
+	      } else {
+	        return false;
 	      }
 	      return leftChild.priority === minPriority ? 2 * idx : 2 * idx + 1;
 	    }

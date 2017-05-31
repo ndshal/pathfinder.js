@@ -24,11 +24,17 @@ export class PriorityQueue {
   }
 
   deleteMin() {
-    const min = this.store[1];
-    this.store[1] = this.store.pop();
-    this._percolateDown();
+    if(this.isEmpty()) {
+      return null;
+    } else if (this.store.length === 2) {
+      return this.store.pop();
+    } else {
+      const min = this.store[1];
+      this.store[1] = this.store.pop();
+      this._percolateDown();
 
-    return min;
+      return min;
+    }
   }
 
   _percolateUp() {
@@ -43,13 +49,18 @@ export class PriorityQueue {
     }
   }
 
+  isEmpty() {
+    return this.store.length === 1;
+  }
+
   _percolateDown() {
     let idx = 1;
     let minChildIdx = this._getMinChildIdx(idx);
 
-    while(this.store[idx].priority > this.store[minChildIdx].priority) {
+    while(minChildIdx &&
+      this.store[idx].priority > this.store[minChildIdx].priority) {
       [this.store[idx], this.store[minChildIdx]] =
-        [this.store[minChildIdx]. this.store[idx]];
+        [this.store[minChildIdx], this.store[idx]];
 
       idx = minChildIdx;
       minChildIdx = this._getMinChildIdx(idx);
@@ -62,8 +73,10 @@ export class PriorityQueue {
     let minChildIdx, minPriority;
     if(rightChild) {
       minPriority = Math.min(leftChild.priority, rightChild.priority);
-    } else {
+    } else if (leftChild){
       minPriority = leftChild.priority;
+    } else {
+      return false;
     }
     return leftChild.priority === minPriority ? 2*idx : 2*idx+1;
   }
