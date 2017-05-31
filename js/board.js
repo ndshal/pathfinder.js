@@ -82,7 +82,7 @@ class Board {
     ].toString();
   }
 
-  neigbors(coords) {
+  neighbors(coords) {
     const [x, y] = coords.split(',').map(str => parseInt(str));
 
     //array of coords that are neighbors

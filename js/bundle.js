@@ -183,8 +183,8 @@
 	      return [Math.floor(e.stageX / Board.dx) * Board.dx, Math.floor(e.stageY / Board.dx) * Board.dy].toString();
 	    }
 	  }, {
-	    key: 'neigbors',
-	    value: function neigbors(coords) {
+	    key: 'neighbors',
+	    value: function neighbors(coords) {
 	      var _coords$split$map = coords.split(',').map(function (str) {
 	        return parseInt(str);
 	      }),
@@ -467,13 +467,13 @@
 	  }, {
 	    key: 'processNeighbors',
 	    value: function processNeighbors(current) {
-	      for (var neighbor in this.board.neighbors(current)) {
+	      this.board.neighbors(current).forEach(function (neighbor) {
 	        if (!(neighbor in this.cameFrom)) {
 	          this.frontier.enqueue(neighbor);
 	          this.cameFrom[neighbor] = current;
 	          this.board.grid[neighbor].setType('frontier');
 	        }
-	      }
+	      }.bind(this));
 	    }
 	  }]);
 	

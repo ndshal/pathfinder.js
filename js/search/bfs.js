@@ -15,13 +15,15 @@ class BFS extends Search {
   }
 
   processNeighbors(current) {
-    for (let neighbor in this.board.neighbors(current)) {
-      if (!(neighbor in this.cameFrom)) {
-        this.frontier.enqueue(neighbor);
-        this.cameFrom[neighbor] = current;
-        this.board.grid[neighbor].setType('frontier');
-      }
-    }
+    this.board.neighbors(current).forEach(
+      function(neighbor) {
+        if (!(neighbor in this.cameFrom)) {
+          this.frontier.enqueue(neighbor);
+          this.cameFrom[neighbor] = current;
+          this.board.grid[neighbor].setType('frontier');
+        }
+      }.bind(this)
+    );
   }
 }
 
