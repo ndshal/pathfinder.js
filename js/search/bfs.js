@@ -17,7 +17,8 @@ class BFS extends Search {
   processNeighbors(node) {
     let neighbors = this.board.neighbors(node);
     for(let i = 0; i < neighbors.length; i ++) {
-      if(!(neighbors[i].gridCoords() in this.cameFrom)) {
+      if(!(neighbors[i].gridCoords() in this.cameFrom)
+            && !(neighbors[i].isObstacle)) {
         this.frontier.enqueue(neighbors[i]);
         neighbors[i].fillByString('frontier');
         this.cameFrom[neighbors[i].gridCoords()] = node.gridCoords();
