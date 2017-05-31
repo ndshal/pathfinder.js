@@ -457,16 +457,9 @@
 	    key: 'initializeFrontier',
 	    value: function initializeFrontier() {
 	      this.frontier = new _data_structures.Queue();
+	      this.foundGoal = false;
 	
 	      this.processNeighbors(this.board.start);
-	      this.foundGoal = false;
-	    }
-	  }, {
-	    key: 'updateFrontier',
-	    value: function updateFrontier() {
-	      var current = this.frontier.dequeue();
-	      this.processNeighbors(current);
-	      this.board.grid[current].setType('visited');
 	    }
 	  }, {
 	    key: 'processNeighbors',
@@ -474,14 +467,10 @@
 	      this.board.neighbors(current).forEach(function (neighbor) {
 	        if (!(neighbor in this.cameFrom)) {
 	          var type = this.board.grid[neighbor].type;
-	          if (type === 'empty') {
+	          if (type !== 'obstacle') {
 	            this.frontier.enqueue(neighbor);
 	            this.cameFrom[neighbor] = current;
 	            this.board.grid[neighbor].setType('frontier');
-	          } else if (type === 'goal') {
-	            this.cameFrom[neighbor] = current;
-	            this.board.grid[neighbor].setType('visited');
-	            this.foundGoal = true;
 	          }
 	        }
 	      }.bind(this));
@@ -497,7 +486,7 @@
 /* 5 */
 /***/ (function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -518,18 +507,22 @@
 	  }
 	
 	  _createClass(Search, [{
-	    key: "run",
+	    key: 'run',
 	    value: function run() {
 	      this.initializeFrontier();
 	
-	      while (!this.foundGoal) {
-	        this.updateFrontier();
+	      while (!this.frontier.isEmpty()) {
+	        var current = this.frontier.dequeue();
+	        if (current === this.board.goal) break;
+	
+	        this.processNeighbors(current);
+	        this.board.grid[current].setType('visited');
 	      }
 	
 	      return this.buildPath();
 	    }
 	  }, {
-	    key: "buildPath",
+	    key: 'buildPath',
 	    value: function buildPath() {
 	      if (!this.cameFrom[this.board.goal]) {
 	        return null;

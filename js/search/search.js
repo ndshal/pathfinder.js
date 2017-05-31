@@ -9,8 +9,12 @@ class Search {
   run() {
     this.initializeFrontier();
 
-    while(!this.foundGoal) {
-      this.updateFrontier();
+    while(!this.frontier.isEmpty()) {
+      const current = this.frontier.dequeue();
+      if (current === this.board.goal) break;
+
+      this.processNeighbors(current);
+      this.board.grid[current].setType('visited');
     }
 
     return this.buildPath();
