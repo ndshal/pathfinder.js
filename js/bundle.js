@@ -65,6 +65,7 @@
 	document.addEventListener('DOMContentLoaded', function () {
 	  var stage = new createjs.Stage('main-canvas');
 	  var board = new _board2.default(stage);
+	  board.init();
 	  window.board = board;
 	});
 
@@ -129,8 +130,8 @@
 	  }, {
 	    key: 'init',
 	    value: function init() {
-	      this.setStart('1,1');
-	      this.setGoal('11,10');
+	      this.setStart('10,10');
+	      this.setGoal('110,100');
 	      createjs.Ticker.addEventListener('tick', this.stage);
 	    }
 	  }, {

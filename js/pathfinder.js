@@ -8,5 +8,6 @@ window.BFS = BFS;
 document.addEventListener('DOMContentLoaded', ()=> {
   const stage = new createjs.Stage('main-canvas');
   const board = new Board(stage);
+  board.init();
   window.board = board;
 });
