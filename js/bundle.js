@@ -57,8 +57,6 @@
 	window.PriorityQueue = _data_structures.PriorityQueue;
 	
 	document.addEventListener('DOMContentLoaded', function () {
-	  window.createjs = createjs;
-	
 	  var stage = new createjs.Stage('main-canvas');
 	  var board = new _board2.default(stage);
 	  window.board = board;

@@ -9,4 +9,9 @@
  - [x] On MouseEvent, get object from 2D array, not getObjectUnderPoint()
 
 ## Phase 2:
-**Goal:** More from graphNode, implement BFS and A\* 
+**Goal:** More from graphNode, implement BFS and A\*
+- [ ] implement bfs + a* given a 'grid' /  array of coord pairs
+- [ ] can return path
+- [ ] For all your classes, decide what the API will be
+  * Search, Board, BoardView, Cell
+- [ ] To test visualizations, and also for fun, add a random walk!
