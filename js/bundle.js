@@ -74,7 +74,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _graph_node = __webpack_require__(3);
+	var _graph_node = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./graph_node\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	var _graph_node2 = _interopRequireDefault(_graph_node);
 	
@@ -198,76 +198,7 @@
 
 /***/ }),
 /* 2 */,
-/* 3 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var graphNode = function () {
-	  function graphNode(x, y) {
-	    _classCallCheck(this, graphNode);
-	
-	    this.easelCell = new createjs.Shape();
-	    this.drawBorder();
-	    this.isObstacle = false;
-	    this.scale = 1;
-	    this.fillByString('empty');
-	
-	    this.moveTo(x, y);
-	  }
-	
-	  _createClass(graphNode, [{
-	    key: 'toggleIsObstacle',
-	    value: function toggleIsObstacle() {
-	      this.isObstacle = !this.isObstacle;
-	      var str = this.isObstacle ? 'obstacle' : 'empty';
-	      this.fillByString(str);
-	    }
-	  }, {
-	    key: '_fill',
-	    value: function _fill(color) {
-	      this.easelCell.graphics.beginFill(color).drawRect(0, 0, 10, 10);
-	    }
-	  }, {
-	    key: 'fillByString',
-	    value: function fillByString(colorString) {
-	      this.color = graphNode.COLORS[colorString];
-	      this._fill(graphNode.COLORS[colorString]);
-	    }
-	  }, {
-	    key: 'drawBorder',
-	    value: function drawBorder() {
-	      this.easelCell.graphics.setStrokeStyle(0.5).beginStroke('#ffffff').drawRect(0, 0, 10, 10);
-	    }
-	  }, {
-	    key: 'moveTo',
-	    value: function moveTo(x, y) {
-	      this.easelCell.x = x;
-	      this.easelCell.y = y;
-	    }
-	  }]);
-	
-	  return graphNode;
-	}();
-	
-	graphNode.COLORS = {
-	  'empty': '#e8e8e8',
-	  'start': '#ff0000',
-	  'goal': '#0000ff',
-	  'obstacle': '#c1c1c1'
-	};
-	
-	exports.default = graphNode;
-
-/***/ }),
+/* 3 */,
 /* 4 */,
 /* 5 */
 /***/ (function(module, exports) {

@@ -40,9 +40,11 @@ class graphNode {
 
 graphNode.COLORS = {
   'empty': '#e8e8e8',
-  'start': '#ff0000',
-  'goal': '#0000ff',
-  'obstacle': '#c1c1c1'
+  'start': '#f00',
+  'goal': '#00f',
+  'obstacle': '#c1c1c1',
+  'visited': '#98fb98',
+  'frontier': '#0ff';
 };
 
 export default graphNode;
