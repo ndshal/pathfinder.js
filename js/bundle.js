@@ -455,7 +455,7 @@
 	    value: function initializeFrontier() {
 	      this.frontier = new _data_structures.Queue();
 	
-	      this.processNeighbors(this.start);
+	      this.processNeighbors(this.board.start);
 	    }
 	  }, {
 	    key: 'updateFrontier',
@@ -467,12 +467,11 @@
 	  }, {
 	    key: 'processNeighbors',
 	    value: function processNeighbors(current) {
-	      var neighbors = this.board.neighbors(current);
-	      for (var i = 0; i < neighbors.length; i++) {
-	        if (!(neighbors[i] in this.cameFrom)) {
-	          this.frontier.enqueue(neighbors[i]);
-	          this.cameFrom[neighbors[i]] = current;
-	          this.board.grid[neighbors[i]].setType('frontier');
+	      for (var neighbor in this.board.neighbors(current)) {
+	        if (!(neighbor in this.cameFrom)) {
+	          this.frontier.enqueue(neighbor);
+	          this.cameFrom[neighbor] = current;
+	          this.board.grid[neighbor].setType('frontier');
 	        }
 	      }
 	    }

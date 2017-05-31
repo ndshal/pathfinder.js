@@ -5,7 +5,7 @@ class BFS extends Search {
   initializeFrontier() {
     this.frontier = new Queue();
 
-    this.processNeighbors(this.start);
+    this.processNeighbors(this.board.start);
   }
 
   updateFrontier() {
@@ -15,12 +15,11 @@ class BFS extends Search {
   }
 
   processNeighbors(current) {
-    let neighbors = this.board.neighbors(current);
-    for(let i = 0; i < neighbors.length; i ++) {
-      if(!(neighbors[i] in this.cameFrom)) {
-        this.frontier.enqueue(neighbors[i]);
-        this.cameFrom[neighbors[i]] = current;
-        this.board.grid[neighbors[i]].setType('frontier')
+    for (let neighbor in this.board.neighbors(current)) {
+      if (!(neighbor in this.cameFrom)) {
+        this.frontier.enqueue(neighbor);
+        this.cameFrom[neighbor] = current;
+        this.board.grid[neighbor].setType('frontier');
       }
     }
   }
