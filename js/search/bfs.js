@@ -6,6 +6,7 @@ class BFS extends Search {
     this.frontier = new Queue();
 
     this.processNeighbors(this.board.start);
+    this.foundGoal = false;
   }
 
   updateFrontier() {
@@ -18,9 +19,16 @@ class BFS extends Search {
     this.board.neighbors(current).forEach(
       function(neighbor) {
         if (!(neighbor in this.cameFrom)) {
-          this.frontier.enqueue(neighbor);
-          this.cameFrom[neighbor] = current;
-          this.board.grid[neighbor].setType('frontier');
+          const type = this.board.grid[neighbor].type;
+          if(type === 'empty') {
+            this.frontier.enqueue(neighbor);
+            this.cameFrom[neighbor] = current;
+            this.board.grid[neighbor].setType('frontier');
+          } else if (type === 'goal'){
+            this.cameFrom[neighbor] = current;
+            this.board.grid[neighbor].setType('visited');
+            this.foundGoal = true;
+          }
         }
       }.bind(this)
     );

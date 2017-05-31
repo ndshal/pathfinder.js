@@ -7,6 +7,14 @@ class Search {
     this.initializeFrontier();
   }
 
+  run() {
+    while(!this.foundGoal) {
+      this.updateFrontier();
+    }
+
+    return this.buildPath();
+  }
+
   buildPath() {
     if(!this.cameFrom[this.board.goal]) {
       return null;

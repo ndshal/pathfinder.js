@@ -9,5 +9,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
   const stage = new createjs.Stage('main-canvas');
   const board = new Board(stage);
   board.init();
+  const bfs = new BFS(board);
+  const path = bfs.run();
+  console.log(path);
   window.board = board;
 });

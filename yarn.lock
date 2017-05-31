@@ -1196,6 +1196,10 @@ loader-utils@^0.2.11, loader-utils@^0.2.16:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
+lodash@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.2.0.tgz#0506f4dad737c79cb2602ac11f8b74b7136464e8"
+
 lodash@^4.2.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
@@ -1932,7 +1936,3 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
-
-yuki-createjs@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/yuki-createjs/-/yuki-createjs-0.0.3.tgz#cdf25a7dd08116d6ab31fef17144e85771be4219"

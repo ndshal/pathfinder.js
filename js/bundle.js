@@ -66,6 +66,9 @@
 	  var stage = new createjs.Stage('main-canvas');
 	  var board = new _board2.default(stage);
 	  board.init();
+	  var bfs = new _bfs2.default(board);
+	  var path = bfs.run();
+	  console.log(path);
 	  window.board = board;
 	});
 
@@ -456,6 +459,7 @@
 	      this.frontier = new _data_structures.Queue();
 	
 	      this.processNeighbors(this.board.start);
+	      this.foundGoal = false;
 	    }
 	  }, {
 	    key: 'updateFrontier',
@@ -469,9 +473,16 @@
 	    value: function processNeighbors(current) {
 	      this.board.neighbors(current).forEach(function (neighbor) {
 	        if (!(neighbor in this.cameFrom)) {
-	          this.frontier.enqueue(neighbor);
-	          this.cameFrom[neighbor] = current;
-	          this.board.grid[neighbor].setType('frontier');
+	          var type = this.board.grid[neighbor].type;
+	          if (type === 'empty') {
+	            this.frontier.enqueue(neighbor);
+	            this.cameFrom[neighbor] = current;
+	            this.board.grid[neighbor].setType('frontier');
+	          } else if (type === 'goal') {
+	            this.cameFrom[neighbor] = current;
+	            this.board.grid[neighbor].setType('visited');
+	            this.foundGoal = true;
+	          }
 	        }
 	      }.bind(this));
 	    }
@@ -508,6 +519,15 @@
 	  }
 	
 	  _createClass(Search, [{
+	    key: "run",
+	    value: function run() {
+	      while (!this.foundGoal) {
+	        this.updateFrontier();
+	      }
+	
+	      return this.buildPath();
+	    }
+	  }, {
 	    key: "buildPath",
 	    value: function buildPath() {
 	      if (!this.cameFrom[this.board.goal]) {
