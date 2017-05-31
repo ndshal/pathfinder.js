@@ -60,6 +60,10 @@
 	
 	var _dijkstra2 = _interopRequireDefault(_dijkstra);
 	
+	var _best_first = __webpack_require__(8);
+	
+	var _best_first2 = _interopRequireDefault(_best_first);
+	
 	var _path = __webpack_require__(7);
 	
 	var _path2 = _interopRequireDefault(_path);
@@ -70,6 +74,7 @@
 	
 	window.Dijkstra = _dijkstra2.default;
 	window.BFS = _bfs2.default;
+	window.BestFirst = _best_first2.default;
 	
 	window.Path = _path2.default;
 	
@@ -675,6 +680,92 @@
 	}();
 	
 	exports.default = Path;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _search = __webpack_require__(5);
+	
+	var _search2 = _interopRequireDefault(_search);
+	
+	var _data_structures = __webpack_require__(3);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BestFirst = function (_Search) {
+	  _inherits(BestFirst, _Search);
+	
+	  function BestFirst() {
+	    _classCallCheck(this, BestFirst);
+	
+	    return _possibleConstructorReturn(this, (BestFirst.__proto__ || Object.getPrototypeOf(BestFirst)).apply(this, arguments));
+	  }
+	
+	  _createClass(BestFirst, [{
+	    key: 'initializeFrontier',
+	    value: function initializeFrontier() {
+	      this.frontier = new _data_structures.PriorityQueue();
+	
+	      this.processNeighbors(this.board.start);
+	    }
+	  }, {
+	    key: 'processNeighbors',
+	    value: function processNeighbors(current) {
+	      this.board.neighbors(current).forEach(function (neighbor) {
+	        if (!(neighbor in this.cameFrom)) {
+	          var type = this.board.grid[neighbor].type;
+	          if (type !== 'obstacle') {
+	            var priority = this.manhattan(neighbor, this.board.goal);
+	
+	            this.frontier.insert(neighbor, priority);
+	            this.cameFrom[neighbor] = current;
+	            this.board.grid[neighbor].setType('frontier');
+	          }
+	        }
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'manhattan',
+	    value: function manhattan(coords1, coords2) {
+	      var _coords1$split$map = coords1.split(',').map(function (s) {
+	        return parseInt(s);
+	      }),
+	          _coords1$split$map2 = _slicedToArray(_coords1$split$map, 2),
+	          x1 = _coords1$split$map2[0],
+	          y1 = _coords1$split$map2[1];
+	
+	      var _coords2$split$map = coords2.split(',').map(function (s) {
+	        return parseInt(s);
+	      }),
+	          _coords2$split$map2 = _slicedToArray(_coords2$split$map, 2),
+	          x2 = _coords2$split$map2[0],
+	          y2 = _coords2$split$map2[1];
+	
+	      return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+	    }
+	  }]);
+	
+	  return BestFirst;
+	}(_search2.default);
+	
+	exports.default = BestFirst;
 
 /***/ })
 /******/ ]);

@@ -12,12 +12,14 @@ class BestFirst extends Search {
     this.board.neighbors(current).forEach(
       function(neighbor) {
         if (!(neighbor in this.cameFrom)) {
+          const type = this.board.grid[neighbor].type;
+          if (type !== 'obstacle') {
             const priority = this.manhattan(neighbor, this.board.goal);
 
             this.frontier.insert(neighbor, priority);
             this.cameFrom[neighbor] = current;
             this.board.grid[neighbor].setType('frontier');
-          }
+          }}
         }.bind(this)
       );
   }

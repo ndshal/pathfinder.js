@@ -4,8 +4,10 @@ window.PriorityQueue = PriorityQueue;
 
 import BFS from './search/bfs';
 import Dijkstra from './search/dijkstra';
+import BestFirst from './search/best_first'
 window.Dijkstra = Dijkstra;
 window.BFS = BFS;
+window.BestFirst = BestFirst;
 
 import Path from './path';
 window.Path = Path;
