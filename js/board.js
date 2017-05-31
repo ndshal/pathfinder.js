@@ -95,6 +95,28 @@ class Board {
 
     return grid;
   }
+
+  neighbors(node) {
+    const {x, y} = node.easelCell;
+    const gridX = Math.floor(x/10);
+    const gridY = Math.floor(y/10);
+
+    let neighbors = [];
+    for(let dx  = -1; dx < 2; dx ++) {
+      for(let dy  = -1; dy < 2; dy ++) {
+        if(dx === 0 && dy === 0) {
+          continue;
+        }
+
+        let potentialNeighbor = this.grid[x + dx][y + dy];
+        if(potentialNeighbor) {
+          neighbors.push(potentialNeighbor);
+        }
+      }
+    }
+
+    return neighbors;
+  }
 }
 
 export default Board;

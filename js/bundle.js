@@ -189,6 +189,32 @@
 	
 	      return grid;
 	    }
+	  }, {
+	    key: 'neighbors',
+	    value: function neighbors(node) {
+	      var _node$easelCell = node.easelCell,
+	          x = _node$easelCell.x,
+	          y = _node$easelCell.y;
+	
+	      var gridX = Math.floor(x / 10);
+	      var gridY = Math.floor(y / 10);
+	
+	      var neighbors = [];
+	      for (var dx = -1; dx < 2; dx++) {
+	        for (var dy = -1; dy < 2; dy++) {
+	          if (dx === 0 && dy === 0) {
+	            continue;
+	          }
+	
+	          var potentialNeighbor = this.grid[x + dx][y + dy];
+	          if (potentialNeighbor) {
+	            neighbors.push(potentialNeighbor);
+	          }
+	        }
+	      }
+	
+	      return neighbors;
+	    }
 	  }]);
 	
 	  return Board;

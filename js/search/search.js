@@ -1,10 +1,10 @@
 class Search {
-  constructor(grid, start, goal) {
+  constructor(board) {
     this.cameFrom = {};
-    this.cameFrom[start] = null;
+    this.cameFrom[board.start] = null;
 
-    this.grid = grid;
-    this.goal = goal;
+    this.board = board;
+    this.goal = board.goal;
     this.initializeFrontier();
   }
 
@@ -13,7 +13,7 @@ class Search {
       if(this.cameFrom[this.goal]) {
         break;
       }
-      
+
       this.updateFrontier();
     }
 
