@@ -7,6 +7,9 @@ import Dijkstra from './search/dijkstra';
 window.Dijkstra = Dijkstra;
 window.BFS = BFS;
 
+import Path from './path';
+window.Path = Path;
+
 document.addEventListener('DOMContentLoaded', ()=> {
   const stage = new createjs.Stage('main-canvas');
   const board = new Board(stage);

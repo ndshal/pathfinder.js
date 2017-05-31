@@ -89,7 +89,7 @@ class Board {
     let neighbors = [];
     for(let dx = -1; dx < 2; dx ++) {
       for(let dy = -1; dy < 2; dy ++) {
-        if(dx === 0 && dy === 0) continue;
+        if(dx === dy || dx === -dy) continue;
 
         const testCoords = [x + Board.dx*dx, y + Board.dy*dy].toString();
         if (this.grid[testCoords]) {

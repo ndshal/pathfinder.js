@@ -7,10 +7,8 @@ class graphNode {
   }
 
   setType(type) {
-    if(this.type !== 'goal') {
-      this.type = type;
-      this._fill(graphNode.COLORS[type]);
-    }
+    this.type = type;
+    this._fill(graphNode.COLORS[type]);
   }
 
   setCoords(x, y) {
