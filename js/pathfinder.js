@@ -3,6 +3,8 @@ import { PriorityQueue } from './data_structures';
 window.PriorityQueue = PriorityQueue;
 
 import BFS from './search/bfs';
+import Dijkstra from './search/dijkstra';
+window.Dijkstra = Dijkstra;
 window.BFS = BFS;
 
 document.addEventListener('DOMContentLoaded', ()=> {

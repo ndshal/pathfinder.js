@@ -56,10 +56,15 @@
 	
 	var _bfs2 = _interopRequireDefault(_bfs);
 	
+	var _dijkstra = __webpack_require__(6);
+	
+	var _dijkstra2 = _interopRequireDefault(_dijkstra);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	window.PriorityQueue = _data_structures.PriorityQueue;
 	
+	window.Dijkstra = _dijkstra2.default;
 	window.BFS = _bfs2.default;
 	
 	document.addEventListener('DOMContentLoaded', function () {
@@ -358,7 +363,7 @@
 	        this.store[1] = this.store.pop();
 	        this._percolateDown();
 	
-	        return min;
+	        return min.item;
 	      }
 	    }
 	  }, {
@@ -543,6 +548,73 @@
 	}();
 	
 	exports.default = Search;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _search = __webpack_require__(5);
+	
+	var _search2 = _interopRequireDefault(_search);
+	
+	var _data_structures = __webpack_require__(3);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Dijkstra = function (_Search) {
+	  _inherits(Dijkstra, _Search);
+	
+	  function Dijkstra() {
+	    _classCallCheck(this, Dijkstra);
+	
+	    return _possibleConstructorReturn(this, (Dijkstra.__proto__ || Object.getPrototypeOf(Dijkstra)).apply(this, arguments));
+	  }
+	
+	  _createClass(Dijkstra, [{
+	    key: 'initializeFrontier',
+	    value: function initializeFrontier() {
+	      this.frontier = new _data_structures.PriorityQueue();
+	      this.costSoFar = {};
+	      this.costSoFar[this.board.start] = 0;
+	
+	      this.processNeighbors(this.board.start);
+	    }
+	  }, {
+	    key: 'processNeighbors',
+	    value: function processNeighbors(current) {
+	      this.board.neighbors(current).forEach(function (neighbor) {
+	        var type = this.board.grid[neighbor].type;
+	        var cost = type === 'obstacle' ? 10000 : 1;
+	        var newCost = this.costSoFar[current] + cost;
+	
+	        if (!(neighbor in this.costSoFar) || newCost < this.costSoFar[neighbor]) {
+	          this.frontier.insert(neighbor, newCost);
+	          this.cameFrom[neighbor] = current;
+	          this.costSoFar[neighbor] = newCost;
+	          this.board.grid[neighbor].setType('frontier');
+	        }
+	      }.bind(this));
+	    }
+	  }]);
+	
+	  return Dijkstra;
+	}(_search2.default);
+	
+	exports.default = Dijkstra;
 
 /***/ })
 /******/ ]);

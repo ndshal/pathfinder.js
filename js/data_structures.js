@@ -33,7 +33,7 @@ export class PriorityQueue {
       this.store[1] = this.store.pop();
       this._percolateDown();
 
-      return min;
+      return min.item;
     }
   }
 

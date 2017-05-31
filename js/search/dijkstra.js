@@ -14,7 +14,7 @@ class Dijkstra extends Search {
     this.board.neighbors(current).forEach(
       function(neighbor) {
         const type = this.board.grid[neighbor].type;
-        const cost = type === 'obstacle' ? 100 : 0;
+        const cost = type === 'obstacle' ? 10000 : 1;
         const newCost = this.costSoFar[current] + cost;
 
         if (!(neighbor in this.costSoFar) ||
