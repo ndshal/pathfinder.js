@@ -2,25 +2,31 @@ class graphNode {
   constructor(x, y) {
     this.easelCell = new createjs.Shape();
     this.drawBorder();
-    this.isObstacle = false;
-    this.fillByString('empty')
+    this.setType('empty');
+    this.setCoords(x, y);
+  }
 
-    this.moveTo(x, y);
+  setType(type) {
+    this.type = type;
+    this._fill(graphNode.COLORS[type]);
+  }
+
+  setCoords(x, y) {
+    this.coords = [x, y].toString();
+    this.easelCell.x = x;
+    this.easelCell.y = y;
   }
 
   toggleIsObstacle() {
-    this.isObstacle = !this.isObstacle;
-    const str =  this.isObstacle? 'obstacle' : 'empty';
-    this.fillByString(str);
+    if(this.type === 'obstacle') {
+      this.setType('empty');
+    } else if (this.type === 'empty') {
+      this.setType('obstacle');
+    }
   }
 
   _fill(color) {
     this.easelCell.graphics.beginFill(color).drawRect(0,0,10,10);
-  }
-
-  fillByString(colorString) {
-    this.color = graphNode.COLORS[colorString];
-    this._fill(graphNode.COLORS[colorString]);
   }
 
   drawBorder() {
@@ -29,18 +35,6 @@ class graphNode {
       .setStrokeStyle(0.5)
       .beginStroke('#ffffff')
       .drawRect(0,0,10,10);
-  }
-
-  moveTo(x, y) {
-    this.easelCell.x = x;
-    this.easelCell.y = y;
-  }
-
-  gridCoords() {
-    return [
-      Math.floor(this.easelCell.x/10),
-      Math.floor(this.easelCell.y/10)
-    ].toString();
   }
 }
 

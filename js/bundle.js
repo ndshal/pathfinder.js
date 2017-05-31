@@ -257,18 +257,31 @@
 	
 	    this.easelCell = new createjs.Shape();
 	    this.drawBorder();
-	    this.isObstacle = false;
-	    this.fillByString('empty');
-	
-	    this.moveTo(x, y);
+	    this.setType('empty');
+	    this.setCoords(x, y);
 	  }
 	
 	  _createClass(graphNode, [{
+	    key: 'setType',
+	    value: function setType(type) {
+	      this.type = type;
+	      this._fill(graphNode.COLORS[type]);
+	    }
+	  }, {
+	    key: 'setCoords',
+	    value: function setCoords(x, y) {
+	      this.coords = [x, y].toString();
+	      this.easelCell.x = x;
+	      this.easelCell.y = y;
+	    }
+	  }, {
 	    key: 'toggleIsObstacle',
 	    value: function toggleIsObstacle() {
-	      this.isObstacle = !this.isObstacle;
-	      var str = this.isObstacle ? 'obstacle' : 'empty';
-	      this.fillByString(str);
+	      if (this.type === 'obstacle') {
+	        this.setType('empty');
+	      } else if (this.type === 'empty') {
+	        this.setType('obstacle');
+	      }
 	    }
 	  }, {
 	    key: '_fill',
@@ -276,26 +289,9 @@
 	      this.easelCell.graphics.beginFill(color).drawRect(0, 0, 10, 10);
 	    }
 	  }, {
-	    key: 'fillByString',
-	    value: function fillByString(colorString) {
-	      this.color = graphNode.COLORS[colorString];
-	      this._fill(graphNode.COLORS[colorString]);
-	    }
-	  }, {
 	    key: 'drawBorder',
 	    value: function drawBorder() {
 	      this.easelCell.graphics.setStrokeStyle(0.5).beginStroke('#ffffff').drawRect(0, 0, 10, 10);
-	    }
-	  }, {
-	    key: 'moveTo',
-	    value: function moveTo(x, y) {
-	      this.easelCell.x = x;
-	      this.easelCell.y = y;
-	    }
-	  }, {
-	    key: 'gridCoords',
-	    value: function gridCoords() {
-	      return [Math.floor(this.easelCell.x / 10), Math.floor(this.easelCell.y / 10)].toString();
 	    }
 	  }]);
 	
