@@ -11,7 +11,7 @@ class Search {
 
   run() {
     while(!this.frontier.isEmpty()) {
-      if(this.cameFrom[this.goal]) {
+      if(this.cameFrom[this.goal.gridCoords()]) {
         break;
       }
 

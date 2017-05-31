@@ -484,8 +484,6 @@
 	    key: 'updateFrontier',
 	    value: function updateFrontier() {
 	      var current = this.frontier.dequeue();
-	      console.log(current);
-	
 	      this.processNeighbors(current);
 	      current.fillByString('visited');
 	    }
@@ -539,7 +537,7 @@
 	    key: "run",
 	    value: function run() {
 	      while (!this.frontier.isEmpty()) {
-	        if (this.cameFrom[this.goal]) {
+	        if (this.cameFrom[this.goal.gridCoords()]) {
 	          break;
 	        }
 	

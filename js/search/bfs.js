@@ -10,8 +10,6 @@ class BFS extends Search {
 
   updateFrontier() {
     const current = this.frontier.dequeue();
-    console.log(current);
-
     this.processNeighbors(current);
     current.fillByString('visited');
   }
