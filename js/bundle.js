@@ -50,7 +50,11 @@
 	
 	var _board2 = _interopRequireDefault(_board);
 	
+	var _util = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./util\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	window.PriorityQueue = _util.PriorityQueue;
 	
 	document.addEventListener('DOMContentLoaded', function () {
 	  window.createjs = createjs;
@@ -168,7 +172,6 @@
 	
 	      for (var i = 0; i < 15; i++) {
 	        grid.push([]);
-	
 	        for (var j = 0; j < 15; j++) {
 	          var node = new _graph_node2.default(i * 10, j * 10);
 	          this.stage.addChild(node.easelCell);
@@ -217,6 +220,7 @@
 	    this.easelCell = new createjs.Shape();
 	    this.drawBorder();
 	    this.isObstacle = false;
+	    this.scale = 1;
 	    this.fillByString('empty');
 	
 	    this.moveTo(x, y);

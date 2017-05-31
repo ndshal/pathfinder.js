@@ -1,4 +1,6 @@
 import Board from './board';
+import { PriorityQueue } from './util';
+window.PriorityQueue = PriorityQueue;
 
 document.addEventListener('DOMContentLoaded', ()=> {
   window.createjs = createjs;

@@ -76,7 +76,6 @@ class Board {
 
     for(let i = 0; i < 15; i ++ ){
       grid.push([]);
-
       for(let j = 0; j < 15; j ++){
         const node = new graphNode(i*10, j*10);
         this.stage.addChild(node.easelCell);

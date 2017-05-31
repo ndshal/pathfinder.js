@@ -14,7 +14,7 @@ pathfinding scenarios.
 ## Functionality and MVP
 
 The Pathfinder visualization tool will be able to:
-  - [ ] Allow users to select start and end positions and place obstacle on a 2D, square, grid.
+  - [x] Allow users to select start and end positions and place obstacle on a 2D, square, grid.
   - [ ] Implement the BFS and A\* algorithms to calculate paths on the grid. A\* will be implemented using the Manhattan distance heuristic.
   - [ ] Animate the searching procedure, clearly marking visited and frontier cells, and draw the final path once calculated.
 
