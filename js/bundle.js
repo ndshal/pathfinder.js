@@ -50,9 +50,9 @@
 	
 	var _board2 = _interopRequireDefault(_board);
 	
-	var _data_structures = __webpack_require__(5);
+	var _data_structures = __webpack_require__(3);
 	
-	var _bfs = __webpack_require__(6);
+	var _bfs = __webpack_require__(4);
 	
 	var _bfs2 = _interopRequireDefault(_bfs);
 	
@@ -80,7 +80,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _graph_node = __webpack_require__(3);
+	var _graph_node = __webpack_require__(2);
 	
 	var _graph_node2 = _interopRequireDefault(_graph_node);
 	
@@ -93,7 +93,7 @@
 	    _classCallCheck(this, Board);
 	
 	    this.stage = stage;
-	    createjs.Ticker.addEventListener('tick', this.stage);
+	    // createjs.Ticker.addEventListener('tick', this.stage)
 	
 	    this.handleClick = this.handleClick.bind(this);
 	    this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -238,8 +238,7 @@
 	exports.default = Board;
 
 /***/ }),
-/* 2 */,
-/* 3 */
+/* 2 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -259,7 +258,6 @@
 	    this.easelCell = new createjs.Shape();
 	    this.drawBorder();
 	    this.isObstacle = false;
-	    this.scale = 1;
 	    this.fillByString('empty');
 	
 	    this.moveTo(x, y);
@@ -316,8 +314,7 @@
 	exports.default = graphNode;
 
 /***/ }),
-/* 4 */,
-/* 5 */
+/* 3 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -439,7 +436,7 @@
 	}();
 
 /***/ }),
-/* 6 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -450,11 +447,11 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _search = __webpack_require__(7);
+	var _search = __webpack_require__(5);
 	
 	var _search2 = _interopRequireDefault(_search);
 	
-	var _data_structures = __webpack_require__(5);
+	var _data_structures = __webpack_require__(3);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -492,7 +489,7 @@
 	    value: function processNeighbors(node) {
 	      var neighbors = this.board.neighbors(node);
 	      for (var i = 0; i < neighbors.length; i++) {
-	        if (!(neighbors[i].gridCoords() in this.cameFrom)) {
+	        if (!(neighbors[i].gridCoords() in this.cameFrom) && !neighbors[i].isObstacle) {
 	          this.frontier.enqueue(neighbors[i]);
 	          neighbors[i].fillByString('frontier');
 	          this.cameFrom[neighbors[i].gridCoords()] = node.gridCoords();
@@ -507,7 +504,7 @@
 	exports.default = BFS;
 
 /***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, exports) {
 
 	"use strict";

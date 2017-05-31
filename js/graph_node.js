@@ -3,7 +3,6 @@ class graphNode {
     this.easelCell = new createjs.Shape();
     this.drawBorder();
     this.isObstacle = false;
-    this.scale = 1;
     this.fillByString('empty')
 
     this.moveTo(x, y);

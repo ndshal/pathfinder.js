@@ -3,7 +3,7 @@ import graphNode from './graph_node';
 class Board {
   constructor(stage) {
     this.stage = stage;
-    createjs.Ticker.addEventListener('tick', this.stage)
+    // createjs.Ticker.addEventListener('tick', this.stage)
 
     this.handleClick = this.handleClick.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
