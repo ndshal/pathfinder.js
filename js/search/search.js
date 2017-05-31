@@ -1,32 +1,18 @@
 class Search {
   constructor(board) {
     this.cameFrom = {};
-    this.cameFrom[board.start.gridCoords()] = null;
+    this.cameFrom[board.start] = null;
 
     this.board = board;
-    this.goal = board.goal;
-    this.start = board.start;
     this.initializeFrontier();
   }
 
-  run() {
-    while(!this.frontier.isEmpty()) {
-      if(this.cameFrom[this.goal.gridCoords()]) {
-        break;
-      }
-
-      this.updateFrontier();
-    }
-
-    this.buildPath();
-  }
-
   buildPath() {
-    if(!this.cameFrom[this.goal.gridCoords()]) {
+    if(!this.cameFrom[this.board.goal]) {
       return null;
     }
 
-    let current = this.goal.gridCoords();
+    let current = this.board.goal;
     let path = [];
 
     while(current) {

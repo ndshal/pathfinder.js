@@ -11,17 +11,16 @@ class BFS extends Search {
   updateFrontier() {
     const current = this.frontier.dequeue();
     this.processNeighbors(current);
-    current.fillByString('visited');
+    this.board.grid[current].setType('visited');
   }
 
-  processNeighbors(node) {
-    let neighbors = this.board.neighbors(node);
+  processNeighbors(current) {
+    let neighbors = this.board.neighbors(current);
     for(let i = 0; i < neighbors.length; i ++) {
-      if(!(neighbors[i].gridCoords() in this.cameFrom)
-            && !(neighbors[i].isObstacle)) {
+      if(!(neighbors[i] in this.cameFrom)) {
         this.frontier.enqueue(neighbors[i]);
-        neighbors[i].fillByString('frontier');
-        this.cameFrom[neighbors[i].gridCoords()] = node.gridCoords();
+        this.cameFrom[neighbors[i]] = current;
+        this.board.grid[neighbors[i]].setType('frontier')
       }
     }
   }

@@ -462,17 +462,17 @@
 	    value: function updateFrontier() {
 	      var current = this.frontier.dequeue();
 	      this.processNeighbors(current);
-	      current.fillByString('visited');
+	      this.board.grid[current].setType('visited');
 	    }
 	  }, {
 	    key: 'processNeighbors',
-	    value: function processNeighbors(node) {
-	      var neighbors = this.board.neighbors(node);
+	    value: function processNeighbors(current) {
+	      var neighbors = this.board.neighbors(current);
 	      for (var i = 0; i < neighbors.length; i++) {
-	        if (!(neighbors[i].gridCoords() in this.cameFrom) && !neighbors[i].isObstacle) {
+	        if (!(neighbors[i] in this.cameFrom)) {
 	          this.frontier.enqueue(neighbors[i]);
-	          neighbors[i].fillByString('frontier');
-	          this.cameFrom[neighbors[i].gridCoords()] = node.gridCoords();
+	          this.cameFrom[neighbors[i]] = current;
+	          this.board.grid[neighbors[i]].setType('frontier');
 	        }
 	      }
 	    }
@@ -502,35 +502,20 @@
 	    _classCallCheck(this, Search);
 	
 	    this.cameFrom = {};
-	    this.cameFrom[board.start.gridCoords()] = null;
+	    this.cameFrom[board.start] = null;
 	
 	    this.board = board;
-	    this.goal = board.goal;
-	    this.start = board.start;
 	    this.initializeFrontier();
 	  }
 	
 	  _createClass(Search, [{
-	    key: "run",
-	    value: function run() {
-	      while (!this.frontier.isEmpty()) {
-	        if (this.cameFrom[this.goal.gridCoords()]) {
-	          break;
-	        }
-	
-	        this.updateFrontier();
-	      }
-	
-	      this.buildPath();
-	    }
-	  }, {
 	    key: "buildPath",
 	    value: function buildPath() {
-	      if (!this.cameFrom[this.goal.gridCoords()]) {
+	      if (!this.cameFrom[this.board.goal]) {
 	        return null;
 	      }
 	
-	      var current = this.goal.gridCoords();
+	      var current = this.board.goal;
 	      var path = [];
 	
 	      while (current) {
