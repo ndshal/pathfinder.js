@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
   const board = new Board(stage);
   board.init();
   const bfs = new BFS(board);
-  const path = bfs.run();
-  console.log(path);
+  // const path = bfs.run();
+  // console.log(path);
   window.board = board;
 });

@@ -67,8 +67,8 @@
 	  var board = new _board2.default(stage);
 	  board.init();
 	  var bfs = new _bfs2.default(board);
-	  var path = bfs.run();
-	  console.log(path);
+	  // const path = bfs.run();
+	  // console.log(path);
 	  window.board = board;
 	});
 
@@ -515,12 +515,13 @@
 	    this.cameFrom[board.start] = null;
 	
 	    this.board = board;
-	    this.initializeFrontier();
 	  }
 	
 	  _createClass(Search, [{
 	    key: "run",
 	    value: function run() {
+	      this.initializeFrontier();
+	
 	      while (!this.foundGoal) {
 	        this.updateFrontier();
 	      }

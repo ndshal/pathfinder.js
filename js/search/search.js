@@ -4,10 +4,11 @@ class Search {
     this.cameFrom[board.start] = null;
 
     this.board = board;
-    this.initializeFrontier();
   }
 
   run() {
+    this.initializeFrontier();
+
     while(!this.foundGoal) {
       this.updateFrontier();
     }
