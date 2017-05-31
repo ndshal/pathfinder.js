@@ -457,7 +457,6 @@
 	    key: 'initializeFrontier',
 	    value: function initializeFrontier() {
 	      this.frontier = new _data_structures.Queue();
-	      this.foundGoal = false;
 	
 	      this.processNeighbors(this.board.start);
 	    }

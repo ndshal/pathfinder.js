@@ -6,7 +6,6 @@ class Dijkstra extends Search {
     this.frontier = new PriorityQueue();
     this.costSoFar = {};
     this.costSoFar[this.board.start] = 0;
-    this.foundGoal = false;
 
     this.processNeighbors(this.board.start);
   }
