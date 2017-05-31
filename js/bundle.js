@@ -823,7 +823,7 @@
 	    value: function processNeighbors(current) {
 	      this.board.neighbors(current).forEach(function (neighbor) {
 	        var type = this.board.grid[neighbor].type;
-	        var cost = type === 'obstacle' ? 999999 : 1;
+	        var cost = type === 'obstacle' ? 99999 : 10;
 	        var newCost = this.costSoFar[current] + cost;
 	
 	        if (!(neighbor in this.costSoFar) || newCost < this.costSoFar[neighbor]) {
