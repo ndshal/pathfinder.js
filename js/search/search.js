@@ -1,3 +1,5 @@
+import Path from '../path';
+
 class Search {
   constructor(board) {
     this.cameFrom = {};
@@ -7,6 +9,22 @@ class Search {
   }
 
   run() {
+    this.initializeFrontier();
+
+    this.updateInterval = setInterval(
+      () => {
+        const current = this.frontier.dequeue();
+        if(!current || current === this.board.goal) {
+          clearInterval(this.updateInterval);
+          new Path(this.buildPath(), this.board.stage)
+        }
+
+        this.processNeighbors(current);
+        this.board.grid[current].setType('visited');
+      },150);
+  }
+
+  oldRun() {
     this.initializeFrontier();
 
     while(!this.frontier.isEmpty()) {

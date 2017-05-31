@@ -4,7 +4,7 @@ import { Queue } from '../data_structures';
 class BFS extends Search {
   initializeFrontier() {
     this.frontier = new Queue();
-    
+
     this.processNeighbors(this.board.start);
   }
 

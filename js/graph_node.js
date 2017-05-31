@@ -7,6 +7,11 @@ class graphNode {
   }
 
   setType(type) {
+    if (['visited','frontier'].includes(type) &&
+        ['start','goal','obstacle'].includes(this.type)) {
+          return;
+        }
+        
     this.type = type;
     this._fill(graphNode.COLORS[type]);
   }
