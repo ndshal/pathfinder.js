@@ -516,6 +516,8 @@
 	  value: true
 	});
 	
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _path = __webpack_require__(7);
@@ -585,6 +587,44 @@
 	      }
 	
 	      return path;
+	    }
+	  }, {
+	    key: 'manhattan',
+	    value: function manhattan(coords1, coords2) {
+	      var _coords1$split$map = coords1.split(',').map(function (s) {
+	        return parseInt(s);
+	      }),
+	          _coords1$split$map2 = _slicedToArray(_coords1$split$map, 2),
+	          x1 = _coords1$split$map2[0],
+	          y1 = _coords1$split$map2[1];
+	
+	      var _coords2$split$map = coords2.split(',').map(function (s) {
+	        return parseInt(s);
+	      }),
+	          _coords2$split$map2 = _slicedToArray(_coords2$split$map, 2),
+	          x2 = _coords2$split$map2[0],
+	          y2 = _coords2$split$map2[1];
+	
+	      return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+	    }
+	  }, {
+	    key: 'euclidean',
+	    value: function euclidean(coords1, coords2) {
+	      var _coords1$split$map3 = coords1.split(',').map(function (s) {
+	        return parseInt(s);
+	      }),
+	          _coords1$split$map4 = _slicedToArray(_coords1$split$map3, 2),
+	          x1 = _coords1$split$map4[0],
+	          y1 = _coords1$split$map4[1];
+	
+	      var _coords2$split$map3 = coords2.split(',').map(function (s) {
+	        return parseInt(s);
+	      }),
+	          _coords2$split$map4 = _slicedToArray(_coords2$split$map3, 2),
+	          x2 = _coords2$split$map4[0],
+	          y2 = _coords2$split$map4[1];
+	
+	      return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 	    }
 	  }]);
 	
@@ -724,8 +764,6 @@
 	  value: true
 	});
 	
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _search = __webpack_require__(5);
@@ -765,7 +803,7 @@
 	        if (!(neighbor in this.cameFrom)) {
 	          var type = this.board.grid[neighbor].type;
 	          if (type !== 'obstacle') {
-	            var priority = this.manhattan(neighbor, this.board.goal);
+	            var priority = this.euclidean(neighbor, this.board.goal);
 	
 	            this.frontier.insert(neighbor, priority);
 	            this.cameFrom[neighbor] = current;
@@ -773,25 +811,6 @@
 	          }
 	        }
 	      }.bind(this));
-	    }
-	  }, {
-	    key: 'manhattan',
-	    value: function manhattan(coords1, coords2) {
-	      var _coords1$split$map = coords1.split(',').map(function (s) {
-	        return parseInt(s);
-	      }),
-	          _coords1$split$map2 = _slicedToArray(_coords1$split$map, 2),
-	          x1 = _coords1$split$map2[0],
-	          y1 = _coords1$split$map2[1];
-	
-	      var _coords2$split$map = coords2.split(',').map(function (s) {
-	        return parseInt(s);
-	      }),
-	          _coords2$split$map2 = _slicedToArray(_coords2$split$map, 2),
-	          x2 = _coords2$split$map2[0],
-	          y2 = _coords2$split$map2[1];
-	
-	      return Math.abs(x1 - x2) + Math.abs(y1 - y2);
 	    }
 	  }]);
 	
@@ -809,8 +828,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -851,11 +868,11 @@
 	    value: function processNeighbors(current) {
 	      this.board.neighbors(current).forEach(function (neighbor) {
 	        var type = this.board.grid[neighbor].type;
-	        var cost = type === 'obstacle' ? 99999 : 10;
+	        var cost = type === 'obstacle' ? 99999 : 1;
 	        var newCost = this.costSoFar[current] + cost;
 	
 	        if (!(neighbor in this.costSoFar) || newCost < this.costSoFar[neighbor]) {
-	          var priority = newCost + this.manhattan(neighbor, this.board.goal);
+	          var priority = newCost + this.euclidean(neighbor, this.board.goal);
 	
 	          this.frontier.insert(neighbor, priority);
 	          this.cameFrom[neighbor] = current;
@@ -863,25 +880,6 @@
 	          this.board.grid[neighbor].setType('frontier');
 	        }
 	      }.bind(this));
-	    }
-	  }, {
-	    key: 'manhattan',
-	    value: function manhattan(coords1, coords2) {
-	      var _coords1$split$map = coords1.split(',').map(function (s) {
-	        return parseInt(s);
-	      }),
-	          _coords1$split$map2 = _slicedToArray(_coords1$split$map, 2),
-	          x1 = _coords1$split$map2[0],
-	          y1 = _coords1$split$map2[1];
-	
-	      var _coords2$split$map = coords2.split(',').map(function (s) {
-	        return parseInt(s);
-	      }),
-	          _coords2$split$map2 = _slicedToArray(_coords2$split$map, 2),
-	          x2 = _coords2$split$map2[0],
-	          y2 = _coords2$split$map2[1];
-	
-	      return Math.abs(x1 - x2) + Math.abs(y1 - y2);
 	    }
 	  }]);
 	
