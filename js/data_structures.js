@@ -18,12 +18,17 @@ export class PriorityQueue {
 
   insert(item, priority) {
     this.store.push({item, priority});
-    // end of the array is bottom of the tree
     this._percolateUp();
+
+    return this.store.length;
   }
 
   deleteMin() {
+    const min = this.store[1];
+    this.store[1] = this.store.pop();
+    this._percolateDown();
 
+    return min;
   }
 
   _percolateUp() {
@@ -33,13 +38,33 @@ export class PriorityQueue {
       [this.store[childIdx], this.store[parentIdx]] =
           [this.store[parentIdx], this.store[childIdx]];
 
-      console.log(this.store);
       childIdx = parentIdx;
       parentIdx = Math.floor(childIdx/2);
     }
   }
 
   _percolateDown() {
+    let idx = 1;
+    let minChildIdx = this._getMinChildIdx(idx);
 
+    while(this.store[idx].priority > this.store[minChildIdx].priority) {
+      [this.store[idx], this.store[minChildIdx]] =
+        [this.store[minChildIdx]. this.store[idx]];
+
+      idx = minChildIdx;
+      minChildIdx = this._getMinChildIdx(idx);
+    }
+  }
+
+  _getMinChildIdx(idx) {
+    let leftChild = this.store[2*idx];
+    let rightChild = this.store[2*idx+1];
+    let minChildIdx, minPriority;
+    if(rightChild) {
+      minPriority = Math.min(leftChild.priority, rightChild.priority);
+    } else {
+      minPriority = leftChild.priority;
+    }
+    return leftChild.priority === minPriority ? 2*idx : 2*idx+1;
   }
 }

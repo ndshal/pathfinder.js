@@ -1,5 +1,5 @@
 import Board from './board';
-import { PriorityQueue } from './util';
+import { PriorityQueue } from './data_structures';
 window.PriorityQueue = PriorityQueue;
 
 document.addEventListener('DOMContentLoaded', ()=> {
