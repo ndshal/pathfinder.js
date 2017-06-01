@@ -8,7 +8,7 @@ class AStar extends Search {
   }
 
   reset() {
-    super();
+    super.reset();
     this.costSoFar = {};
     this.costSoFar[this.board.start] = 0;
   }

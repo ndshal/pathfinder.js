@@ -687,7 +687,79 @@
 	exports.default = Path;
 
 /***/ }),
-/* 7 */,
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _search = __webpack_require__(5);
+	
+	var _search2 = _interopRequireDefault(_search);
+	
+	var _data_structures = __webpack_require__(3);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Dijkstra = function (_Search) {
+	  _inherits(Dijkstra, _Search);
+	
+	  function Dijkstra() {
+	    _classCallCheck(this, Dijkstra);
+	
+	    return _possibleConstructorReturn(this, (Dijkstra.__proto__ || Object.getPrototypeOf(Dijkstra)).apply(this, arguments));
+	  }
+	
+	  _createClass(Dijkstra, [{
+	    key: 'initializeFrontier',
+	    value: function initializeFrontier() {
+	      this.frontier = new _data_structures.PriorityQueue();
+	      this.processNeighbors(this.board.start);
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      _get(Dijkstra.prototype.__proto__ || Object.getPrototypeOf(Dijkstra.prototype), 'reset', this).call(this);
+	      this.costSoFar = {};
+	      this.costSoFar[this.board.start] = 0;
+	    }
+	  }, {
+	    key: 'processNeighbors',
+	    value: function processNeighbors(current) {
+	      this.board.neighbors(current).forEach(function (neighbor) {
+	        var type = this.board.grid[neighbor].type;
+	        var cost = type === 'obstacle' ? 100 : 1;
+	        var newCost = this.costSoFar[current] + cost;
+	
+	        if (!(neighbor in this.costSoFar) || newCost < this.costSoFar[neighbor]) {
+	          this.frontier.insert(neighbor, newCost);
+	          this.cameFrom[neighbor] = current;
+	          this.costSoFar[neighbor] = newCost;
+	          this.board.grid[neighbor].setType('frontier');
+	        }
+	      }.bind(this));
+	    }
+	  }]);
+	
+	  return Dijkstra;
+	}(_search2.default);
+	
+	exports.default = Dijkstra;
+
+/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -752,7 +824,81 @@
 	exports.default = BestFirst;
 
 /***/ }),
-/* 9 */,
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _search = __webpack_require__(5);
+	
+	var _search2 = _interopRequireDefault(_search);
+	
+	var _data_structures = __webpack_require__(3);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var AStar = function (_Search) {
+	  _inherits(AStar, _Search);
+	
+	  function AStar() {
+	    _classCallCheck(this, AStar);
+	
+	    return _possibleConstructorReturn(this, (AStar.__proto__ || Object.getPrototypeOf(AStar)).apply(this, arguments));
+	  }
+	
+	  _createClass(AStar, [{
+	    key: 'initializeFrontier',
+	    value: function initializeFrontier() {
+	      this.frontier = new _data_structures.PriorityQueue();
+	      this.processNeighbors(this.board.start);
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      _get(AStar.prototype.__proto__ || Object.getPrototypeOf(AStar.prototype), 'reset', this).call(this);
+	      this.costSoFar = {};
+	      this.costSoFar[this.board.start] = 0;
+	    }
+	  }, {
+	    key: 'processNeighbors',
+	    value: function processNeighbors(current) {
+	      this.board.neighbors(current).forEach(function (neighbor) {
+	        var type = this.board.grid[neighbor].type;
+	        var cost = type === 'obstacle' ? 99999 : 1;
+	        var newCost = this.costSoFar[current] + cost;
+	
+	        if (!(neighbor in this.costSoFar) || newCost < this.costSoFar[neighbor]) {
+	          var priority = newCost + this.euclidean(neighbor, this.board.goal);
+	
+	          this.frontier.insert(neighbor, priority);
+	          this.cameFrom[neighbor] = current;
+	          this.costSoFar[neighbor] = newCost;
+	          this.board.grid[neighbor].setType('frontier');
+	        }
+	      }.bind(this));
+	    }
+	  }]);
+	
+	  return AStar;
+	}(_search2.default);
+	
+	exports.default = AStar;
+
+/***/ }),
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -832,7 +978,7 @@
 	
 	var _bfs2 = _interopRequireDefault(_bfs);
 	
-	var _dijkstra = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./dijkstra\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _dijkstra = __webpack_require__(7);
 	
 	var _dijkstra2 = _interopRequireDefault(_dijkstra);
 	
@@ -840,7 +986,7 @@
 	
 	var _best_first2 = _interopRequireDefault(_best_first);
 	
-	var _a_star = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./a_star\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _a_star = __webpack_require__(9);
 	
 	var _a_star2 = _interopRequireDefault(_a_star);
 	
