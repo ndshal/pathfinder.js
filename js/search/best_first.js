@@ -4,7 +4,6 @@ import { PriorityQueue } from '../data_structures';
 class BestFirst extends Search {
   initializeFrontier() {
     this.frontier = new PriorityQueue();
-
     this.processNeighbors(this.board.start);
   }
 

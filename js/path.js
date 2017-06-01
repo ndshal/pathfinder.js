@@ -19,7 +19,8 @@ class Path {
     this.stage.addChild(this.path);
   }
 
-  draw() {
+  reset() {
+    this.stage.removeChild(this.path);
   }
 }
 

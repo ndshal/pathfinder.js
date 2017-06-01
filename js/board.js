@@ -104,6 +104,12 @@ class Board {
     return neighbors;
   }
 
+  clearSearch() {
+    for(let coords in this.grid){
+      this.grid[coords].reset();
+    }
+  }
+
   _generateCoords() {
     let x = Math.random()*Board.DIM_X;
     let y = Math.random()*Board.DIM_Y;

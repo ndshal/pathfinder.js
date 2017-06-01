@@ -5,10 +5,40 @@
     <title>Pathfinder</title>
      <script type="application/javascript" src="js/bundle.js"></script>
      <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.js"></script>
 
      <link rel="stylesheet" href="./css/pathfinder.css">
   </head>
   <body>
-    <canvas id="main-canvas"></canvas>
+    <section className='grid'>
+      <canvas id="main-canvas"></canvas>
+    <section>
+    <aside className='controls'>
+      <form id='algorithms'>
+        <div className='algo-options'>
+          <input
+            type='radio'
+            name='algo'
+            checked
+            value='BFS'>Breadth First Search</input>
+          <input
+            type='radio'
+            name='algo'
+            value='Dijkstra'>Dijkstra</input>
+          <input
+            type='radio'
+            name='algo'
+            value='BestFirst'>Greedy Best-First Search</input>
+          <input
+            type='radio'
+            name='algo'
+            value='AStar'>A*</input>
+        </div>
+        <div className='buttons'>
+          <button id='run'>Run</button>
+          <button id='clear'>Clear</button>
+        </div>
+      </form>
+    </aside>
   </body>
 </html>

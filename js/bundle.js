@@ -46,51 +46,16 @@
 
 	'use strict';
 	
-	var _board = __webpack_require__(1);
+	var _view = __webpack_require__(10);
 	
-	var _board2 = _interopRequireDefault(_board);
-	
-	var _data_structures = __webpack_require__(3);
-	
-	var _bfs = __webpack_require__(4);
-	
-	var _bfs2 = _interopRequireDefault(_bfs);
-	
-	var _dijkstra = __webpack_require__(7);
-	
-	var _dijkstra2 = _interopRequireDefault(_dijkstra);
-	
-	var _best_first = __webpack_require__(8);
-	
-	var _best_first2 = _interopRequireDefault(_best_first);
-	
-	var _a_star = __webpack_require__(9);
-	
-	var _a_star2 = _interopRequireDefault(_a_star);
-	
-	var _path = __webpack_require__(6);
-	
-	var _path2 = _interopRequireDefault(_path);
+	var _view2 = _interopRequireDefault(_view);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	window.PriorityQueue = _data_structures.PriorityQueue;
-	
-	window.AStar = _a_star2.default;
-	window.Dijkstra = _dijkstra2.default;
-	window.BFS = _bfs2.default;
-	window.BestFirst = _best_first2.default;
-	
-	window.Path = _path2.default;
-	
 	document.addEventListener('DOMContentLoaded', function () {
 	  var stage = new createjs.Stage('main-canvas');
-	  var board = new _board2.default(stage);
-	  board.init();
-	  var bfs = new _bfs2.default(board);
-	  // const path = bfs.run();
-	  // console.log(path);
-	  window.board = board;
+	  var view = new _view2.default(stage);
+	  window.view = view;
 	});
 
 /***/ }),
@@ -237,6 +202,13 @@
 	      return neighbors;
 	    }
 	  }, {
+	    key: 'clearSearch',
+	    value: function clearSearch() {
+	      for (var coords in this.grid) {
+	        this.grid[coords].reset();
+	      }
+	    }
+	  }, {
 	    key: '_generateCoords',
 	    value: function _generateCoords() {
 	      var x = Math.random() * Board.DIM_X;
@@ -306,6 +278,13 @@
 	        this.setType('empty');
 	      } else if (this.type === 'empty') {
 	        this.setType('obstacle');
+	      }
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      if (['frontier', 'visited'].includes(this.type)) {
+	        this.setType('empty');
 	      }
 	    }
 	  }, {
@@ -545,13 +524,18 @@
 	  function Search(board) {
 	    _classCallCheck(this, Search);
 	
-	    this.cameFrom = {};
-	    this.cameFrom[board.start] = null;
-	
 	    this.board = board;
+	    this.reset();
 	  }
 	
 	  _createClass(Search, [{
+	    key: 'reset',
+	    value: function reset() {
+	      if (this.path) this.path.reset();
+	      this.cameFrom = {};
+	      this.cameFrom[this.board.start] = null;
+	    }
+	  }, {
 	    key: 'run',
 	    value: function run() {
 	      var _this = this;
@@ -562,7 +546,7 @@
 	        var current = _this.frontier.dequeue();
 	        if (!current || current === _this.board.goal) {
 	          clearInterval(_this.updateInterval);
-	          new _path2.default(_this.buildPath(), _this.board.stage);
+	          _this.path = new _path2.default(_this.buildPath(), _this.board.stage);
 	        }
 	
 	        _this.processNeighbors(current);
@@ -691,8 +675,10 @@
 	      this.stage.addChild(this.path);
 	    }
 	  }, {
-	    key: 'draw',
-	    value: function draw() {}
+	    key: 'reset',
+	    value: function reset() {
+	      this.stage.removeChild(this.path);
+	    }
 	  }]);
 	
 	  return Path;
@@ -701,73 +687,7 @@
 	exports.default = Path;
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _search = __webpack_require__(5);
-	
-	var _search2 = _interopRequireDefault(_search);
-	
-	var _data_structures = __webpack_require__(3);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Dijkstra = function (_Search) {
-	  _inherits(Dijkstra, _Search);
-	
-	  function Dijkstra() {
-	    _classCallCheck(this, Dijkstra);
-	
-	    return _possibleConstructorReturn(this, (Dijkstra.__proto__ || Object.getPrototypeOf(Dijkstra)).apply(this, arguments));
-	  }
-	
-	  _createClass(Dijkstra, [{
-	    key: 'initializeFrontier',
-	    value: function initializeFrontier() {
-	      this.frontier = new _data_structures.PriorityQueue();
-	      this.costSoFar = {};
-	      this.costSoFar[this.board.start] = 0;
-	
-	      this.processNeighbors(this.board.start);
-	    }
-	  }, {
-	    key: 'processNeighbors',
-	    value: function processNeighbors(current) {
-	      this.board.neighbors(current).forEach(function (neighbor) {
-	        var type = this.board.grid[neighbor].type;
-	        var cost = type === 'obstacle' ? 100 : 1;
-	        var newCost = this.costSoFar[current] + cost;
-	
-	        if (!(neighbor in this.costSoFar) || newCost < this.costSoFar[neighbor]) {
-	          this.frontier.insert(neighbor, newCost);
-	          this.cameFrom[neighbor] = current;
-	          this.costSoFar[neighbor] = newCost;
-	          this.board.grid[neighbor].setType('frontier');
-	        }
-	      }.bind(this));
-	    }
-	  }]);
-	
-	  return Dijkstra;
-	}(_search2.default);
-	
-	exports.default = Dijkstra;
-
-/***/ }),
+/* 7 */,
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -806,7 +726,6 @@
 	    key: 'initializeFrontier',
 	    value: function initializeFrontier() {
 	      this.frontier = new _data_structures.PriorityQueue();
-	
 	      this.processNeighbors(this.board.start);
 	    }
 	  }, {
@@ -833,7 +752,8 @@
 	exports.default = BestFirst;
 
 /***/ }),
-/* 9 */
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -844,62 +764,92 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _search = __webpack_require__(5);
+	var _board = __webpack_require__(1);
 	
-	var _search2 = _interopRequireDefault(_search);
+	var _board2 = _interopRequireDefault(_board);
 	
-	var _data_structures = __webpack_require__(3);
+	var _search_export = __webpack_require__(11);
+	
+	var Finders = _interopRequireWildcard(_search_export);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	window.Finders = Finders;
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	var View = function () {
+	  function View(stage) {
+	    _classCallCheck(this, View);
 	
-	var AStar = function (_Search) {
-	  _inherits(AStar, _Search);
-	
-	  function AStar() {
-	    _classCallCheck(this, AStar);
-	
-	    return _possibleConstructorReturn(this, (AStar.__proto__ || Object.getPrototypeOf(AStar)).apply(this, arguments));
+	    this.board = new _board2.default(stage);
+	    this.board.init();
+	    this.finder = new Finders.BFS(this.board);
+	    this.addListeners();
 	  }
 	
-	  _createClass(AStar, [{
-	    key: 'initializeFrontier',
-	    value: function initializeFrontier() {
-	      this.frontier = new _data_structures.PriorityQueue();
-	      this.costSoFar = {};
-	      this.costSoFar[this.board.start] = 0;
+	  _createClass(View, [{
+	    key: 'addListeners',
+	    value: function addListeners() {
+	      var _this = this;
 	
-	      this.processNeighbors(this.board.start);
-	    }
-	  }, {
-	    key: 'processNeighbors',
-	    value: function processNeighbors(current) {
-	      this.board.neighbors(current).forEach(function (neighbor) {
-	        var type = this.board.grid[neighbor].type;
-	        var cost = type === 'obstacle' ? 99999 : 1;
-	        var newCost = this.costSoFar[current] + cost;
-	
-	        if (!(neighbor in this.costSoFar) || newCost < this.costSoFar[neighbor]) {
-	          var priority = newCost + this.euclidean(neighbor, this.board.goal);
-	
-	          this.frontier.insert(neighbor, priority);
-	          this.cameFrom[neighbor] = current;
-	          this.costSoFar[neighbor] = newCost;
-	          this.board.grid[neighbor].setType('frontier');
-	        }
-	      }.bind(this));
+	      $('#algorithms input').on('change', function () {
+	        var algoName = $('input[name=algo]:checked', '#algorithms').val();
+	        _this.finder = new Finders[algoName](_this.board);
+	        console.log(_this.finder);
+	      });
+	      $('#run').on('click', function (e) {
+	        e.preventDefault();
+	        _this.finder.run();
+	      });
+	      $('#clear').on('click', function (e) {
+	        e.preventDefault();
+	        _this.finder.reset();
+	        _this.board.clearSearch();
+	      });
 	    }
 	  }]);
 	
-	  return AStar;
-	}(_search2.default);
+	  return View;
+	}();
 	
-	exports.default = AStar;
+	exports.default = View;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.AStar = exports.BestFirst = exports.Dijkstra = exports.BFS = undefined;
+	
+	var _bfs = __webpack_require__(4);
+	
+	var _bfs2 = _interopRequireDefault(_bfs);
+	
+	var _dijkstra = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./dijkstra\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _dijkstra2 = _interopRequireDefault(_dijkstra);
+	
+	var _best_first = __webpack_require__(8);
+	
+	var _best_first2 = _interopRequireDefault(_best_first);
+	
+	var _a_star = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./a_star\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _a_star2 = _interopRequireDefault(_a_star);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.BFS = _bfs2.default;
+	exports.Dijkstra = _dijkstra2.default;
+	exports.BestFirst = _best_first2.default;
+	exports.AStar = _a_star2.default;
 
 /***/ })
 /******/ ]);

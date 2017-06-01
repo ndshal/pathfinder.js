@@ -2,10 +2,14 @@ import Path from '../path';
 
 class Search {
   constructor(board) {
-    this.cameFrom = {};
-    this.cameFrom[board.start] = null;
-
     this.board = board;
+    this.reset();
+  }
+
+  reset() {
+    if(this.path) this.path.reset();
+    this.cameFrom = {};
+    this.cameFrom[this.board.start] = null;
   }
 
   run() {
@@ -16,7 +20,7 @@ class Search {
         const current = this.frontier.dequeue();
         if(!current || current === this.board.goal) {
           clearInterval(this.updateInterval);
-          new Path(this.buildPath(), this.board.stage)
+          this.path = new Path(this.buildPath(), this.board.stage)
         }
 
         this.processNeighbors(current);

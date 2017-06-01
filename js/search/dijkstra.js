@@ -4,10 +4,13 @@ import { PriorityQueue } from '../data_structures';
 class Dijkstra extends Search {
   initializeFrontier() {
     this.frontier = new PriorityQueue();
+    this.processNeighbors(this.board.start);
+  }
+
+  reset() {
+    super();
     this.costSoFar = {};
     this.costSoFar[this.board.start] = 0;
-
-    this.processNeighbors(this.board.start);
   }
 
   processNeighbors(current) {

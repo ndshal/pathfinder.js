@@ -31,6 +31,12 @@ class graphNode {
     }
   }
 
+  reset() {
+    if (['frontier', 'visited'].includes(this.type)) {
+      this.setType('empty');
+    }
+  }
+
   _fill(color) {
     this.easelCell.graphics.beginFill(color).drawRect(0,0,this.dx,this.dx);
   }
