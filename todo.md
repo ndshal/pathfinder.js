@@ -1,4 +1,4 @@
-## Phase 1:
+## Phase 1: Grid
 **Goal:** EaselJS setup, clickable grid.
  - [x] starts with green / red squares, which can be dragged
  - [x] on click an pressdown, dark grey squares appear.
@@ -8,10 +8,17 @@
     * board has 2D array of Cell object
  - [x] On MouseEvent, get object from 2D array, not getObjectUnderPoint()
 
-## Phase 2:
+## Phase 2: Algorithms
 **Goal:** More from graphNode, implement BFS and A\*
-- [ ] implement bfs + a* given a 'grid' /  array of coord pairs
-- [ ] can return path
-- [ ] For all your classes, decide what the API will be
+- [x] implement bfs + a* given a 'grid' /  array of coord pairs
+- [x] can return path
+- [x] For all your classes, decide what the API will be
   * Search, Board, BoardView, Cell
-- [ ] To test visualizations, and also for fun, add a random walk!
+- [x] Test visualizations
+
+## Phase 3: View
+**Goal:** UX
+ - [ ] Make a View class that wraps board
+ - [ ] Select form for algo type
+ - [ ] buttons to run algo, clear search, clear walls
+ - [ ] later: obstacle presets?

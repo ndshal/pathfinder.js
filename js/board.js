@@ -12,7 +12,7 @@ class Board {
 
     for(let i = 0; i < Board.DIM_X; i += Board.dx){
       for(let j = 0; j < Board.DIM_Y; j += Board.dy){
-        const node = new graphNode(i, j);
+        const node = new graphNode(i, j, Board.dx);
         grid[node.coords] = node;
         this.stage.addChild(node.easelCell);
       }
@@ -29,7 +29,7 @@ class Board {
     });
   }
 
-  init() {
+  init(start, goal) {
     this.setStart('10,10');
     this.setGoal('110,100');
     createjs.Ticker.addEventListener('tick', this.stage);
@@ -99,6 +99,11 @@ class Board {
     }
 
     return neighbors;
+  }
+
+  _generateCoords() {
+    let x = Math.random()*Board.DIM_X;
+    let y = Math.random()*Board.DIM_Y;
   }
 }
 

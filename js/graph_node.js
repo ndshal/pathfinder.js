@@ -1,6 +1,7 @@
 class graphNode {
-  constructor(x, y) {
+  constructor(x, y, dx) {
     this.easelCell = new createjs.Shape();
+    this.dx = dx;
     this.drawBorder();
     this.setType('empty');
     this.setCoords(x, y);
@@ -11,7 +12,7 @@ class graphNode {
         ['start','goal','obstacle'].includes(this.type)) {
           return;
         }
-        
+
     this.type = type;
     this._fill(graphNode.COLORS[type]);
   }
@@ -31,7 +32,7 @@ class graphNode {
   }
 
   _fill(color) {
-    this.easelCell.graphics.beginFill(color).drawRect(0,0,10,10);
+    this.easelCell.graphics.beginFill(color).drawRect(0,0,this.dx,this.dx);
   }
 
   drawBorder() {
@@ -39,7 +40,7 @@ class graphNode {
       .graphics
       .setStrokeStyle(0.5)
       .beginStroke('#ffffff')
-      .drawRect(0,0,10,10);
+      .drawRect(0,0,this.dx,this.dx);
   }
 }
 
