@@ -18,7 +18,11 @@
 
 ## Phase 3: View
 **Goal:** UX
- - [ ] Make a View class that wraps board
- - [ ] Select form for algo type
- - [ ] buttons to run algo, clear search, clear walls
+ - [x] Make a View class that wraps board
+ - [x] Select form for algo type
+ - [x] buttons to run algo, clear search
+ - [ ] Style these!!
+ - [ ] clear walls
  - [ ] later: obstacle presets?
+ - [ ] stat modal
+ - [ ] instructions modal

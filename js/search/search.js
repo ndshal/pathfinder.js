@@ -25,7 +25,7 @@ class Search {
 
         this.processNeighbors(current);
         this.board.grid[current].setType('visited');
-      },150);
+      },100);
   }
 
   oldRun() {

@@ -10,31 +10,28 @@
      <link rel="stylesheet" href="./css/pathfinder.css">
   </head>
   <body>
-    <section className='grid'>
-      <canvas id="main-canvas"></canvas>
-    <section>
-    <aside className='controls'>
+    <canvas id="main-canvas"></canvas>
+    <aside class='controls'>
       <form id='algorithms'>
-        <div className='algo-options'>
-          <input
-            type='radio'
-            name='algo'
-            checked
-            value='BFS'>Breadth First Search</input>
-          <input
-            type='radio'
-            name='algo'
-            value='Dijkstra'>Dijkstra</input>
-          <input
-            type='radio'
-            name='algo'
-            value='BestFirst'>Greedy Best-First Search</input>
-          <input
-            type='radio'
-            name='algo'
-            value='AStar'>A*</input>
+        <div class='algo-options'>
+          <label>
+            <input type='radio' name='algo' checked value='BFS' />
+            <span>Breadth First Search</span>
+          </label>
+          <label>
+            <input type='radio' name='algo' value='Dijkstra' />
+            <span>Dijkstra</span>
+          </label>
+          <label>
+            <input type='radio' name='algo' value='BestFirst' />
+            <span>Greedy Best-First Search</span>
+          </label>
+          <label>
+            <input type='radio' name='algo' value='AStar' />
+            <span>A*</span>
+          </label>
         </div>
-        <div className='buttons'>
+        <div class='buttons'>
           <button id='run'>Run</button>
           <button id='clear'>Clear</button>
         </div>

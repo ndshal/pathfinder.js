@@ -46,7 +46,7 @@
 
 	'use strict';
 	
-	var _view = __webpack_require__(10);
+	var _view = __webpack_require__(1);
 	
 	var _view2 = _interopRequireDefault(_view);
 	
@@ -68,11 +68,76 @@
 	  value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _board = __webpack_require__(2);
+	
+	var _board2 = _interopRequireDefault(_board);
+	
+	var _search_export = __webpack_require__(4);
+	
+	var Finders = _interopRequireWildcard(_search_export);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	window.Finders = Finders;
+	
+	var View = function () {
+	  function View(stage) {
+	    _classCallCheck(this, View);
+	
+	    this.board = new _board2.default(stage);
+	    this.board.init();
+	    this.finder = new Finders.BFS(this.board);
+	    this.addListeners();
+	  }
+	
+	  _createClass(View, [{
+	    key: 'addListeners',
+	    value: function addListeners() {
+	      var _this = this;
+	
+	      $('#algorithms input').on('change', function () {
+	        var algoName = $('input[name=algo]:checked', '#algorithms').val();
+	        _this.finder = new Finders[algoName](_this.board);
+	        console.log(_this.finder);
+	      });
+	      $('#run').on('click', function (e) {
+	        e.preventDefault();
+	        _this.finder.run();
+	      });
+	      $('#clear').on('click', function (e) {
+	        e.preventDefault();
+	        _this.finder.reset();
+	        _this.board.clearSearch();
+	      });
+	    }
+	  }]);
+	
+	  return View;
+	}();
+	
+	exports.default = View;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _graph_node = __webpack_require__(2);
+	var _graph_node = __webpack_require__(3);
 	
 	var _graph_node2 = _interopRequireDefault(_graph_node);
 	
@@ -224,13 +289,13 @@
 	
 	Board.dx = 10;
 	Board.dy = 10;
-	Board.DIM_X = 150; //pixels, not # gridpoints
+	Board.DIM_X = 300; //pixels, not # gridpoints
 	Board.DIM_Y = 150;
 	
 	exports.default = Board;
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -314,7 +379,292 @@
 	exports.default = graphNode;
 
 /***/ }),
-/* 3 */
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.AStar = exports.BestFirst = exports.Dijkstra = exports.BFS = undefined;
+	
+	var _bfs = __webpack_require__(5);
+	
+	var _bfs2 = _interopRequireDefault(_bfs);
+	
+	var _dijkstra = __webpack_require__(9);
+	
+	var _dijkstra2 = _interopRequireDefault(_dijkstra);
+	
+	var _best_first = __webpack_require__(10);
+	
+	var _best_first2 = _interopRequireDefault(_best_first);
+	
+	var _a_star = __webpack_require__(11);
+	
+	var _a_star2 = _interopRequireDefault(_a_star);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.BFS = _bfs2.default;
+	exports.Dijkstra = _dijkstra2.default;
+	exports.BestFirst = _best_first2.default;
+	exports.AStar = _a_star2.default;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _search = __webpack_require__(6);
+	
+	var _search2 = _interopRequireDefault(_search);
+	
+	var _data_structures = __webpack_require__(8);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BFS = function (_Search) {
+	  _inherits(BFS, _Search);
+	
+	  function BFS() {
+	    _classCallCheck(this, BFS);
+	
+	    return _possibleConstructorReturn(this, (BFS.__proto__ || Object.getPrototypeOf(BFS)).apply(this, arguments));
+	  }
+	
+	  _createClass(BFS, [{
+	    key: 'initializeFrontier',
+	    value: function initializeFrontier() {
+	      this.frontier = new _data_structures.Queue();
+	
+	      this.processNeighbors(this.board.start);
+	    }
+	  }, {
+	    key: 'processNeighbors',
+	    value: function processNeighbors(current) {
+	      this.board.neighbors(current).forEach(function (neighbor) {
+	        if (!(neighbor in this.cameFrom)) {
+	          var type = this.board.grid[neighbor].type;
+	          if (type !== 'obstacle') {
+	            this.frontier.enqueue(neighbor);
+	            this.cameFrom[neighbor] = current;
+	            this.board.grid[neighbor].setType('frontier');
+	          }
+	        }
+	      }.bind(this));
+	    }
+	  }]);
+	
+	  return BFS;
+	}(_search2.default);
+	
+	exports.default = BFS;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _path = __webpack_require__(7);
+	
+	var _path2 = _interopRequireDefault(_path);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Search = function () {
+	  function Search(board) {
+	    _classCallCheck(this, Search);
+	
+	    this.board = board;
+	    this.reset();
+	  }
+	
+	  _createClass(Search, [{
+	    key: 'reset',
+	    value: function reset() {
+	      if (this.path) this.path.reset();
+	      this.cameFrom = {};
+	      this.cameFrom[this.board.start] = null;
+	    }
+	  }, {
+	    key: 'run',
+	    value: function run() {
+	      var _this = this;
+	
+	      this.initializeFrontier();
+	
+	      this.updateInterval = setInterval(function () {
+	        var current = _this.frontier.dequeue();
+	        if (!current || current === _this.board.goal) {
+	          clearInterval(_this.updateInterval);
+	          _this.path = new _path2.default(_this.buildPath(), _this.board.stage);
+	        }
+	
+	        _this.processNeighbors(current);
+	        _this.board.grid[current].setType('visited');
+	      }, 100);
+	    }
+	  }, {
+	    key: 'oldRun',
+	    value: function oldRun() {
+	      this.initializeFrontier();
+	
+	      while (!this.frontier.isEmpty()) {
+	        var current = this.frontier.dequeue();
+	        if (current === this.board.goal) break;
+	
+	        this.processNeighbors(current);
+	        this.board.grid[current].setType('visited');
+	      }
+	
+	      return this.buildPath();
+	    }
+	  }, {
+	    key: 'buildPath',
+	    value: function buildPath() {
+	      if (!this.cameFrom[this.board.goal]) {
+	        return null;
+	      }
+	
+	      var current = this.board.goal;
+	      var path = [];
+	
+	      while (current) {
+	        path.unshift(current);
+	        current = this.cameFrom[current];
+	      }
+	
+	      return path;
+	    }
+	  }, {
+	    key: 'manhattan',
+	    value: function manhattan(coords1, coords2) {
+	      var _coords1$split$map = coords1.split(',').map(function (s) {
+	        return parseInt(s);
+	      }),
+	          _coords1$split$map2 = _slicedToArray(_coords1$split$map, 2),
+	          x1 = _coords1$split$map2[0],
+	          y1 = _coords1$split$map2[1];
+	
+	      var _coords2$split$map = coords2.split(',').map(function (s) {
+	        return parseInt(s);
+	      }),
+	          _coords2$split$map2 = _slicedToArray(_coords2$split$map, 2),
+	          x2 = _coords2$split$map2[0],
+	          y2 = _coords2$split$map2[1];
+	
+	      return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+	    }
+	  }, {
+	    key: 'euclidean',
+	    value: function euclidean(coords1, coords2) {
+	      var _coords1$split$map3 = coords1.split(',').map(function (s) {
+	        return parseInt(s);
+	      }),
+	          _coords1$split$map4 = _slicedToArray(_coords1$split$map3, 2),
+	          x1 = _coords1$split$map4[0],
+	          y1 = _coords1$split$map4[1];
+	
+	      var _coords2$split$map3 = coords2.split(',').map(function (s) {
+	        return parseInt(s);
+	      }),
+	          _coords2$split$map4 = _slicedToArray(_coords2$split$map3, 2),
+	          x2 = _coords2$split$map4[0],
+	          y2 = _coords2$split$map4[1];
+	
+	      return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+	    }
+	  }]);
+	
+	  return Search;
+	}();
+	
+	exports.default = Search;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Path = function () {
+	  function Path(path, stage) {
+	    _classCallCheck(this, Path);
+	
+	    this.stage = stage;
+	    this.processStringPath(path);
+	  }
+	
+	  _createClass(Path, [{
+	    key: 'processStringPath',
+	    value: function processStringPath(stringPath) {
+	      this.path = new createjs.Shape();
+	      this.path.graphics.setStrokeStyle(1).beginStroke('#ff0');
+	
+	      stringPath.forEach(function (strCoords) {
+	        var _strCoords$split$map = strCoords.split(',').map(function (s) {
+	          return parseInt(s);
+	        }),
+	            _strCoords$split$map2 = _slicedToArray(_strCoords$split$map, 2),
+	            x = _strCoords$split$map2[0],
+	            y = _strCoords$split$map2[1];
+	
+	        x += 5;y += 5; // center on square, refactor this!
+	        this.path.graphics.lineTo(x, y);
+	      }.bind(this));
+	      this.path.graphics.endStroke();
+	      this.stage.addChild(this.path);
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      this.stage.removeChild(this.path);
+	    }
+	  }]);
+	
+	  return Path;
+	}();
+	
+	exports.default = Path;
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -436,258 +786,7 @@
 	}();
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _search = __webpack_require__(5);
-	
-	var _search2 = _interopRequireDefault(_search);
-	
-	var _data_structures = __webpack_require__(3);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var BFS = function (_Search) {
-	  _inherits(BFS, _Search);
-	
-	  function BFS() {
-	    _classCallCheck(this, BFS);
-	
-	    return _possibleConstructorReturn(this, (BFS.__proto__ || Object.getPrototypeOf(BFS)).apply(this, arguments));
-	  }
-	
-	  _createClass(BFS, [{
-	    key: 'initializeFrontier',
-	    value: function initializeFrontier() {
-	      this.frontier = new _data_structures.Queue();
-	
-	      this.processNeighbors(this.board.start);
-	    }
-	  }, {
-	    key: 'processNeighbors',
-	    value: function processNeighbors(current) {
-	      this.board.neighbors(current).forEach(function (neighbor) {
-	        if (!(neighbor in this.cameFrom)) {
-	          var type = this.board.grid[neighbor].type;
-	          if (type !== 'obstacle') {
-	            this.frontier.enqueue(neighbor);
-	            this.cameFrom[neighbor] = current;
-	            this.board.grid[neighbor].setType('frontier');
-	          }
-	        }
-	      }.bind(this));
-	    }
-	  }]);
-	
-	  return BFS;
-	}(_search2.default);
-	
-	exports.default = BFS;
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _path = __webpack_require__(6);
-	
-	var _path2 = _interopRequireDefault(_path);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Search = function () {
-	  function Search(board) {
-	    _classCallCheck(this, Search);
-	
-	    this.board = board;
-	    this.reset();
-	  }
-	
-	  _createClass(Search, [{
-	    key: 'reset',
-	    value: function reset() {
-	      if (this.path) this.path.reset();
-	      this.cameFrom = {};
-	      this.cameFrom[this.board.start] = null;
-	    }
-	  }, {
-	    key: 'run',
-	    value: function run() {
-	      var _this = this;
-	
-	      this.initializeFrontier();
-	
-	      this.updateInterval = setInterval(function () {
-	        var current = _this.frontier.dequeue();
-	        if (!current || current === _this.board.goal) {
-	          clearInterval(_this.updateInterval);
-	          _this.path = new _path2.default(_this.buildPath(), _this.board.stage);
-	        }
-	
-	        _this.processNeighbors(current);
-	        _this.board.grid[current].setType('visited');
-	      }, 150);
-	    }
-	  }, {
-	    key: 'oldRun',
-	    value: function oldRun() {
-	      this.initializeFrontier();
-	
-	      while (!this.frontier.isEmpty()) {
-	        var current = this.frontier.dequeue();
-	        if (current === this.board.goal) break;
-	
-	        this.processNeighbors(current);
-	        this.board.grid[current].setType('visited');
-	      }
-	
-	      return this.buildPath();
-	    }
-	  }, {
-	    key: 'buildPath',
-	    value: function buildPath() {
-	      if (!this.cameFrom[this.board.goal]) {
-	        return null;
-	      }
-	
-	      var current = this.board.goal;
-	      var path = [];
-	
-	      while (current) {
-	        path.unshift(current);
-	        current = this.cameFrom[current];
-	      }
-	
-	      return path;
-	    }
-	  }, {
-	    key: 'manhattan',
-	    value: function manhattan(coords1, coords2) {
-	      var _coords1$split$map = coords1.split(',').map(function (s) {
-	        return parseInt(s);
-	      }),
-	          _coords1$split$map2 = _slicedToArray(_coords1$split$map, 2),
-	          x1 = _coords1$split$map2[0],
-	          y1 = _coords1$split$map2[1];
-	
-	      var _coords2$split$map = coords2.split(',').map(function (s) {
-	        return parseInt(s);
-	      }),
-	          _coords2$split$map2 = _slicedToArray(_coords2$split$map, 2),
-	          x2 = _coords2$split$map2[0],
-	          y2 = _coords2$split$map2[1];
-	
-	      return Math.abs(x1 - x2) + Math.abs(y1 - y2);
-	    }
-	  }, {
-	    key: 'euclidean',
-	    value: function euclidean(coords1, coords2) {
-	      var _coords1$split$map3 = coords1.split(',').map(function (s) {
-	        return parseInt(s);
-	      }),
-	          _coords1$split$map4 = _slicedToArray(_coords1$split$map3, 2),
-	          x1 = _coords1$split$map4[0],
-	          y1 = _coords1$split$map4[1];
-	
-	      var _coords2$split$map3 = coords2.split(',').map(function (s) {
-	        return parseInt(s);
-	      }),
-	          _coords2$split$map4 = _slicedToArray(_coords2$split$map3, 2),
-	          x2 = _coords2$split$map4[0],
-	          y2 = _coords2$split$map4[1];
-	
-	      return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-	    }
-	  }]);
-	
-	  return Search;
-	}();
-	
-	exports.default = Search;
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Path = function () {
-	  function Path(path, stage) {
-	    _classCallCheck(this, Path);
-	
-	    this.stage = stage;
-	    this.processStringPath(path);
-	  }
-	
-	  _createClass(Path, [{
-	    key: 'processStringPath',
-	    value: function processStringPath(stringPath) {
-	      this.path = new createjs.Shape();
-	      this.path.graphics.setStrokeStyle(1).beginStroke('#ff0');
-	
-	      stringPath.forEach(function (strCoords) {
-	        var _strCoords$split$map = strCoords.split(',').map(function (s) {
-	          return parseInt(s);
-	        }),
-	            _strCoords$split$map2 = _slicedToArray(_strCoords$split$map, 2),
-	            x = _strCoords$split$map2[0],
-	            y = _strCoords$split$map2[1];
-	
-	        x += 5;y += 5; // center on square, refactor this!
-	        this.path.graphics.lineTo(x, y);
-	      }.bind(this));
-	      this.path.graphics.endStroke();
-	      this.stage.addChild(this.path);
-	    }
-	  }, {
-	    key: 'reset',
-	    value: function reset() {
-	      this.stage.removeChild(this.path);
-	    }
-	  }]);
-	
-	  return Path;
-	}();
-	
-	exports.default = Path;
-
-/***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -700,11 +799,11 @@
 	
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 	
-	var _search = __webpack_require__(5);
+	var _search = __webpack_require__(6);
 	
 	var _search2 = _interopRequireDefault(_search);
 	
-	var _data_structures = __webpack_require__(3);
+	var _data_structures = __webpack_require__(8);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -760,7 +859,7 @@
 	exports.default = Dijkstra;
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -771,11 +870,11 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _search = __webpack_require__(5);
+	var _search = __webpack_require__(6);
 	
 	var _search2 = _interopRequireDefault(_search);
 	
-	var _data_structures = __webpack_require__(3);
+	var _data_structures = __webpack_require__(8);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -824,7 +923,7 @@
 	exports.default = BestFirst;
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -837,11 +936,11 @@
 	
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 	
-	var _search = __webpack_require__(5);
+	var _search = __webpack_require__(6);
 	
 	var _search2 = _interopRequireDefault(_search);
 	
-	var _data_structures = __webpack_require__(3);
+	var _data_structures = __webpack_require__(8);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -897,105 +996,6 @@
 	}(_search2.default);
 	
 	exports.default = AStar;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _board = __webpack_require__(1);
-	
-	var _board2 = _interopRequireDefault(_board);
-	
-	var _search_export = __webpack_require__(11);
-	
-	var Finders = _interopRequireWildcard(_search_export);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	window.Finders = Finders;
-	
-	var View = function () {
-	  function View(stage) {
-	    _classCallCheck(this, View);
-	
-	    this.board = new _board2.default(stage);
-	    this.board.init();
-	    this.finder = new Finders.BFS(this.board);
-	    this.addListeners();
-	  }
-	
-	  _createClass(View, [{
-	    key: 'addListeners',
-	    value: function addListeners() {
-	      var _this = this;
-	
-	      $('#algorithms input').on('change', function () {
-	        var algoName = $('input[name=algo]:checked', '#algorithms').val();
-	        _this.finder = new Finders[algoName](_this.board);
-	        console.log(_this.finder);
-	      });
-	      $('#run').on('click', function (e) {
-	        e.preventDefault();
-	        _this.finder.run();
-	      });
-	      $('#clear').on('click', function (e) {
-	        e.preventDefault();
-	        _this.finder.reset();
-	        _this.board.clearSearch();
-	      });
-	    }
-	  }]);
-	
-	  return View;
-	}();
-	
-	exports.default = View;
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.AStar = exports.BestFirst = exports.Dijkstra = exports.BFS = undefined;
-	
-	var _bfs = __webpack_require__(4);
-	
-	var _bfs2 = _interopRequireDefault(_bfs);
-	
-	var _dijkstra = __webpack_require__(7);
-	
-	var _dijkstra2 = _interopRequireDefault(_dijkstra);
-	
-	var _best_first = __webpack_require__(8);
-	
-	var _best_first2 = _interopRequireDefault(_best_first);
-	
-	var _a_star = __webpack_require__(9);
-	
-	var _a_star2 = _interopRequireDefault(_a_star);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.BFS = _bfs2.default;
-	exports.Dijkstra = _dijkstra2.default;
-	exports.BestFirst = _best_first2.default;
-	exports.AStar = _a_star2.default;
 
 /***/ })
 /******/ ]);

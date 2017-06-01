@@ -1,8 +1,55 @@
-body {
-  height: 60vh;
+html, body, button, section, div, form, label, input,span {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+  box-sizing: inherit;
+  background: transparent;
+}
+
+button,
+input[type="submit"] {
+  cursor: pointer;
 }
 
 #main-canvas {
-  height: 100%;
-  margin: 0 auto;
+  height: 100vh;
+  width: 100vw;
+}
+
+.controls {
+  background: lightgrey;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  /*left: 0;*/
+  top: 30%;
+  right: 3%;
+  z-index: 2
+}
+
+#algorithms {
+  display: flex;
+  flex-direction: column;
+}
+
+.algo-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons button {
+  margin: 10px;
 }
