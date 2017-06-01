@@ -30,8 +30,11 @@ class Board {
   }
 
   init(start, goal) {
-    this.setStart('10,10');
-    this.setGoal('110,100');
+    if(!start) start = this._generateCoords();
+    if(!goal) goal = this._generateCoords();
+
+    this.setStart(start);
+    this.setGoal(goal);
     createjs.Ticker.addEventListener('tick', this.stage);
   }
 
@@ -104,6 +107,9 @@ class Board {
   _generateCoords() {
     let x = Math.random()*Board.DIM_X;
     let y = Math.random()*Board.DIM_Y;
+    x = Math.floor(x/Board.dx)*Board.dx;
+    y = Math.floor(y/Board.dy)*Board.dy;
+    return [x, y].toString();
   }
 }
 

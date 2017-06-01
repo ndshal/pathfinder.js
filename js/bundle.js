@@ -56,7 +56,7 @@
 	
 	var _bfs2 = _interopRequireDefault(_bfs);
 	
-	var _dijkstra = __webpack_require__(6);
+	var _dijkstra = __webpack_require__(7);
 	
 	var _dijkstra2 = _interopRequireDefault(_dijkstra);
 	
@@ -68,7 +68,7 @@
 	
 	var _a_star2 = _interopRequireDefault(_a_star);
 	
-	var _path = __webpack_require__(7);
+	var _path = __webpack_require__(6);
 	
 	var _path2 = _interopRequireDefault(_path);
 	
@@ -131,7 +131,7 @@
 	
 	      for (var i = 0; i < Board.DIM_X; i += Board.dx) {
 	        for (var j = 0; j < Board.DIM_Y; j += Board.dy) {
-	          var node = new _graph_node2.default(i, j);
+	          var node = new _graph_node2.default(i, j, Board.dx);
 	          grid[node.coords] = node;
 	          this.stage.addChild(node.easelCell);
 	        }
@@ -152,9 +152,12 @@
 	    }
 	  }, {
 	    key: 'init',
-	    value: function init() {
-	      this.setStart('10,10');
-	      this.setGoal('110,100');
+	    value: function init(start, goal) {
+	      if (!start) start = this._generateCoords();
+	      if (!goal) goal = this._generateCoords();
+	
+	      this.setStart(start);
+	      this.setGoal(goal);
 	      createjs.Ticker.addEventListener('tick', this.stage);
 	    }
 	  }, {
@@ -233,6 +236,15 @@
 	
 	      return neighbors;
 	    }
+	  }, {
+	    key: '_generateCoords',
+	    value: function _generateCoords() {
+	      var x = Math.random() * Board.DIM_X;
+	      var y = Math.random() * Board.DIM_Y;
+	      x = Math.floor(x / Board.dx) * Board.dx;
+	      y = Math.floor(y / Board.dy) * Board.dy;
+	      return [x, y].toString();
+	    }
 	  }]);
 	
 	  return Board;
@@ -260,10 +272,11 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var graphNode = function () {
-	  function graphNode(x, y) {
+	  function graphNode(x, y, dx) {
 	    _classCallCheck(this, graphNode);
 	
 	    this.easelCell = new createjs.Shape();
+	    this.dx = dx;
 	    this.drawBorder();
 	    this.setType('empty');
 	    this.setCoords(x, y);
@@ -298,12 +311,12 @@
 	  }, {
 	    key: '_fill',
 	    value: function _fill(color) {
-	      this.easelCell.graphics.beginFill(color).drawRect(0, 0, 10, 10);
+	      this.easelCell.graphics.beginFill(color).drawRect(0, 0, this.dx, this.dx);
 	    }
 	  }, {
 	    key: 'drawBorder',
 	    value: function drawBorder() {
-	      this.easelCell.graphics.setStrokeStyle(0.5).beginStroke('#ffffff').drawRect(0, 0, 10, 10);
+	      this.easelCell.graphics.setStrokeStyle(0.5).beginStroke('#ffffff').drawRect(0, 0, this.dx, this.dx);
 	    }
 	  }]);
 	
@@ -520,7 +533,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _path = __webpack_require__(7);
+	var _path = __webpack_require__(6);
 	
 	var _path2 = _interopRequireDefault(_path);
 	
@@ -635,6 +648,60 @@
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Path = function () {
+	  function Path(path, stage) {
+	    _classCallCheck(this, Path);
+	
+	    this.stage = stage;
+	    this.processStringPath(path);
+	  }
+	
+	  _createClass(Path, [{
+	    key: 'processStringPath',
+	    value: function processStringPath(stringPath) {
+	      this.path = new createjs.Shape();
+	      this.path.graphics.setStrokeStyle(1).beginStroke('#ff0');
+	
+	      stringPath.forEach(function (strCoords) {
+	        var _strCoords$split$map = strCoords.split(',').map(function (s) {
+	          return parseInt(s);
+	        }),
+	            _strCoords$split$map2 = _slicedToArray(_strCoords$split$map, 2),
+	            x = _strCoords$split$map2[0],
+	            y = _strCoords$split$map2[1];
+	
+	        x += 5;y += 5; // center on square, refactor this!
+	        this.path.graphics.lineTo(x, y);
+	      }.bind(this));
+	      this.path.graphics.endStroke();
+	      this.stage.addChild(this.path);
+	    }
+	  }, {
+	    key: 'draw',
+	    value: function draw() {}
+	  }]);
+	
+	  return Path;
+	}();
+	
+	exports.default = Path;
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -699,60 +766,6 @@
 	}(_search2.default);
 	
 	exports.default = Dijkstra;
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Path = function () {
-	  function Path(path, stage) {
-	    _classCallCheck(this, Path);
-	
-	    this.stage = stage;
-	    this.processStringPath(path);
-	  }
-	
-	  _createClass(Path, [{
-	    key: 'processStringPath',
-	    value: function processStringPath(stringPath) {
-	      this.path = new createjs.Shape();
-	      this.path.graphics.setStrokeStyle(1).beginStroke('#ff0');
-	
-	      stringPath.forEach(function (strCoords) {
-	        var _strCoords$split$map = strCoords.split(',').map(function (s) {
-	          return parseInt(s);
-	        }),
-	            _strCoords$split$map2 = _slicedToArray(_strCoords$split$map, 2),
-	            x = _strCoords$split$map2[0],
-	            y = _strCoords$split$map2[1];
-	
-	        x += 5;y += 5; // center on square, refactor this!
-	        this.path.graphics.lineTo(x, y);
-	      }.bind(this));
-	      this.path.graphics.endStroke();
-	      this.stage.addChild(this.path);
-	    }
-	  }, {
-	    key: 'draw',
-	    value: function draw() {}
-	  }]);
-	
-	  return Path;
-	}();
-	
-	exports.default = Path;
 
 /***/ }),
 /* 8 */
