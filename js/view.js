@@ -47,6 +47,21 @@ class View {
       e.preventDefault();
       this.board.clearObstacles();
     });
+    $('.instructions-hide').on('click', (e)=> {
+      e.preventDefault();
+      $('.controls').removeClass('minimized');
+      $('.instructions').addClass('minimized');
+      $('.instructions .content').addClass('hidden');
+      $('.instructions .instructions-show').removeClass('hidden');
+    });
+    $('.instructions-show').on('click', (e)=> {
+      e.preventDefault();
+      $('.controls').addClass('minimized');
+      $('.instructions').removeClass('minimized');
+      $('.instructions .content').removeClass('hidden');
+      $('.instructions .instructions-show').addClass('hidden');
+    });
+
   }
 
   resetDimensions() {

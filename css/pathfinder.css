@@ -53,8 +53,6 @@ body {
 
   padding: 15px;
   border-radius: 5px;
-  position: absolute;
-  right: 1%;
   z-index: 2;
 
   display: flex;
@@ -63,9 +61,14 @@ body {
   align-items: center;
 }
 
+#algo-controls:hover, #obs-controls:hover, header:hover, .instructions:hover {
+  opacity: 0.8;
+}
+
 header {
+  position: absolute;
   width: 40vw;
-  right: 27%;
+  left: 27%;
   top: 1%;
 }
 
@@ -79,17 +82,58 @@ h3 {
   font-size: 18px;
 }
 
+.controls {
+  height: 60vh;
+  right: 1%;
+  top: 17%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  transition: right ease 0.4s;
+}
+
+.controls.minimized {
+  right: -30%;
+}
+
 .instructions {
-  left: 1%;
-  top: 20%;
+  position: absolute;
+  width: 40vw;
+  right: 30%;
+  bottom: 40%;
+
+  transition: bottom ease 0.4s;
 }
 
-#algo-controls {
-  top: 15%;
+.instructions.minimized {
+  width: auto;
+  padding: 5px;
+  right: 50%;
+  bottom: 1%;
 }
 
-#obs-controls {
-  top: 50%;
+.instructions.minimized:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+
+.instructions .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.instructions .content ul {
+  margin: 10px 0;
+  list-style: inside square;
+}
+
+.instructions > .hidden {
+  display: none;
 }
 
 .algo-options, .obs-presets {

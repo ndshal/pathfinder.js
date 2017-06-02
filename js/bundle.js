@@ -137,6 +137,20 @@
 	        e.preventDefault();
 	        _this.board.clearObstacles();
 	      });
+	      $('.instructions-hide').on('click', function (e) {
+	        e.preventDefault();
+	        $('.controls').removeClass('minimized');
+	        $('.instructions').addClass('minimized');
+	        $('.instructions .content').addClass('hidden');
+	        $('.instructions .instructions-show').removeClass('hidden');
+	      });
+	      $('.instructions-show').on('click', function (e) {
+	        e.preventDefault();
+	        $('.controls').addClass('minimized');
+	        $('.instructions').removeClass('minimized');
+	        $('.instructions .content').removeClass('hidden');
+	        $('.instructions .instructions-show').addClass('hidden');
+	      });
 	    }
 	  }, {
 	    key: 'resetDimensions',
