@@ -30,7 +30,7 @@ the full-screen grid and obstacles are easily painted on with the mouse.
 Control panels let you choose which search algorithm to run, as well as clear
 a previous or current search.
 
-![Pathfinder.js demo](docs/pathfinder_demo.gif)
+![Pathfinder.js demo](assets/pathfinder_demo.gif)
 
 ### Obstacle Presets
 Don't want to draw your own obstacles? Pathfinder.js comes with 2 preset
@@ -39,7 +39,7 @@ and the other a fleshed out maze.
 
 Simple Barrier             |  Maze
 :-------------------------:|:-------------------------:
-![Barrier Preset](docs/barrier.png)  |  ![Maze Preset](docs/maze.png)
+![Barrier Preset](assets/barrier.png)  |  ![Maze Preset](assets/maze.png)
 
 ### Functional, Efficiently Implemented, Algorithms
 The pathfinding grid can be represented by a graph - a set of vertices (the squares)
@@ -139,14 +139,14 @@ processNeighbors(current) {
 #### Comparing A\* and Greedy Best-First Search on the Simply Barrier
 Best-First Search            |  A\* Algorithm
 :-------------------------:|:-------------------------:
-![Best-First on the barrier](docs/best_first_barrier.gif) | ![A\* on the barrier](docs/a_star_barrier.gif)
+![Best-First on the barrier](assets/best_first_barrier.gif) | ![A\* on the barrier](assets/a_star_barrier.gif)
 
 Both algorithms prioritize movement toward the goal and then explore, but the final path of Best-First is longer.
 
 #### Comparing A\* and BFS on the Maze
 Breadth First Search           |  A\* Algorithm
 :-------------------------:|:-------------------------:
-![BFS on the maze](docs/bfs_maze.gif) | ![A\* on the barrier](docs/a_star_maze.gif)
+![BFS on the maze](assets/bfs_maze.gif) | ![A\* on the barrier](assets/a_star_maze.gif)
 
 BFS explores the many corners of the maze, while A\* moves straight toward the goal. Note that both
 algorithms come with the same final path - BFS is still correct, A\* is just more efficient.
