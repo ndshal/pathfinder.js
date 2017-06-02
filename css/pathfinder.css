@@ -100,6 +100,8 @@ h3 {
 
 .instructions {
   padding: 20px;
+  border-radius: 8px;
+
   opacity: 0.8;
   position: absolute;
   width: 40vw;
