@@ -238,7 +238,9 @@
 	  }, {
 	    key: 'init',
 	    value: function init() {
-	      this.setupSimple();
+	      // this.setupSimple();
+	      this.setStart(10 * this.dx + ',' + 10 * this.dy);
+	      this.setGoal(24 * this.dx + ',' + 10 * this.dy);
 	      createjs.Ticker.addEventListener('tick', this.stage);
 	    }
 	  }, {
