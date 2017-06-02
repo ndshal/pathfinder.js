@@ -40,9 +40,9 @@ class Board {
   }
 
   init() {
-    // this.setupSimple();
-    this.setStart(`${10*this.dx},${10*this.dy}`);
-    this.setGoal(`${26*this.dx},${10*this.dy}`);
+    this.setupSimple();
+    // this.setStart(`${10*this.dx},${10*this.dy}`);
+    // this.setGoal(`${26*this.dx},${10*this.dy}`);
     createjs.Ticker.addEventListener('tick', this.stage);
   }
 
