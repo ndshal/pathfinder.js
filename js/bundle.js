@@ -254,7 +254,7 @@
 	    value: function init() {
 	      // this.setupSimple();
 	      this.setStart(10 * this.dx + ',' + 10 * this.dy);
-	      this.setGoal(24 * this.dx + ',' + 10 * this.dy);
+	      this.setGoal(26 * this.dx + ',' + 10 * this.dy);
 	      createjs.Ticker.addEventListener('tick', this.stage);
 	    }
 	  }, {
@@ -700,7 +700,6 @@
 	      this.initializeFrontier();
 	      this.updateInterval = setInterval(function () {
 	        var current = _this.frontier.dequeue();
-	        debugger;
 	        if (!current || current === _this.board.goal) {
 	          clearInterval(_this.updateInterval);
 	          _this.path = new _path2.default(_this.buildPath(), _this.board.stage);
@@ -1032,6 +1031,8 @@
 	  value: true
 	});
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -1068,7 +1069,7 @@
 	  }, {
 	    key: 'processNeighbors',
 	    value: function processNeighbors(current) {
-	      console.log(current);
+	      if ((typeof current === 'undefined' ? 'undefined' : _typeof(current)) === 'object') current = current.item;
 	      this.board.neighbors(current).forEach(function (neighbor) {
 	        if (!(neighbor in this.cameFrom)) {
 	          var type = this.board.grid[neighbor].type;

@@ -27,7 +27,6 @@ class Search {
     this.updateInterval = setInterval(
       () => {
         const current = this.frontier.dequeue();
-        debugger
         if(!current || current === this.board.goal) {
           clearInterval(this.updateInterval);
           this.path = new Path(this.buildPath(), this.board.stage)
