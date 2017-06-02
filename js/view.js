@@ -14,7 +14,6 @@ class View {
     $('#algo-controls input').on('change', () => {
       const algoName = $('input[name=algo]:checked', '#algo-controls').val();
       this.finder = new Finders[algoName](this.board);
-      console.log(this.finder);
     });
     $('#run-search').on('click', (e) => {
       e.preventDefault();
@@ -27,7 +26,13 @@ class View {
     });
     $('#set-obs').on('click', (e) => {
       e.preventDefault();
-
+      const preset = $('input[name=preset]:checked', '#obs-controls').val();
+      console.log(preset);
+      if(preset === 'simple') {
+        this.board.setupSimple();
+      } else if (preset === 'maze') {
+        this.board.setupMaze();
+      }
     });
     $('#clear-obs').on('click', (e) => {
       e.preventDefault();

@@ -29,12 +29,8 @@ class Board {
     });
   }
 
-  init(start, goal) {
-    if(!start) start = this._generateCoords();
-    if(!goal) goal = this._generateCoords();
-
-    this.setStart(start);
-    this.setGoal(goal);
+  init() {
+    this.setupSimple();
     createjs.Ticker.addEventListener('tick', this.stage);
   }
 
@@ -78,11 +74,32 @@ class Board {
     this.grid[coords].setType('goal');
   }
 
-  _getCoordsFromEvent(e) {
-    return [
-      Math.floor(e.stageX/Board.dx)*Board.dx,
-      Math.floor(e.stageY/Board.dx)*Board.dy,
-    ].toString();
+  clearSearch() {
+    for(let coords in this.grid){
+      this.grid[coords].clearIfSearch();
+    }
+  }
+
+  clearObstacles() {
+    for(let coords in this.grid){
+      this.grid[coords].clearIfObstacle();
+    }
+  }
+
+  setupSimple() {
+    this.clearObstacles();
+    this.setStart(`${3*12},${11*12}`);
+    this.setGoal(`${15*12},${1*12}`);
+    for(let i = 7; i < 15; i ++){
+      this.grid[`${i*12},${2*12}`].toggleIsObstacle();
+    }
+    for(let j = 3; j < 10; j++){
+      this.grid[`${14*12},${j*12}`].toggleIsObstacle();
+    }
+  }
+
+  setupMaze() {
+
   }
 
   neighbors(coords) {
@@ -104,16 +121,11 @@ class Board {
     return neighbors;
   }
 
-  clearSearch() {
-    for(let coords in this.grid){
-      this.grid[coords].clearIfSearch();
-    }
-  }
-
-  clearObstacles() {
-    for(let coords in this.grid){
-      this.grid[coords].clearIfObstacle();
-    }
+  _getCoordsFromEvent(e) {
+    return [
+      Math.floor(e.stageX/Board.dx)*Board.dx,
+      Math.floor(e.stageY/Board.dx)*Board.dy,
+    ].toString();
   }
 
   _generateCoords() {
@@ -127,7 +139,7 @@ class Board {
 
 Board.dx = 12;
 Board.dy = 12;
-Board.DIM_X = 144*2; //pixels, not # gridpoints
-Board.DIM_Y = 144;
+Board.DIM_X = 290; //pixels, not # gridpoints
+Board.DIM_Y = 145;
 
 export default Board;

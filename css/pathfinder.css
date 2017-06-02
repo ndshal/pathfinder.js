@@ -36,14 +36,15 @@ button:hover {
 	background-color: #ababab;
 }
 
-#main-canvas {
-  margin: 5px 10px;
+body {
+  display: flex;
   height: 100vh;
   width: 100vw;
 }
 
-.controls {
-
+#main-canvas {
+  margin: 5px 10px;
+  flex-grow: 1;
 }
 
 #algo-controls, #obs-controls {

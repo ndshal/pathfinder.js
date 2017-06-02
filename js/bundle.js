@@ -104,7 +104,6 @@
 	      $('#algo-controls input').on('change', function () {
 	        var algoName = $('input[name=algo]:checked', '#algo-controls').val();
 	        _this.finder = new Finders[algoName](_this.board);
-	        console.log(_this.finder);
 	      });
 	      $('#run-search').on('click', function (e) {
 	        e.preventDefault();
@@ -117,6 +116,13 @@
 	      });
 	      $('#set-obs').on('click', function (e) {
 	        e.preventDefault();
+	        var preset = $('input[name=preset]:checked', '#obs-controls').val();
+	        console.log(preset);
+	        if (preset === 'simple') {
+	          _this.board.setupSimple();
+	        } else if (preset === 'maze') {
+	          _this.board.setupMaze();
+	        }
 	      });
 	      $('#clear-obs').on('click', function (e) {
 	        e.preventDefault();
@@ -189,12 +195,8 @@
 	    }
 	  }, {
 	    key: 'init',
-	    value: function init(start, goal) {
-	      if (!start) start = this._generateCoords();
-	      if (!goal) goal = this._generateCoords();
-	
-	      this.setStart(start);
-	      this.setGoal(goal);
+	    value: function init() {
+	      this.setupSimple();
 	      createjs.Ticker.addEventListener('tick', this.stage);
 	    }
 	  }, {
@@ -242,10 +244,35 @@
 	      this.grid[coords].setType('goal');
 	    }
 	  }, {
-	    key: '_getCoordsFromEvent',
-	    value: function _getCoordsFromEvent(e) {
-	      return [Math.floor(e.stageX / Board.dx) * Board.dx, Math.floor(e.stageY / Board.dx) * Board.dy].toString();
+	    key: 'clearSearch',
+	    value: function clearSearch() {
+	      for (var coords in this.grid) {
+	        this.grid[coords].clearIfSearch();
+	      }
 	    }
+	  }, {
+	    key: 'clearObstacles',
+	    value: function clearObstacles() {
+	      for (var coords in this.grid) {
+	        this.grid[coords].clearIfObstacle();
+	      }
+	    }
+	  }, {
+	    key: 'setupSimple',
+	    value: function setupSimple() {
+	      this.clearObstacles();
+	      this.setStart(3 * 12 + ',' + 11 * 12);
+	      this.setGoal(15 * 12 + ',' + 1 * 12);
+	      for (var i = 7; i < 15; i++) {
+	        this.grid[i * 12 + ',' + 2 * 12].toggleIsObstacle();
+	      }
+	      for (var j = 3; j < 10; j++) {
+	        this.grid[14 * 12 + ',' + j * 12].toggleIsObstacle();
+	      }
+	    }
+	  }, {
+	    key: 'setupMaze',
+	    value: function setupMaze() {}
 	  }, {
 	    key: 'neighbors',
 	    value: function neighbors(coords) {
@@ -274,18 +301,9 @@
 	      return neighbors;
 	    }
 	  }, {
-	    key: 'clearSearch',
-	    value: function clearSearch() {
-	      for (var coords in this.grid) {
-	        this.grid[coords].clearIfSearch();
-	      }
-	    }
-	  }, {
-	    key: 'clearObstacles',
-	    value: function clearObstacles() {
-	      for (var coords in this.grid) {
-	        this.grid[coords].clearIfObstacle();
-	      }
+	    key: '_getCoordsFromEvent',
+	    value: function _getCoordsFromEvent(e) {
+	      return [Math.floor(e.stageX / Board.dx) * Board.dx, Math.floor(e.stageY / Board.dx) * Board.dy].toString();
 	    }
 	  }, {
 	    key: '_generateCoords',
@@ -303,8 +321,8 @@
 	
 	Board.dx = 12;
 	Board.dy = 12;
-	Board.DIM_X = 144 * 2; //pixels, not # gridpoints
-	Board.DIM_Y = 144;
+	Board.DIM_X = 290; //pixels, not # gridpoints
+	Board.DIM_Y = 145;
 	
 	exports.default = Board;
 
