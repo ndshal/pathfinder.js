@@ -17,39 +17,61 @@ input[type="submit"] {
   cursor: pointer;
 }
 
+button {
+  display: inline-block;
+	background-color: #ececec;
+	border-color: #ececec;
+	color: black;
+	font-weight: 700;
+	padding: 8px;
+	border-radius: 3px;
+	transition: background-color 0.3s, border-color, 0.3s;
+	font-family: sans-serif;
+	text-transform: uppercase;
+	font-size: 10px;
+	text-align: center;
+}
+
+button:hover {
+	background-color: #ababab;
+}
+
 #main-canvas {
+  margin: 5px 10px;
   height: 100vh;
   width: 100vw;
 }
 
 .controls {
-  background: lightgrey;
-  padding: 10px;
+  background: black;
+  opacity: 0.6;
+  color: white;
+
+  padding: 20px;
   border-radius: 5px;
   position: absolute;
-  /*left: 0;*/
   top: 30%;
   right: 3%;
-  z-index: 2
+  z-index: 2;
 }
 
 #algorithms {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .algo-options {
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 
 .buttons {
+  width: 60%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-}
-
-.buttons button {
-  margin: 10px;
 }

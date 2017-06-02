@@ -2,7 +2,6 @@ class graphNode {
   constructor(x, y, dx) {
     this.easelCell = new createjs.Shape();
     this.dx = dx;
-    this.drawBorder();
     this.setType('empty');
     this.setCoords(x, y);
   }
@@ -38,15 +37,22 @@ class graphNode {
   }
 
   _fill(color) {
-    this.easelCell.graphics.beginFill(color).drawRect(0,0,this.dx,this.dx);
+    this.easelCell.graphics.clear();
+    this.drawBorder();
+    this.easelCell
+      .graphics
+      .beginFill(color)
+      .drawRect(1,1,this.dx-2,this.dx-2)
+      .endFill();
   }
 
   drawBorder() {
     this.easelCell
       .graphics
-      .setStrokeStyle(0.5)
-      .beginStroke('#ffffff')
-      .drawRect(0,0,this.dx,this.dx);
+      .setStrokeStyle(1)
+      .beginStroke('#fff')
+      .drawRect(0,0,this.dx,this.dx)
+      .endStroke();
   }
 }
 

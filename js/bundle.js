@@ -287,10 +287,10 @@
 	  return Board;
 	}();
 	
-	Board.dx = 10;
-	Board.dy = 10;
-	Board.DIM_X = 300; //pixels, not # gridpoints
-	Board.DIM_Y = 150;
+	Board.dx = 12;
+	Board.dy = 12;
+	Board.DIM_X = 144 * 2; //pixels, not # gridpoints
+	Board.DIM_Y = 144;
 	
 	exports.default = Board;
 
@@ -314,7 +314,6 @@
 	
 	    this.easelCell = new createjs.Shape();
 	    this.dx = dx;
-	    this.drawBorder();
 	    this.setType('empty');
 	    this.setCoords(x, y);
 	  }
@@ -355,12 +354,14 @@
 	  }, {
 	    key: '_fill',
 	    value: function _fill(color) {
-	      this.easelCell.graphics.beginFill(color).drawRect(0, 0, this.dx, this.dx);
+	      this.easelCell.graphics.clear();
+	      this.drawBorder();
+	      this.easelCell.graphics.beginFill(color).drawRect(1, 1, this.dx - 2, this.dx - 2).endFill();
 	    }
 	  }, {
 	    key: 'drawBorder',
 	    value: function drawBorder() {
-	      this.easelCell.graphics.setStrokeStyle(0.5).beginStroke('#ffffff').drawRect(0, 0, this.dx, this.dx);
+	      this.easelCell.graphics.setStrokeStyle(1).beginStroke('#fff').drawRect(0, 0, this.dx, this.dx).endStroke();
 	    }
 	  }]);
 	

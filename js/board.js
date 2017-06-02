@@ -119,9 +119,9 @@ class Board {
   }
 }
 
-Board.dx = 10;
-Board.dy = 10;
-Board.DIM_X = 300; //pixels, not # gridpoints
-Board.DIM_Y = 150;
+Board.dx = 12;
+Board.dy = 12;
+Board.DIM_X = 144*2; //pixels, not # gridpoints
+Board.DIM_Y = 144;
 
 export default Board;
