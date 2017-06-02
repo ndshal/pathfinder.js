@@ -26,7 +26,7 @@
  - [x] later: obstacle presets?
  - [x] title
  - [x] instructions modal
- - [ ] github link
+ - [x] github link
  - [ ] fix maze on right
  - [ ] production readme
  - [ ] github pages

@@ -45,6 +45,11 @@ class Board {
   }
 
   handleClick(e) {
+    console.log([
+      Math.floor(e.stageX/this.dx),
+      Math.floor(e.stageY/this.dy),
+    ].toString());
+
     const node = this.grid[this._getCoordsFromEvent(e)];
     node.toggleIsObstacle();
   }
