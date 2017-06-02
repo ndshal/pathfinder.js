@@ -24,8 +24,10 @@
  - [x] Style these!!
  - [x] clear walls
  - [x] later: obstacle presets?
- - [ ] title
- - [ ] instructions modal
+ - [x] title
+ - [x] instructions modal
+ - [ ] github link
+ - [ ] fix maze on right
  - [ ] production readme
  - [ ] github pages
 

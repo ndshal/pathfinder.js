@@ -1,4 +1,4 @@
-html, body, button, section, div, h1,h3, form, label, input,span, ul, li{
+html, body, button, section, div, h1,h3, form, label, input,span, ul, li, a{
   margin: 0;
   padding: 0;
   border: 0;
@@ -74,7 +74,7 @@ header {
 
 h1 {
   font-weight: 500;
-  font-size: 22px;
+  font-size: 36px;
 }
 
 h3 {
@@ -99,15 +99,17 @@ h3 {
 }
 
 .instructions {
+  opacity: 0.8;
   position: absolute;
   width: 40vw;
-  right: 30%;
-  bottom: 40%;
+  right: 28%;
+  bottom: 35%;
 
   transition: bottom ease 0.4s;
 }
 
 .instructions.minimized {
+  opacity: 0.6;
   width: auto;
   padding: 5px;
   right: 50%;
@@ -130,6 +132,14 @@ h3 {
 .instructions .content ul {
   margin: 10px 0;
   list-style: inside square;
+}
+
+.instructions .content .links {
+  width: 30%;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  font-size: 28px;
 }
 
 .instructions > .hidden {
