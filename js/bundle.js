@@ -107,7 +107,7 @@
 	
 	      $('#algo-controls input').on('change', function () {
 	        var algoName = $('input[name=algo]:checked', '#algo-controls').val();
-	        _this.finder.reset();
+	        _this.finder.kill();
 	        _this.finder = new Finders[algoName](_this.board);
 	        _this.board.clearSearch();
 	      });
@@ -117,7 +117,7 @@
 	      });
 	      $('#clear-search').on('click', function (e) {
 	        e.preventDefault();
-	        _this.finder.reset();
+	        _this.finder.kill();
 	        _this.board.clearSearch();
 	      });
 	      $('#set-obs').on('click', function (e) {
@@ -575,6 +575,12 @@
 	      if (this.path) this.path.reset();
 	      this.cameFrom = {};
 	      this.cameFrom[this.board.start] = null;
+	    }
+	  }, {
+	    key: 'kill',
+	    value: function kill() {
+	      clearInterval(this.updateInterval);
+	      this.reset();
 	    }
 	  }, {
 	    key: 'run',

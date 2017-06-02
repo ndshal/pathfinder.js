@@ -12,6 +12,11 @@ class Search {
     this.cameFrom[this.board.start] = null;
   }
 
+  kill() {
+    clearInterval(this.updateInterval);
+    this.reset();
+  }
+
   run() {
     this.initializeFrontier();
 

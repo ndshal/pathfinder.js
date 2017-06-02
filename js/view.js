@@ -17,7 +17,7 @@ class View {
 
     $('#algo-controls input').on('change', () => {
       const algoName = $('input[name=algo]:checked', '#algo-controls').val();
-      this.finder.reset();
+      this.finder.kill();
       this.finder = new Finders[algoName](this.board);
       this.board.clearSearch();
     });
@@ -27,7 +27,7 @@ class View {
     });
     $('#clear-search').on('click', (e) => {
       e.preventDefault();
-      this.finder.reset();
+      this.finder.kill();
       this.board.clearSearch();
     });
     $('#set-obs').on('click', (e) => {
