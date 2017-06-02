@@ -14,6 +14,7 @@
   <body>
     <aside class='instructions'>
       <div class = 'instructions-show hidden'>Info</div>
+      <img class='demo-gif hidden' src='docs/pathfinder_demo.gif' alt='Pathfinder Demo'>
       <section class='content'>
         <h1>Pathfinder.js</h1>
         <h3>A visualizer for common pathfinding algorithms</h3>
@@ -34,10 +35,11 @@
             Click and paint to create <span class='grey'>obstacles</span>, or use a preset
           </li>
         </ul>
-        <button class='instructions-hide'>
-          Start
-        </button>
-      <section>
+        </section>
+        <div class='buttons'>
+          <button class='instructions-hide'>Start</button>
+          <button class='demo-show'>Demo</button>
+        </div>
     </aside>
 
     <canvas width='750' height='500' id="main-canvas"></canvas>

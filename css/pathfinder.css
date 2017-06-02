@@ -16,6 +16,12 @@ ul {
   list-style: none;
 }
 
+img {
+  margin-bottom: 20px;
+  max-height: 80%;
+  width: 100%;
+}
+
 button,
 input[type="submit"] {
   cursor: pointer;
@@ -119,6 +125,10 @@ h3 {
   bottom: 1%;
 }
 
+.instructions.minimized .demo-gif {
+  display: none;
+}
+
 .instructions.minimized:hover {
   cursor: pointer;
   opacity: 0.8;
@@ -170,6 +180,10 @@ h3 {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+.instructions > .hidden .buttons {
+  display: flex;
 }
 
 .red {

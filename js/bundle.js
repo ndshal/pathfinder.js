@@ -142,6 +142,7 @@
 	        $('.controls').removeClass('minimized');
 	        $('.instructions').addClass('minimized');
 	        $('.instructions .content').addClass('hidden');
+	        $('.instructions .buttons').addClass('hidden');
 	        $('.instructions .instructions-show').removeClass('hidden');
 	      });
 	      $('.instructions-show').on('click', function (e) {
@@ -149,7 +150,20 @@
 	        $('.controls').addClass('minimized');
 	        $('.instructions').removeClass('minimized');
 	        $('.instructions .content').removeClass('hidden');
+	        $('.instructions .buttons').removeClass('hidden');
+	        $('.instructions .demo-gif').addClass('hidden');
+	        $('.demo-show').text('Demo');
 	        $('.instructions .instructions-show').addClass('hidden');
+	      });
+	      $('.demo-show').on('click', function (e) {
+	        e.preventDefault();
+	        if ($('.demo-show').text() === 'Demo') {
+	          $('.demo-show').text('Back');
+	        } else {
+	          $('.demo-show').text('Demo');
+	        }
+	        $('.instructions .content').toggleClass('hidden');
+	        $('.instructions .demo-gif').toggleClass('hidden');
 	      });
 	    }
 	  }, {

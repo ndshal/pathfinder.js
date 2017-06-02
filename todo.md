@@ -29,9 +29,9 @@
  - [x] github link
  - [x] fix maze on right
  - [x] github pages
- - [ ] square icons in intro thing
- - [ ] capture gif
- - [ ] production readme
+ - [x] square icons in intro thing
+ - [x] capture gif
+ - [x] production readme
  - [ ] that thing with best-first on the maze
 
 ## Phase 4: Bonus
