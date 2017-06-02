@@ -137,12 +137,19 @@ h3 {
   list-style: inside square;
 }
 
+.instructions .content ul li:first-child {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 8px;
+}
+
 .instructions .content .links {
   width: 30%;
   color: white;
   display: flex;
   justify-content: space-around;
   font-size: 28px;
+  margin-left: -20px;
 }
 
 .instructions > .hidden {

@@ -11,6 +11,7 @@ class Search {
   }
 
   reset() {
+    console.log('reseting');
     if(this.path) this.path.reset();
     this.cameFrom = {};
     this.cameFrom[this.board.start] = null;
@@ -23,32 +24,17 @@ class Search {
 
   run() {
     this.initializeFrontier();
-
     this.updateInterval = setInterval(
       () => {
         const current = this.frontier.dequeue();
+        debugger
         if(!current || current === this.board.goal) {
           clearInterval(this.updateInterval);
           this.path = new Path(this.buildPath(), this.board.stage)
         }
-
         this.processNeighbors(current);
         this.board.grid[current].setType('visited');
       },20);
-  }
-
-  oldRun() {
-    this.initializeFrontier();
-
-    while(!this.frontier.isEmpty()) {
-      const current = this.frontier.dequeue();
-      if (current === this.board.goal) break;
-
-      this.processNeighbors(current);
-      this.board.grid[current].setType('visited');
-    }
-
-    return this.buildPath();
   }
 
   buildPath() {

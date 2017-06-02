@@ -27,9 +27,12 @@
  - [x] title
  - [x] instructions modal
  - [x] github link
- - [ ] fix maze on right
+ - [x] fix maze on right
+ - [x] github pages
+ - [ ] square icons in intro thing
+ - [ ] capture gif
  - [ ] production readme
- - [ ] github pages
+ - [ ] that thing with best-first on the maze
 
 ## Phase 4: Bonus
  - [ ] stats modal

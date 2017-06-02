@@ -492,24 +492,24 @@
 	  value: true
 	});
 	var simple = {
-	  start: '8,18',
-	  goal: '20,6',
+	  start: '9,18',
+	  goal: '21,6',
 	  obstacles: []
 	};
 	
-	for (var i = 11; i < 20; i++) {
+	for (var i = 12; i < 21; i++) {
 	  simple.obstacles.push(i + ',6');
 	  simple.obstacles.push(i + ',7');
 	  simple.obstacles.push(i + ',8');
 	}
-	simple.obstacles.push('10,7');
+	simple.obstacles.push('11,7');
 	for (var j = 7; j < 16; j++) {
-	  simple.obstacles.push('20,' + j);
+	  simple.obstacles.push('21,' + j);
 	  if (j < 9) continue;
+	  simple.obstacles.push('20,' + j);
 	  simple.obstacles.push('19,' + j);
-	  simple.obstacles.push('18,' + j);
 	}
-	simple.obstacles.push('19,16');
+	simple.obstacles.push('20,16');
 	
 	var maze = {
 	  start: '31,23',
@@ -665,6 +665,7 @@
 	  }, {
 	    key: 'reset',
 	    value: function reset() {
+	      console.log('reseting');
 	      if (this.path) this.path.reset();
 	      this.cameFrom = {};
 	      this.cameFrom[this.board.start] = null;
@@ -681,32 +682,16 @@
 	      var _this = this;
 	
 	      this.initializeFrontier();
-	
 	      this.updateInterval = setInterval(function () {
 	        var current = _this.frontier.dequeue();
+	        debugger;
 	        if (!current || current === _this.board.goal) {
 	          clearInterval(_this.updateInterval);
 	          _this.path = new _path2.default(_this.buildPath(), _this.board.stage);
 	        }
-	
 	        _this.processNeighbors(current);
 	        _this.board.grid[current].setType('visited');
 	      }, 20);
-	    }
-	  }, {
-	    key: 'oldRun',
-	    value: function oldRun() {
-	      this.initializeFrontier();
-	
-	      while (!this.frontier.isEmpty()) {
-	        var current = this.frontier.dequeue();
-	        if (current === this.board.goal) break;
-	
-	        this.processNeighbors(current);
-	        this.board.grid[current].setType('visited');
-	      }
-	
-	      return this.buildPath();
 	    }
 	  }, {
 	    key: 'buildPath',
@@ -1067,6 +1052,7 @@
 	  }, {
 	    key: 'processNeighbors',
 	    value: function processNeighbors(current) {
+	      console.log(current);
 	      this.board.neighbors(current).forEach(function (neighbor) {
 	        if (!(neighbor in this.cameFrom)) {
 	          var type = this.board.grid[neighbor].type;
