@@ -6,10 +6,27 @@
      <script type="application/javascript" src="js/bundle.js"></script>
      <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.js"></script>
+     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
 
      <link rel="stylesheet" href="./css/pathfinder.css">
   </head>
   <body>
+    <header>
+      <h1>Pathfinder.js</h1>
+      <h3>A visualizer for common pathfinding algorithms</h3>
+    </header>
+
+    <aside class='instructions'>
+      <ul>
+        <li>Welcome to Pathfinder.js!</li>
+        <li>The <span class='red'>red</span> square is the <span class='red'>start</span></li>
+        <li>The <span class='blue'>blue</span> square is the <span class='blue'>goal</span></li>
+        <li>The <span class='grey'>grey</span> squares are <span class='grey'>obstacles</span></li>
+        <li>Try dragging the <span class='red'>start</span> or <span class='blue'>goal</span></li>
+        <li>Click and paint to create <span class='grey'>obstacles</span>, or use a preset</li>
+      </ul>
+    </aside>
+
     <canvas width='750' height='500' id="main-canvas"></canvas>
     <aside class='controls'>
       <form id='algo-controls'>

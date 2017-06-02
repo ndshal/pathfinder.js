@@ -23,6 +23,12 @@
  - [x] buttons to run algo, clear search
  - [x] Style these!!
  - [x] clear walls
- - [ ] later: obstacle presets?
- - [ ] stat modal
+ - [x] later: obstacle presets?
+ - [ ] title
  - [ ] instructions modal
+ - [ ] production readme
+ - [ ] github pages
+
+## Phase 4: Bonus
+ - [ ] stats modal
+ - [ ] intro animation

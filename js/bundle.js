@@ -74,7 +74,7 @@
 	
 	var _board2 = _interopRequireDefault(_board);
 	
-	var _search_export = __webpack_require__(4);
+	var _search_export = __webpack_require__(5);
 	
 	var Finders = _interopRequireWildcard(_search_export);
 	
@@ -93,8 +93,10 @@
 	    this.board = new _board2.default(stage);
 	    this.board.init();
 	    this.finder = new Finders.AStar(this.board);
-	    this.addListeners();
 	
+	    this.resetDimensions = this.resetDimensions.bind(this);
+	
+	    this.addListeners();
 	    this.resetDimensions();
 	  }
 	
@@ -103,7 +105,7 @@
 	    value: function addListeners() {
 	      var _this = this;
 	
-	      window.addEventListener('resize', this.resetDimensions.bind(this));
+	      window.addEventListener('resize', this.resetDimensions);
 	
 	      $('#algo-controls input').on('change', function () {
 	        var algoName = $('input[name=algo]:checked', '#algo-controls').val();
@@ -168,7 +170,7 @@
 	
 	var _graph_node2 = _interopRequireDefault(_graph_node);
 	
-	var _board_presets = __webpack_require__(12);
+	var _board_presets = __webpack_require__(4);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -228,8 +230,6 @@
 	  }, {
 	    key: 'handleClick',
 	    value: function handleClick(e) {
-	      console.log([Math.floor(e.stageX / this.dx), Math.floor(e.stageY / this.dy)].toString());
-	
 	      var node = this.grid[this._getCoordsFromEvent(e)];
 	      node.toggleIsObstacle();
 	    }
@@ -468,6 +468,53 @@
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var simple = {
+	  start: '8,18',
+	  goal: '20,6',
+	  obstacles: []
+	};
+	
+	for (var i = 11; i < 20; i++) {
+	  simple.obstacles.push(i + ',6');
+	  simple.obstacles.push(i + ',7');
+	  simple.obstacles.push(i + ',8');
+	}
+	simple.obstacles.push('10,7');
+	for (var j = 7; j < 16; j++) {
+	  simple.obstacles.push('20,' + j);
+	  if (j < 9) continue;
+	  simple.obstacles.push('19,' + j);
+	  simple.obstacles.push('18,' + j);
+	}
+	simple.obstacles.push('19,16');
+	
+	var maze = {
+	  start: '31,23',
+	  goal: '0,0',
+	  obstacles: []
+	};
+	for (var _i = 0; _i < 37; _i++) {
+	  for (var _j = 0; _j < 25; _j++) {
+	    if (_i % 2 === 0 || _j % 2 === 0) {
+	      maze.obstacles.push(_i + ',' + _j);
+	    }
+	  }
+	}
+	
+	maze.obstacles = maze.obstacles.concat(['0,1', '1,2', '1,4', '2,5', '4,5', '5,6', '6,7', '8,7', '9,8', '8,9', '7,10', '7,12', '6,13', '5,14', '6,15', '8,15', '10,15', '11,16', '11,18', '12,19', '14,19', '15,18', '15,16', '15,14', '16,13', '18,13', '19,12', '19,10', '20,9', '21,10', '22,11', '23,12', '24,13', '25,14', '25,16', '24,17', '22,17', '21,18', '22,19', '23,20', '24,21', '26,21', '27,20', '28,19', '30,19', '32,19', '33,20', '32,21', '31,22', '30,21', '34,19', '35,20', '33,22', '27,22', '26,23', '22,23', '21,22', '20,23', '18,23', '17,22', '16,21', '15,20', '19,20', '18,19', '17,18', '17,16', '18,15', '20,15', '19,16', '21,14', '22,15', '20,15', '19,14', '20,13', '14,17', '13,16', '13,14', '12,13', '11,12', '10,11', '10,13', '6,11', '4,11', '3,10', '25,10', '4,9', '3,8', '2,7', '1,8', '2,13', '1,10', '2,15', '2,16', '3,18', '3,16', '3,18', '1,16', '1,18', '1,20', '2,21', '3,22', '2,23', '3,18', '4,19', '6,19', '7,20', '7,22', '8,23', '6,21', '7,18', '5,16', '3,12', '10,19', '8,21', '9,16', '14,21', '12,21', '11,22', '13,24', '15,24', '26,15', '27,14', '27,12', '27,10', '30,11', '27,8', '26,7', '25,6', '25,4', '26,3', '28,3', '29,2', '30,1', '32,1', '33,2', '31,2', '34,3', '35,2', '25,2', '26,1', '25,8', '24,9', '24,1', '22,1', '20,1', '19,2', '19,4', '20,5', '22,5', '23,4', '22,3', '21,6', '23,8', '18,3', '17,4', '17,6', '17,8', '17,10', '16,11', '15,9', '15,8', '15,9', '15,10', '15,6', '14,5', '13,4', '13,2', '14,1', '15,2', '16,1', '14,9', '13,6', '11,6', '10,5', '9,4', '9,2', '10,1', '11,4', '10,9', '26,19', '29,18', '33,18', '5,4', '6,3', '7,2', '6,1', '4,1', '3,2', '28,5', '7,4', '4,23', '13,10']);
+	
+	exports.simple = simple;
+	exports.maze = maze;
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -477,19 +524,19 @@
 	});
 	exports.AStar = exports.BestFirst = exports.Dijkstra = exports.BFS = undefined;
 	
-	var _bfs = __webpack_require__(5);
+	var _bfs = __webpack_require__(6);
 	
 	var _bfs2 = _interopRequireDefault(_bfs);
 	
-	var _dijkstra = __webpack_require__(9);
+	var _dijkstra = __webpack_require__(10);
 	
 	var _dijkstra2 = _interopRequireDefault(_dijkstra);
 	
-	var _best_first = __webpack_require__(10);
+	var _best_first = __webpack_require__(11);
 	
 	var _best_first2 = _interopRequireDefault(_best_first);
 	
-	var _a_star = __webpack_require__(11);
+	var _a_star = __webpack_require__(12);
 	
 	var _a_star2 = _interopRequireDefault(_a_star);
 	
@@ -501,7 +548,7 @@
 	exports.AStar = _a_star2.default;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -514,11 +561,11 @@
 	
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 	
-	var _search = __webpack_require__(6);
+	var _search = __webpack_require__(7);
 	
 	var _search2 = _interopRequireDefault(_search);
 	
-	var _data_structures = __webpack_require__(8);
+	var _data_structures = __webpack_require__(9);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -565,7 +612,7 @@
 	exports.default = BFS;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -578,7 +625,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _path = __webpack_require__(7);
+	var _path = __webpack_require__(8);
 	
 	var _path2 = _interopRequireDefault(_path);
 	
@@ -708,7 +755,7 @@
 	exports.default = Search;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -764,7 +811,7 @@
 	exports.default = Path;
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -886,7 +933,7 @@
 	}();
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -899,11 +946,11 @@
 	
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 	
-	var _search = __webpack_require__(6);
+	var _search = __webpack_require__(7);
 	
 	var _search2 = _interopRequireDefault(_search);
 	
-	var _data_structures = __webpack_require__(8);
+	var _data_structures = __webpack_require__(9);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -959,7 +1006,7 @@
 	exports.default = Dijkstra;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -972,11 +1019,11 @@
 	
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 	
-	var _search = __webpack_require__(6);
+	var _search = __webpack_require__(7);
 	
 	var _search2 = _interopRequireDefault(_search);
 	
-	var _data_structures = __webpack_require__(8);
+	var _data_structures = __webpack_require__(9);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1025,7 +1072,7 @@
 	exports.default = BestFirst;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1038,11 +1085,11 @@
 	
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 	
-	var _search = __webpack_require__(6);
+	var _search = __webpack_require__(7);
 	
 	var _search2 = _interopRequireDefault(_search);
 	
-	var _data_structures = __webpack_require__(8);
+	var _data_structures = __webpack_require__(9);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1098,53 +1145,6 @@
 	}(_search2.default);
 	
 	exports.default = AStar;
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var simple = {
-	  start: '8,18',
-	  goal: '20,6',
-	  obstacles: []
-	};
-	
-	for (var i = 11; i < 20; i++) {
-	  simple.obstacles.push(i + ',6');
-	  simple.obstacles.push(i + ',7');
-	  simple.obstacles.push(i + ',8');
-	}
-	simple.obstacles.push('10,7');
-	for (var j = 7; j < 16; j++) {
-	  simple.obstacles.push('20,' + j);
-	  if (j < 9) continue;
-	  simple.obstacles.push('19,' + j);
-	  simple.obstacles.push('18,' + j);
-	}
-	simple.obstacles.push('19,16');
-	
-	var maze = {
-	  start: '31,23',
-	  goal: '0,0',
-	  obstacles: []
-	};
-	for (var _i = 0; _i < 37; _i++) {
-	  for (var _j = 0; _j < 25; _j++) {
-	    if (_i % 2 === 0 || _j % 2 === 0) {
-	      maze.obstacles.push(_i + ',' + _j);
-	    }
-	  }
-	}
-	
-	maze.obstacles = maze.obstacles.concat(['0,1', '1,2', '1,4', '2,5', '4,5', '5,6', '6,7', '8,7', '9,8', '8,9', '7,10', '7,12', '6,13', '5,14', '6,15', '8,15', '10,15', '11,16', '11,18', '12,19', '14,19', '15,18', '15,16', '15,14', '16,13', '18,13', '19,12', '19,10', '20,9', '21,10', '22,11', '23,12', '24,13', '25,14', '25,16', '24,17', '22,17', '21,18', '22,19', '23,20', '24,21', '26,21', '27,20', '28,19', '30,19', '32,19', '33,20', '32,21', '31,22', '30,21', '34,19', '35,20', '33,22', '27,22', '26,23', '22,23', '21,22', '20,23', '18,23', '17,22', '16,21', '15,20', '19,20', '18,19', '17,18', '17,16', '18,15', '20,15', '19,16', '21,14', '22,15', '20,15', '19,14', '20,13', '14,17', '13,16', '13,14', '12,13', '11,12', '10,11', '10,13', '6,11', '4,11', '3,10', '25,10', '4,9', '3,8', '2,7', '1,8', '2,13', '1,10', '2,15', '2,16', '3,18', '3,16', '3,18', '1,16', '1,18', '1,20', '2,21', '3,22', '2,23', '3,18', '4,19', '6,19', '7,20', '7,22', '8,23', '6,21', '7,18', '5,16', '3,12', '10,19', '8,21', '9,16', '14,21', '12,21', '11,22', '13,24', '15,24', '26,15', '27,14', '27,12', '27,10', '30,11', '27,8', '26,7', '25,6', '25,4', '26,3', '28,3', '29,2', '30,1', '32,1', '33,2', '31,2', '34,3', '35,2', '25,2', '26,1', '25,8', '24,9', '24,1', '22,1', '20,1', '19,2', '19,4', '20,5', '22,5', '23,4', '22,3', '21,6', '23,8', '18,3', '17,4', '17,6', '17,8', '17,10', '16,11', '15,9', '15,8', '15,9', '15,10', '15,6', '14,5', '13,4', '13,2', '14,1', '15,2', '16,1', '14,9', '13,6', '11,6', '10,5', '9,4', '9,2', '10,1', '11,4', '10,9', '26,19', '29,18', '33,18', '5,4', '6,3', '7,2', '6,1', '4,1', '3,2', '28,5', '7,4', '4,23', '13,10']);
-	
-	exports.simple = simple;
-	exports.maze = maze;
 
 /***/ })
 /******/ ]);

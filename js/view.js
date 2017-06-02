@@ -7,13 +7,15 @@ class View {
     this.board = new Board(stage);
     this.board.init();
     this.finder = new Finders.AStar(this.board);
-    this.addListeners();
 
+    this.resetDimensions = this.resetDimensions.bind(this);
+
+    this.addListeners();
     this.resetDimensions();
   }
 
   addListeners() {
-    window.addEventListener('resize', this.resetDimensions.bind(this));
+    window.addEventListener('resize', this.resetDimensions);
 
     $('#algo-controls input').on('change', () => {
       const algoName = $('input[name=algo]:checked', '#algo-controls').val();
@@ -52,8 +54,6 @@ class View {
     $('#main-canvas').height(window.innerHeight);
     this.board.resetDimensions();
   }
-
-
 }
 
 export default View;
