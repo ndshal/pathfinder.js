@@ -1,4 +1,4 @@
-html, body, button, section, div, form, label, input,span {
+html, body, button, section, div, h3, form, label, input,span {
   margin: 0;
   padding: 0;
   border: 0;
@@ -43,27 +43,45 @@ button:hover {
 }
 
 .controls {
+
+}
+
+#algo-controls, #obs-controls {
+  width: 180px;
   background: black;
   opacity: 0.6;
   color: white;
 
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
   position: absolute;
-  top: 30%;
   right: 3%;
   z-index: 2;
-}
 
-#algorithms {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
 }
 
-.algo-options {
+#algo-controls {
+  top: 15%;
+}
+
+#obs-controls {
+  top: 50%;
+}
+
+h3 {
+  font-weight: 500;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.algo-options, .obs-presets {
   margin-bottom: 15px;
+  font-size: 14px;
+
   display: flex;
   flex-direction: column;
   justify-content: space-around;

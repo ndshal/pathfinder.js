@@ -101,19 +101,25 @@
 	    value: function addListeners() {
 	      var _this = this;
 	
-	      $('#algorithms input').on('change', function () {
-	        var algoName = $('input[name=algo]:checked', '#algorithms').val();
+	      $('#algo-controls input').on('change', function () {
+	        var algoName = $('input[name=algo]:checked', '#algo-controls').val();
 	        _this.finder = new Finders[algoName](_this.board);
 	        console.log(_this.finder);
 	      });
-	      $('#run').on('click', function (e) {
+	      $('#run-search').on('click', function (e) {
 	        e.preventDefault();
 	        _this.finder.run();
 	      });
-	      $('#clear').on('click', function (e) {
+	      $('#clear-search').on('click', function (e) {
 	        e.preventDefault();
 	        _this.finder.reset();
 	        _this.board.clearSearch();
+	      });
+	      $('#set-obs').on('click', function (e) {
+	        e.preventDefault();
+	      });
+	      $('#clear-obs').on('click', function (e) {
+	        e.preventDefault();
 	      });
 	    }
 	  }]);
@@ -646,7 +652,7 @@
 	            x = _strCoords$split$map2[0],
 	            y = _strCoords$split$map2[1];
 	
-	        x += 5;y += 5; // center on square, refactor this!
+	        x += 6;y += 6; // center on square, refactor this!
 	        this.path.graphics.lineTo(x, y);
 	      }.bind(this));
 	      this.path.graphics.endStroke();

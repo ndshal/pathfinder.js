@@ -12,7 +12,9 @@
   <body>
     <canvas id="main-canvas"></canvas>
     <aside class='controls'>
-      <form id='algorithms'>
+      <form id='algo-controls'>
+        <h3>Pathfinding Algorithm</h3>
+
         <div class='algo-options'>
           <label>
             <input type='radio' name='algo' checked value='BFS' />
@@ -32,8 +34,27 @@
           </label>
         </div>
         <div class='buttons'>
-          <button id='run'>Run</button>
-          <button id='clear'>Clear</button>
+          <button id='run-search'>Run</button>
+          <button id='clear-search'>Clear</button>
+        </div>
+      </form>
+
+      <form id='obs-controls'>
+        <h3>Obstacle Controls</h3>
+
+        <div class='obs-presets'>
+          <label>
+            <input type='radio' name='preset' checked value='simple' />
+            <span>Preset 1: Simple Barrier</span>
+          </label>
+          <label>
+            <input type='radio' name='preset' value='maze' />
+            <span>Preset 2: Maze</span>
+          </label>
+        </div>
+        <div class='buttons'>
+          <button id='set-obs'>Set</button>
+          <button id='clear-obs'>Clear</button>
         </div>
       </form>
     </aside>

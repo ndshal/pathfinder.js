@@ -11,19 +11,27 @@ class View {
   }
 
   addListeners() {
-    $('#algorithms input').on('change', () => {
-      const algoName = $('input[name=algo]:checked', '#algorithms').val();
+    $('#algo-controls input').on('change', () => {
+      const algoName = $('input[name=algo]:checked', '#algo-controls').val();
       this.finder = new Finders[algoName](this.board);
       console.log(this.finder);
     });
-    $('#run').on('click', (e) => {
+    $('#run-search').on('click', (e) => {
       e.preventDefault();
       this.finder.run();
     });
-    $('#clear').on('click', (e) => {
+    $('#clear-search').on('click', (e) => {
       e.preventDefault();
       this.finder.reset();
       this.board.clearSearch();
+    });
+    $('#set-obs').on('click', (e) => {
+      e.preventDefault();
+
+    });
+    $('#clear-obs').on('click', (e) => {
+      e.preventDefault();
+
     });
   }
 
