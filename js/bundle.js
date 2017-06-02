@@ -167,6 +167,8 @@
 	
 	var _graph_node2 = _interopRequireDefault(_graph_node);
 	
+	var _board_presets = __webpack_require__(12);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -284,20 +286,27 @@
 	  }, {
 	    key: 'setupSimple',
 	    value: function setupSimple() {
+	      var _this2 = this;
+	
 	      this.clearObstacles();
-	      console.log(3 * this.dx + ',' + 11 * this.dy);
-	      this.setStart(3 * this.dx + ',' + 11 * this.dy);
-	      this.setGoal(10 * this.dx + ',' + 1 * this.dy);
-	      for (var i = 7; i < 15; i++) {
-	        this.grid[i * this.dx + ',' + 2 * this.dy].toggleIsObstacle();
-	      }
-	      for (var j = 3; j < 10; j++) {
-	        this.grid[14 * this.dx + ',' + j * this.dy].toggleIsObstacle();
-	      }
+	      this.setStart(this._localToGrid(_board_presets.simple.start));
+	      this.setGoal(this._localToGrid(_board_presets.simple.goal));
+	      _board_presets.simple.obstacles.forEach(function (coords) {
+	        return _this2.grid[_this2._localToGrid(coords)].toggleIsObstacle();
+	      });
 	    }
 	  }, {
 	    key: 'setupMaze',
-	    value: function setupMaze() {}
+	    value: function setupMaze() {
+	      var _this3 = this;
+	
+	      this.clearObstacles();
+	      this.setStart(this._localToGrid(_board_presets.maze.start));
+	      this.setGoal(this._localToGrid(_board_presets.maze.goal));
+	      _board_presets.maze.obstacles.forEach(function (coords) {
+	        return _this3.grid[_this3._localToGrid(coords)].toggleIsObstacle();
+	      });
+	    }
 	  }, {
 	    key: 'neighbors',
 	    value: function neighbors(coords) {
@@ -324,6 +333,18 @@
 	      }
 	
 	      return neighbors;
+	    }
+	  }, {
+	    key: '_localToGrid',
+	    value: function _localToGrid(localCoords) {
+	      var _localCoords$split$ma = localCoords.split(',').map(function (str) {
+	        return parseInt(str);
+	      }),
+	          _localCoords$split$ma2 = _slicedToArray(_localCoords$split$ma, 2),
+	          i = _localCoords$split$ma2[0],
+	          j = _localCoords$split$ma2[1];
+	
+	      return [i * this.dx, j * this.dy].toString();
 	    }
 	  }, {
 	    key: '_getCoordsFromEvent',
@@ -598,7 +619,7 @@
 	
 	        _this.processNeighbors(current);
 	        _this.board.grid[current].setType('visited');
-	      }, 100);
+	      }, 20);
 	    }
 	  }, {
 	    key: 'oldRun',
@@ -1066,6 +1087,44 @@
 	}(_search2.default);
 	
 	exports.default = AStar;
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var simple = {
+	  start: '8,18',
+	  goal: '20,6',
+	  obstacles: []
+	};
+	
+	for (var i = 11; i < 20; i++) {
+	  simple.obstacles.push(i + ',6');
+	  simple.obstacles.push(i + ',7');
+	  simple.obstacles.push(i + ',8');
+	}
+	simple.obstacles.push('10,7');
+	for (var j = 7; j < 16; j++) {
+	  simple.obstacles.push('20,' + j);
+	  if (j < 9) continue;
+	  simple.obstacles.push('19,' + j);
+	  simple.obstacles.push('18,' + j);
+	}
+	simple.obstacles.push('19,16');
+	
+	var maze = {
+	  start: null,
+	  goal: null,
+	  obstacles: []
+	};
+	
+	exports.simple = simple;
+	exports.maze = maze;
 
 /***/ })
 /******/ ]);

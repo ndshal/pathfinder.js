@@ -30,7 +30,7 @@ class Search {
 
         this.processNeighbors(current);
         this.board.grid[current].setType('visited');
-      },100);
+      },20);
   }
 
   oldRun() {

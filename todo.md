@@ -21,8 +21,8 @@
  - [x] Make a View class that wraps board
  - [x] Select form for algo type
  - [x] buttons to run algo, clear search
- - [ ] Style these!!
- - [ ] clear walls
+ - [x] Style these!!
+ - [x] clear walls
  - [ ] later: obstacle presets?
  - [ ] stat modal
  - [ ] instructions modal

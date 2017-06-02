@@ -1,4 +1,5 @@
 import graphNode from './graph_node';
+import { simple, maze } from './board_presets';
 
 class Board {
   constructor(stage) {
@@ -98,19 +99,20 @@ class Board {
 
   setupSimple() {
     this.clearObstacles();
-    console.log(`${3*this.dx},${11*this.dy}`);
-    this.setStart(`${3*this.dx},${11*this.dy}`);
-    this.setGoal(`${10*this.dx},${1*this.dy}`);
-    for(let i = 7; i < 15; i ++){
-      this.grid[`${i*this.dx},${2*this.dy}`].toggleIsObstacle();
-    }
-    for(let j = 3; j < 10; j++){
-      this.grid[`${14*this.dx},${j*this.dy}`].toggleIsObstacle();
-    }
+    this.setStart(this._localToGrid(simple.start));
+    this.setGoal(this._localToGrid(simple.goal));
+    simple.obstacles.forEach(coords => (
+      this.grid[this._localToGrid(coords)].toggleIsObstacle()
+    ));
   }
 
   setupMaze() {
-
+    this.clearObstacles();
+    this.setStart(this._localToGrid(maze.start));
+    this.setGoal(this._localToGrid(maze.goal));
+    maze.obstacles.forEach(coords => (
+      this.grid[this._localToGrid(coords)].toggleIsObstacle()
+    ));
   }
 
   neighbors(coords) {
@@ -130,6 +132,11 @@ class Board {
     }
 
     return neighbors;
+  }
+
+  _localToGrid(localCoords) {
+    let [i, j] = localCoords.split(',').map(str => parseInt(str));
+    return [i*this.dx, j*this.dy].toString();
   }
 
   _getCoordsFromEvent(e) {
