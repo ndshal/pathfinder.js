@@ -3,16 +3,25 @@ import graphNode from './graph_node';
 class Board {
   constructor(stage) {
     this.stage = stage;
+
+    this.resetDimensions();
     this.grid = this.buildGrid();
     this.addListeners();
+  }
+
+  resetDimensions(){
+    this.DIM_X = this.stage.canvas.width;
+    this.DIM_Y = this.stage.canvas.height;
+    this.dx = 20;
+    this.dy = 20;
   }
 
   buildGrid() {
     let grid = {};
 
-    for(let i = 0; i < Board.DIM_X; i += Board.dx){
-      for(let j = 0; j < Board.DIM_Y; j += Board.dy){
-        const node = new graphNode(i, j, Board.dx);
+    for(let i = 0; i < this.DIM_X; i += this.dx){
+      for(let j = 0; j < this.DIM_Y; j += this.dy){
+        const node = new graphNode(i, j, this.dx, this.dy);
         grid[node.coords] = node;
         this.stage.addChild(node.easelCell);
       }
@@ -65,6 +74,7 @@ class Board {
   setStart(coords) {
     if(this.start) this.grid[this.start].setType('empty');
     this.start = coords;
+
     this.grid[coords].setType('start');
   }
 
@@ -88,13 +98,14 @@ class Board {
 
   setupSimple() {
     this.clearObstacles();
-    this.setStart(`${3*12},${11*12}`);
-    this.setGoal(`${15*12},${1*12}`);
+    console.log(`${3*this.dx},${11*this.dy}`);
+    this.setStart(`${3*this.dx},${11*this.dy}`);
+    this.setGoal(`${10*this.dx},${1*this.dy}`);
     for(let i = 7; i < 15; i ++){
-      this.grid[`${i*12},${2*12}`].toggleIsObstacle();
+      this.grid[`${i*this.dx},${2*this.dy}`].toggleIsObstacle();
     }
     for(let j = 3; j < 10; j++){
-      this.grid[`${14*12},${j*12}`].toggleIsObstacle();
+      this.grid[`${14*this.dx},${j*this.dy}`].toggleIsObstacle();
     }
   }
 
@@ -111,7 +122,7 @@ class Board {
       for(let dy = -1; dy < 2; dy ++) {
         if(dx === dy || dx === -dy) continue;
 
-        const testCoords = [x + Board.dx*dx, y + Board.dy*dy].toString();
+        const testCoords = [x + this.dx*dx, y + this.dy*dy].toString();
         if (this.grid[testCoords]) {
           neighbors.push(testCoords);
         }
@@ -123,16 +134,16 @@ class Board {
 
   _getCoordsFromEvent(e) {
     return [
-      Math.floor(e.stageX/Board.dx)*Board.dx,
-      Math.floor(e.stageY/Board.dx)*Board.dy,
+      Math.floor(e.stageX/this.dx)*this.dx,
+      Math.floor(e.stageY/this.dx)*this.dy,
     ].toString();
   }
 
   _generateCoords() {
-    let x = Math.random()*Board.DIM_X;
-    let y = Math.random()*Board.DIM_Y;
-    x = Math.floor(x/Board.dx)*Board.dx;
-    y = Math.floor(y/Board.dy)*Board.dy;
+    let x = Math.random()*this.DIM_X;
+    let y = Math.random()*this.DIM_Y;
+    x = Math.floor(x/this.dx)*this.dx;
+    y = Math.floor(y/this.dy)*this.dy;
     return [x, y].toString();
   }
 }

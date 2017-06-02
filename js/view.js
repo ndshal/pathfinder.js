@@ -8,12 +8,18 @@ class View {
     this.board.init();
     this.finder = new Finders.BFS(this.board);
     this.addListeners();
+
+    this.resetDimensions();
   }
 
   addListeners() {
+    window.addEventListener('resize', this.resetDimensions.bind(this));
+
     $('#algo-controls input').on('change', () => {
       const algoName = $('input[name=algo]:checked', '#algo-controls').val();
+      this.finder.reset();
       this.finder = new Finders[algoName](this.board);
+      this.board.clearSearch();
     });
     $('#run-search').on('click', (e) => {
       e.preventDefault();
@@ -38,6 +44,12 @@ class View {
       e.preventDefault();
       this.board.clearObstacles();
     });
+  }
+
+  resetDimensions() {
+    $('#main-canvas').width(window.innerWidth);
+    $('#main-canvas').height(window.innerHeight);
+    this.board.resetDimensions();
   }
 
 

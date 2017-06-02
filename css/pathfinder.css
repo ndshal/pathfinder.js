@@ -36,15 +36,15 @@ button:hover {
 	background-color: #ababab;
 }
 
-body {
+/*body {
   display: flex;
-  height: 100vh;
-  width: 100vw;
-}
+
+}*/
 
 #main-canvas {
-  margin: 5px 10px;
-  flex-grow: 1;
+  /*margin: 5px 10px;*/
+  /*height: 100vh;
+  width: 100vw;*/
 }
 
 #algo-controls, #obs-controls {

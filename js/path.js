@@ -11,7 +11,7 @@ class Path {
     stringPath.forEach(
       function(strCoords) {
         let [x,y] = strCoords.split(',').map(s => parseInt(s));
-        x += 6; y += 6; // center on square, refactor this!
+        x += 10; y += 10; // center on square, refactor this!
         this.path.graphics.lineTo(x, y);
       }.bind(this)
     );

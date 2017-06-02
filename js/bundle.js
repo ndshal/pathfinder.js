@@ -94,6 +94,8 @@
 	    this.board.init();
 	    this.finder = new Finders.BFS(this.board);
 	    this.addListeners();
+	
+	    this.resetDimensions();
 	  }
 	
 	  _createClass(View, [{
@@ -101,9 +103,13 @@
 	    value: function addListeners() {
 	      var _this = this;
 	
+	      window.addEventListener('resize', this.resetDimensions.bind(this));
+	
 	      $('#algo-controls input').on('change', function () {
 	        var algoName = $('input[name=algo]:checked', '#algo-controls').val();
+	        _this.finder.reset();
 	        _this.finder = new Finders[algoName](_this.board);
+	        _this.board.clearSearch();
 	      });
 	      $('#run-search').on('click', function (e) {
 	        e.preventDefault();
@@ -128,6 +134,13 @@
 	        e.preventDefault();
 	        _this.board.clearObstacles();
 	      });
+	    }
+	  }, {
+	    key: 'resetDimensions',
+	    value: function resetDimensions() {
+	      $('#main-canvas').width(window.innerWidth);
+	      $('#main-canvas').height(window.innerHeight);
+	      this.board.resetDimensions();
 	    }
 	  }]);
 	
@@ -163,18 +176,28 @@
 	    _classCallCheck(this, Board);
 	
 	    this.stage = stage;
+	
+	    this.resetDimensions();
 	    this.grid = this.buildGrid();
 	    this.addListeners();
 	  }
 	
 	  _createClass(Board, [{
+	    key: 'resetDimensions',
+	    value: function resetDimensions() {
+	      this.DIM_X = this.stage.canvas.width;
+	      this.DIM_Y = this.stage.canvas.height;
+	      this.dx = 20;
+	      this.dy = 20;
+	    }
+	  }, {
 	    key: 'buildGrid',
 	    value: function buildGrid() {
 	      var grid = {};
 	
-	      for (var i = 0; i < Board.DIM_X; i += Board.dx) {
-	        for (var j = 0; j < Board.DIM_Y; j += Board.dy) {
-	          var node = new _graph_node2.default(i, j, Board.dx);
+	      for (var i = 0; i < this.DIM_X; i += this.dx) {
+	        for (var j = 0; j < this.DIM_Y; j += this.dy) {
+	          var node = new _graph_node2.default(i, j, this.dx, this.dy);
 	          grid[node.coords] = node;
 	          this.stage.addChild(node.easelCell);
 	        }
@@ -234,6 +257,7 @@
 	    value: function setStart(coords) {
 	      if (this.start) this.grid[this.start].setType('empty');
 	      this.start = coords;
+	
 	      this.grid[coords].setType('start');
 	    }
 	  }, {
@@ -261,13 +285,14 @@
 	    key: 'setupSimple',
 	    value: function setupSimple() {
 	      this.clearObstacles();
-	      this.setStart(3 * 12 + ',' + 11 * 12);
-	      this.setGoal(15 * 12 + ',' + 1 * 12);
+	      console.log(3 * this.dx + ',' + 11 * this.dy);
+	      this.setStart(3 * this.dx + ',' + 11 * this.dy);
+	      this.setGoal(10 * this.dx + ',' + 1 * this.dy);
 	      for (var i = 7; i < 15; i++) {
-	        this.grid[i * 12 + ',' + 2 * 12].toggleIsObstacle();
+	        this.grid[i * this.dx + ',' + 2 * this.dy].toggleIsObstacle();
 	      }
 	      for (var j = 3; j < 10; j++) {
-	        this.grid[14 * 12 + ',' + j * 12].toggleIsObstacle();
+	        this.grid[14 * this.dx + ',' + j * this.dy].toggleIsObstacle();
 	      }
 	    }
 	  }, {
@@ -291,7 +316,7 @@
 	        for (var dy = -1; dy < 2; dy++) {
 	          if (dx === dy || dx === -dy) continue;
 	
-	          var testCoords = [x + Board.dx * dx, y + Board.dy * dy].toString();
+	          var testCoords = [x + this.dx * dx, y + this.dy * dy].toString();
 	          if (this.grid[testCoords]) {
 	            neighbors.push(testCoords);
 	          }
@@ -303,15 +328,15 @@
 	  }, {
 	    key: '_getCoordsFromEvent',
 	    value: function _getCoordsFromEvent(e) {
-	      return [Math.floor(e.stageX / Board.dx) * Board.dx, Math.floor(e.stageY / Board.dx) * Board.dy].toString();
+	      return [Math.floor(e.stageX / this.dx) * this.dx, Math.floor(e.stageY / this.dx) * this.dy].toString();
 	    }
 	  }, {
 	    key: '_generateCoords',
 	    value: function _generateCoords() {
-	      var x = Math.random() * Board.DIM_X;
-	      var y = Math.random() * Board.DIM_Y;
-	      x = Math.floor(x / Board.dx) * Board.dx;
-	      y = Math.floor(y / Board.dy) * Board.dy;
+	      var x = Math.random() * this.DIM_X;
+	      var y = Math.random() * this.DIM_Y;
+	      x = Math.floor(x / this.dx) * this.dx;
+	      y = Math.floor(y / this.dy) * this.dy;
 	      return [x, y].toString();
 	    }
 	  }]);
@@ -341,11 +366,12 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var graphNode = function () {
-	  function graphNode(x, y, dx) {
+	  function graphNode(x, y, dx, dy) {
 	    _classCallCheck(this, graphNode);
 	
 	    this.easelCell = new createjs.Shape();
 	    this.dx = dx;
+	    this.dy = dy;
 	    this.setType('empty');
 	    this.setCoords(x, y);
 	  }
@@ -393,12 +419,12 @@
 	    value: function _fill(color) {
 	      this.easelCell.graphics.clear();
 	      this.drawBorder();
-	      this.easelCell.graphics.beginFill(color).drawRect(1, 1, this.dx - 2, this.dx - 2).endFill();
+	      this.easelCell.graphics.beginFill(color).drawRect(1, 1, this.dx - 2, this.dy - 2).endFill();
 	    }
 	  }, {
 	    key: 'drawBorder',
 	    value: function drawBorder() {
-	      this.easelCell.graphics.setStrokeStyle(1).beginStroke('#fff').drawRect(0, 0, this.dx, this.dx).endStroke();
+	      this.easelCell.graphics.setStrokeStyle(1).beginStroke('#fff').drawRect(0, 0, this.dx, this.dy).endStroke();
 	    }
 	  }]);
 	
@@ -683,7 +709,7 @@
 	            x = _strCoords$split$map2[0],
 	            y = _strCoords$split$map2[1];
 	
-	        x += 6;y += 6; // center on square, refactor this!
+	        x += 10;y += 10; // center on square, refactor this!
 	        this.path.graphics.lineTo(x, y);
 	      }.bind(this));
 	      this.path.graphics.endStroke();

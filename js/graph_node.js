@@ -1,7 +1,8 @@
 class graphNode {
-  constructor(x, y, dx) {
+  constructor(x, y, dx, dy) {
     this.easelCell = new createjs.Shape();
     this.dx = dx;
+    this.dy = dy;
     this.setType('empty');
     this.setCoords(x, y);
   }
@@ -46,7 +47,7 @@ class graphNode {
     this.easelCell
       .graphics
       .beginFill(color)
-      .drawRect(1,1,this.dx-2,this.dx-2)
+      .drawRect(1,1,this.dx-2,this.dy-2)
       .endFill();
   }
 
@@ -55,7 +56,7 @@ class graphNode {
       .graphics
       .setStrokeStyle(1)
       .beginStroke('#fff')
-      .drawRect(0,0,this.dx,this.dx)
+      .drawRect(0,0,this.dx,this.dy)
       .endStroke();
   }
 }
