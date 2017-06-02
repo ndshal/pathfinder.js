@@ -512,6 +512,8 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
 	var _search = __webpack_require__(6);
 	
 	var _search2 = _interopRequireDefault(_search);
@@ -539,8 +541,7 @@
 	    key: 'initializeFrontier',
 	    value: function initializeFrontier() {
 	      this.frontier = new _data_structures.Queue();
-	
-	      this.processNeighbors(this.board.start);
+	      _get(BFS.prototype.__proto__ || Object.getPrototypeOf(BFS.prototype), 'initializeFrontier', this).call(this);
 	    }
 	  }, {
 	    key: 'processNeighbors',
@@ -590,10 +591,15 @@
 	    _classCallCheck(this, Search);
 	
 	    this.board = board;
-	    this.reset();
 	  }
 	
 	  _createClass(Search, [{
+	    key: 'initializeFrontier',
+	    value: function initializeFrontier() {
+	      this.reset();
+	      this.processNeighbors(this.board.start);
+	    }
+	  }, {
 	    key: 'reset',
 	    value: function reset() {
 	      if (this.path) this.path.reset();
@@ -920,7 +926,7 @@
 	    key: 'initializeFrontier',
 	    value: function initializeFrontier() {
 	      this.frontier = new _data_structures.PriorityQueue();
-	      this.processNeighbors(this.board.start);
+	      _get(Dijkstra.prototype.__proto__ || Object.getPrototypeOf(Dijkstra.prototype), 'initializeFrontier', this).call(this);
 	    }
 	  }, {
 	    key: 'reset',
@@ -964,6 +970,8 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
 	var _search = __webpack_require__(6);
 	
 	var _search2 = _interopRequireDefault(_search);
@@ -991,7 +999,7 @@
 	    key: 'initializeFrontier',
 	    value: function initializeFrontier() {
 	      this.frontier = new _data_structures.PriorityQueue();
-	      this.processNeighbors(this.board.start);
+	      _get(BestFirst.prototype.__proto__ || Object.getPrototypeOf(BestFirst.prototype), 'initializeFrontier', this).call(this);
 	    }
 	  }, {
 	    key: 'processNeighbors',
@@ -1057,7 +1065,7 @@
 	    key: 'initializeFrontier',
 	    value: function initializeFrontier() {
 	      this.frontier = new _data_structures.PriorityQueue();
-	      this.processNeighbors(this.board.start);
+	      _get(AStar.prototype.__proto__ || Object.getPrototypeOf(AStar.prototype), 'initializeFrontier', this).call(this);
 	    }
 	  }, {
 	    key: 'reset',

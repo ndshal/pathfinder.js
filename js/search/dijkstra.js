@@ -4,7 +4,7 @@ import { PriorityQueue } from '../data_structures';
 class Dijkstra extends Search {
   initializeFrontier() {
     this.frontier = new PriorityQueue();
-    this.processNeighbors(this.board.start);
+    super.initializeFrontier();
   }
 
   reset() {

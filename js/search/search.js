@@ -3,7 +3,11 @@ import Path from '../path';
 class Search {
   constructor(board) {
     this.board = board;
+  }
+
+  initializeFrontier() {
     this.reset();
+    this.processNeighbors(this.board.start);
   }
 
   reset() {
