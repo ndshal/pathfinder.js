@@ -6,7 +6,7 @@ class View {
   constructor(stage) {
     this.board = new Board(stage);
     this.board.init();
-    this.finder = new Finders.BFS(this.board);
+    this.finder = new Finders.AStar(this.board);
     this.addListeners();
 
     this.resetDimensions();

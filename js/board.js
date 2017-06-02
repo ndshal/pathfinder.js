@@ -45,6 +45,11 @@ class Board {
   }
 
   handleClick(e) {
+    console.log([
+          Math.floor(e.stageX/this.dx),
+          Math.floor(e.stageY/this.dy),
+        ].toString());
+
     const node = this.grid[this._getCoordsFromEvent(e)];
     node.toggleIsObstacle();
   }
@@ -142,7 +147,7 @@ class Board {
   _getCoordsFromEvent(e) {
     return [
       Math.floor(e.stageX/this.dx)*this.dx,
-      Math.floor(e.stageY/this.dx)*this.dy,
+      Math.floor(e.stageY/this.dy)*this.dy,
     ].toString();
   }
 

@@ -92,7 +92,7 @@
 	
 	    this.board = new _board2.default(stage);
 	    this.board.init();
-	    this.finder = new Finders.BFS(this.board);
+	    this.finder = new Finders.AStar(this.board);
 	    this.addListeners();
 	
 	    this.resetDimensions();
@@ -227,6 +227,8 @@
 	  }, {
 	    key: 'handleClick',
 	    value: function handleClick(e) {
+	      console.log([Math.floor(e.stageX / this.dx), Math.floor(e.stageY / this.dy)].toString());
+	
 	      var node = this.grid[this._getCoordsFromEvent(e)];
 	      node.toggleIsObstacle();
 	    }
@@ -349,7 +351,7 @@
 	  }, {
 	    key: '_getCoordsFromEvent',
 	    value: function _getCoordsFromEvent(e) {
-	      return [Math.floor(e.stageX / this.dx) * this.dx, Math.floor(e.stageY / this.dx) * this.dy].toString();
+	      return [Math.floor(e.stageX / this.dx) * this.dx, Math.floor(e.stageY / this.dy) * this.dy].toString();
 	    }
 	  }, {
 	    key: '_generateCoords',
@@ -726,7 +728,7 @@
 	    key: 'processStringPath',
 	    value: function processStringPath(stringPath) {
 	      this.path = new createjs.Shape();
-	      this.path.graphics.setStrokeStyle(1).beginStroke('#ff0');
+	      this.path.graphics.setStrokeStyle(1).beginStroke('#000');
 	
 	      stringPath.forEach(function (strCoords) {
 	        var _strCoords$split$map = strCoords.split(',').map(function (s) {
@@ -736,7 +738,7 @@
 	            x = _strCoords$split$map2[0],
 	            y = _strCoords$split$map2[1];
 	
-	        x += 7.5;y += 7.5; // center on square, refactor this!
+	        x += 10;y += 10; // center on square, refactor this!
 	        this.path.graphics.lineTo(x, y);
 	      }.bind(this));
 	      this.path.graphics.endStroke();
@@ -1118,10 +1120,19 @@
 	simple.obstacles.push('19,16');
 	
 	var maze = {
-	  start: null,
-	  goal: null,
+	  start: '31,23',
+	  goal: '0,0',
 	  obstacles: []
 	};
+	for (var _i = 0; _i < 37; _i++) {
+	  for (var _j = 0; _j < 25; _j++) {
+	    if (_i % 2 === 0 || _j % 2 === 0) {
+	      maze.obstacles.push(_i + ',' + _j);
+	    }
+	  }
+	}
+	
+	maze.obstacles = maze.obstacles.concat(['0,1', '1,2', '1,4', '2,5', '4,5', '5,6', '6,7', '8,7', '9,8', '8,9', '7,10', '7,12', '6,13', '5,14', '6,15', '8,15', '10,15', '11,16', '11,18', '12,19', '14,19', '15,18', '15,16', '15,14', '16,13', '18,13', '19,12', '19,10', '20,9', '21,10', '22,11', '23,12', '24,13', '25,14', '25,16', '24,17', '22,17', '21,18', '22,19', '23,20', '24,21', '26,21', '27,20', '28,19', '30,19', '32,19', '33,20', '32,21', '31,22', '30,21', '34,19', '35,20', '33,22', '27,22', '26,23', '22,23', '21,22', '20,23', '18,23', '17,22', '16,21', '15,20', '19,20', '18,19', '17,18', '17,16', '18,15', '20,15', '19,16', '21,14', '22,15', '20,15', '19,14', '20,13', '14,17', '13,16', '13,14', '12,13', '11,12', '10,11', '10,13', '6,11', '4,11', '3,10', '25,10', '4,9', '3,8', '2,7', '1,8', '2,13', '1,10', '2,15', '2,16', '3,18', '3,16', '3,18', '1,16', '1,18', '1,20', '2,21', '3,22', '2,23', '3,18', '4,19', '6,19', '7,20', '7,22', '8,23', '6,21', '7,18', '5,16', '3,12', '10,19', '8,21', '9,16', '14,21', '12,21', '11,22', '13,24', '15,24', '26,15', '27,14', '27,12', '27,10', '30,11', '27,8', '26,7', '25,6', '25,4', '26,3', '28,3', '29,2', '30,1', '32,1', '33,2', '31,2', '34,3', '35,2', '25,2', '26,1', '25,8', '24,9', '24,1', '22,1', '20,1', '19,2', '19,4', '20,5', '22,5', '23,4', '22,3', '21,6', '23,8', '18,3', '17,4', '17,6', '17,8', '17,10', '16,11', '15,9', '15,8', '15,9', '15,10', '15,6', '14,5', '13,4', '13,2', '14,1', '15,2', '16,1', '14,9', '13,6', '11,6', '10,5', '9,4', '9,2', '10,1', '11,4', '10,9', '26,19', '29,18', '33,18', '5,4', '6,3', '7,2', '6,1', '4,1', '3,2', '28,5', '7,4', '4,23', '13,10']);
 	
 	exports.simple = simple;
 	exports.maze = maze;

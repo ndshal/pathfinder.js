@@ -6,12 +6,12 @@ class Path {
 
   processStringPath(stringPath) {
     this.path = new createjs.Shape();
-    this.path.graphics.setStrokeStyle(1).beginStroke('#ff0');
+    this.path.graphics.setStrokeStyle(1).beginStroke('#000');
 
     stringPath.forEach(
       function(strCoords) {
         let [x,y] = strCoords.split(',').map(s => parseInt(s));
-        x += 7.5; y += 7.5; // center on square, refactor this!
+        x += 10; y += 10; // center on square, refactor this!
         this.path.graphics.lineTo(x, y);
       }.bind(this)
     );
