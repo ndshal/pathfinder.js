@@ -32,7 +32,7 @@
  - [x] square icons in intro thing
  - [x] capture gif
  - [x] production readme
- - [ ] that thing with best-first on the maze
+ - [x] that thing with best-first on the maze
 
 ## Phase 4: Bonus
  - [ ] stats modal

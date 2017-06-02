@@ -8,7 +8,6 @@ class BestFirst extends Search {
   }
 
   processNeighbors(current) {
-    if (typeof current === 'object') current = current.item;
     this.board.neighbors(current).forEach(
       function(neighbor) {
         if (!(neighbor in this.cameFrom)) {

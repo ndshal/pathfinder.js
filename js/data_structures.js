@@ -27,7 +27,7 @@ export class PriorityQueue {
     if(this.isEmpty()) {
       return null;
     } else if (this.store.length === 2) {
-      return this.store.pop();
+      return this.store.pop().item;
     } else {
       const min = this.store[1];
       this.store[1] = this.store.pop();

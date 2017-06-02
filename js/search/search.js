@@ -11,7 +11,6 @@ class Search {
   }
 
   reset() {
-    console.log('reseting');
     if(this.path) this.path.reset();
     this.cameFrom = {};
     this.cameFrom[this.board.start] = null;
