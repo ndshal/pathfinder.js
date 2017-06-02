@@ -96,16 +96,18 @@ A* code snippet
 ```
 
 #### Comparing A\* and Greedy Best-First Search on the Simply Barrier
-Simple Barrier             |  Maze
+Best-First Search            |  A\* Algorithm
 :-------------------------:|:-------------------------:
-![A\* on the barrier](docs/barrier.png)  |  ![Best-First on the barrier](docs/maze.png)
+![Best-First on the barrier](docs/best_first_barrier.gif) | ![A\* on the barrier](docs/a_star_barrier.gif)
 
-Both algorithms prioritize movement toward the goal over exploring, but the final path of Best-First is longer.
+Both algorithms prioritize movement toward the goal and then explore, but the final path of Best-First is longer.
 
 #### Comparing A\* and BFS on the Maze
+Breadth First Search           |  A\* Algorithm
+:-------------------------:|:-------------------------:
+![BFS on the maze](docs/bfs_maze.gif) | ![A\* on the barrier](docs/a_star_maze.gif)
 
-
-
-
+BFS explores the many corners of the maze, while A\* moves straight toward the goal. Note that both
+algorithms come with the same final path - BFS is still correct, A\* is just more efficient.
 
 ## Future Directions
