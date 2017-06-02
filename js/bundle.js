@@ -123,7 +123,8 @@
 	      $('#set-obs').on('click', function (e) {
 	        e.preventDefault();
 	        var preset = $('input[name=preset]:checked', '#obs-controls').val();
-	        console.log(preset);
+	        _this.finder.kill();
+	        _this.board.clearSearch();
 	        if (preset === 'simple') {
 	          _this.board.setupSimple();
 	        } else if (preset === 'maze') {

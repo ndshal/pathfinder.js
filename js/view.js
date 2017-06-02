@@ -33,7 +33,8 @@ class View {
     $('#set-obs').on('click', (e) => {
       e.preventDefault();
       const preset = $('input[name=preset]:checked', '#obs-controls').val();
-      console.log(preset);
+      this.finder.kill();
+      this.board.clearSearch();
       if(preset === 'simple') {
         this.board.setupSimple();
       } else if (preset === 'maze') {
