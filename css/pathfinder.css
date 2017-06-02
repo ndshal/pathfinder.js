@@ -36,15 +36,8 @@ button:hover {
 	background-color: #ababab;
 }
 
-/*body {
-  display: flex;
-
-}*/
-
-#main-canvas {
-  /*margin: 5px 10px;*/
-  /*height: 100vh;
-  width: 100vw;*/
+body {
+  overflow: hidden;
 }
 
 #algo-controls, #obs-controls {
@@ -56,7 +49,7 @@ button:hover {
   padding: 15px;
   border-radius: 5px;
   position: absolute;
-  right: 3%;
+  right: 1%;
   z-index: 2;
 
   display: flex;
