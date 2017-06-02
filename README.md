@@ -74,9 +74,29 @@ nodes has a high cost, and Dijkstra minimizes cost by preferring to explore arou
 **Note:** Because the cost obstacles is not infinite, when there is no other option the Dijkstra path
 will actually move through an obstacle, whereas BFS will just get stuck.
 
-Dijkstra's Algorithm is implemented with a PriorityQueue data structure, built on MinHeap.
+In Dijkstra's Algorithm, the frontier is a PriorityQueue data structure, built on MinHeap.
 ```js
-PriorityQueue
+//dijkstra.js
+
+processNeighbors(current) {
+  this.board.neighbors(current).forEach(
+    function(neighbor) {
+      const type = this.board.grid[neighbor].type;
+      const cost = type === 'obstacle' ? 100 : 1;
+      const newCost = this.costSoFar[current] + cost;
+
+      if (!(neighbor in this.costSoFar) ||
+          newCost < this.costSoFar[neighbor]) {
+          this.frontier.insert(neighbor, newCost);
+          // use cost as the priority in the PriorityQueue, higher cost
+          // paths are processed later
+          this.cameFrom[neighbor] = current;
+          this.costSoFar[neighbor] = newCost;
+          this.board.grid[neighbor].setType('frontier');
+        }
+      }.bind(this)
+    );
+}
 ```
 
 #### Greedy Best-First Search
@@ -92,7 +112,28 @@ A\* accounts for the cost of obstacles like Dijkstra's Algorithm, while still mi
 real world pathfinding problems.
 
 ```js
-A* code snippet
+//a_star.js
+
+processNeighbors(current) {
+  this.board.neighbors(current).forEach(
+    function(neighbor) {
+      const type = this.board.grid[neighbor].type;
+      const cost = type === 'obstacle' ? 100 : 1;
+      const newCost = this.costSoFar[current] + cost;
+
+      if (!(neighbor in this.costSoFar) ||
+          newCost < this.costSoFar[neighbor]) {
+            const priority = newCost + this.euclidean(neighbor, this.board.goal);
+            // combine euclidean distance to goal and cost
+
+            this.frontier.insert(neighbor, priority);
+            this.cameFrom[neighbor] = current;
+            this.costSoFar[neighbor] = newCost;
+            this.board.grid[neighbor].setType('frontier');
+        }
+      }.bind(this)
+    );
+}
 ```
 
 #### Comparing A\* and Greedy Best-First Search on the Simply Barrier
@@ -111,3 +152,7 @@ BFS explores the many corners of the maze, while A\* moves straight toward the g
 algorithms come with the same final path - BFS is still correct, A\* is just more efficient.
 
 ## Future Directions
+Some future ideas for Pathfinder.js include:
+ * UX improvements
+ * More search algorithms and obstacle Presets
+ * An entirely new module that generates mazes procedurally
