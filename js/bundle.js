@@ -120,6 +120,7 @@
 	      });
 	      $('#clear-obs').on('click', function (e) {
 	        e.preventDefault();
+	        _this.board.clearObstacles();
 	      });
 	    }
 	  }]);
@@ -276,7 +277,14 @@
 	    key: 'clearSearch',
 	    value: function clearSearch() {
 	      for (var coords in this.grid) {
-	        this.grid[coords].reset();
+	        this.grid[coords].clearIfSearch();
+	      }
+	    }
+	  }, {
+	    key: 'clearObstacles',
+	    value: function clearObstacles() {
+	      for (var coords in this.grid) {
+	        this.grid[coords].clearIfObstacle();
 	      }
 	    }
 	  }, {
@@ -351,11 +359,16 @@
 	      }
 	    }
 	  }, {
-	    key: 'reset',
-	    value: function reset() {
+	    key: 'clearIfSearch',
+	    value: function clearIfSearch() {
 	      if (['frontier', 'visited'].includes(this.type)) {
 	        this.setType('empty');
 	      }
+	    }
+	  }, {
+	    key: 'clearIfObstacle',
+	    value: function clearIfObstacle() {
+	      if (this.type === 'obstacle') this.setType('empty');
 	    }
 	  }, {
 	    key: '_fill',

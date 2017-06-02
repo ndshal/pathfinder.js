@@ -106,7 +106,13 @@ class Board {
 
   clearSearch() {
     for(let coords in this.grid){
-      this.grid[coords].reset();
+      this.grid[coords].clearIfSearch();
+    }
+  }
+
+  clearObstacles() {
+    for(let coords in this.grid){
+      this.grid[coords].clearIfObstacle();
     }
   }
 

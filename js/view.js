@@ -31,7 +31,7 @@ class View {
     });
     $('#clear-obs').on('click', (e) => {
       e.preventDefault();
-
+      this.board.clearObstacles();
     });
   }
 

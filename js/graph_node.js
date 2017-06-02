@@ -30,10 +30,14 @@ class graphNode {
     }
   }
 
-  reset() {
+  clearIfSearch() {
     if (['frontier', 'visited'].includes(this.type)) {
       this.setType('empty');
     }
+  }
+
+  clearIfObstacle() {
+    if (this.type === 'obstacle') this.setType('empty');
   }
 
   _fill(color) {
