@@ -187,8 +187,8 @@
 	    value: function resetDimensions() {
 	      this.DIM_X = this.stage.canvas.width;
 	      this.DIM_Y = this.stage.canvas.height;
-	      this.dx = 20;
-	      this.dy = 20;
+	      this.dx = 15;
+	      this.dy = 15;
 	    }
 	  }, {
 	    key: 'buildGrid',
@@ -709,7 +709,7 @@
 	            x = _strCoords$split$map2[0],
 	            y = _strCoords$split$map2[1];
 	
-	        x += 10;y += 10; // center on square, refactor this!
+	        x += 7.5;y += 7.5; // center on square, refactor this!
 	        this.path.graphics.lineTo(x, y);
 	      }.bind(this));
 	      this.path.graphics.endStroke();

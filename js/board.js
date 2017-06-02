@@ -12,8 +12,8 @@ class Board {
   resetDimensions(){
     this.DIM_X = this.stage.canvas.width;
     this.DIM_Y = this.stage.canvas.height;
-    this.dx = 20;
-    this.dy = 20;
+    this.dx = 15;
+    this.dy = 15;
   }
 
   buildGrid() {
