@@ -4,19 +4,19 @@ const simple = {
   obstacles: []
 };
 
-for(let i = 12; i < 21; i++) {
+for(let i = 11; i < 21; i++) {
   simple.obstacles.push(`${i},6`);
   simple.obstacles.push(`${i},7`);
   simple.obstacles.push(`${i},8`);
 }
-simple.obstacles.push('11,7');
-for(let j = 7; j < 16; j++) {
+simple.obstacles.push('10,7');
+for(let j = 7; j < 17; j++) {
   simple.obstacles.push(`21,${j}`);
   if(j < 9) continue;
   simple.obstacles.push(`20,${j}`);
   simple.obstacles.push(`19,${j}`);
 }
-simple.obstacles.push('20,16');
+simple.obstacles.push('20,17');
 
 const maze = {
   start: '31,23',

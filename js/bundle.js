@@ -510,19 +510,19 @@
 	  obstacles: []
 	};
 	
-	for (var i = 12; i < 21; i++) {
+	for (var i = 11; i < 21; i++) {
 	  simple.obstacles.push(i + ',6');
 	  simple.obstacles.push(i + ',7');
 	  simple.obstacles.push(i + ',8');
 	}
-	simple.obstacles.push('11,7');
-	for (var j = 7; j < 16; j++) {
+	simple.obstacles.push('10,7');
+	for (var j = 7; j < 17; j++) {
 	  simple.obstacles.push('21,' + j);
 	  if (j < 9) continue;
 	  simple.obstacles.push('20,' + j);
 	  simple.obstacles.push('19,' + j);
 	}
-	simple.obstacles.push('20,16');
+	simple.obstacles.push('20,17');
 	
 	var maze = {
 	  start: '31,23',
@@ -999,7 +999,7 @@
 	    value: function processNeighbors(current) {
 	      this.board.neighbors(current).forEach(function (neighbor) {
 	        var type = this.board.grid[neighbor].type;
-	        var cost = type === 'obstacle' ? 100 : 1;
+	        var cost = type === 'obstacle' ? 20000 : 34;
 	        var newCost = this.costSoFar[current] + cost;
 	
 	        if (!(neighbor in this.costSoFar) || newCost < this.costSoFar[neighbor]) {
@@ -1138,7 +1138,7 @@
 	    value: function processNeighbors(current) {
 	      this.board.neighbors(current).forEach(function (neighbor) {
 	        var type = this.board.grid[neighbor].type;
-	        var cost = type === 'obstacle' ? 99999 : 1;
+	        var cost = type === 'obstacle' ? 20000 : 10;
 	        var newCost = this.costSoFar[current] + cost;
 	
 	        if (!(neighbor in this.costSoFar) || newCost < this.costSoFar[neighbor]) {

@@ -17,7 +17,7 @@ class AStar extends Search {
     this.board.neighbors(current).forEach(
       function(neighbor) {
         const type = this.board.grid[neighbor].type;
-        const cost = type === 'obstacle' ? 99999 : 1;
+        const cost = type === 'obstacle' ? 20000 : 10;
         const newCost = this.costSoFar[current] + cost;
 
         if (!(neighbor in this.costSoFar) ||
