@@ -260,6 +260,8 @@
 	  }, {
 	    key: 'handleClick',
 	    value: function handleClick(e) {
+	      console.log([Math.floor(e.stageX / this.dx), Math.floor(e.stageY / this.dy)].toString());
+	
 	      var node = this.grid[this._getCoordsFromEvent(e)];
 	      node.toggleIsObstacle();
 	    }
@@ -279,6 +281,7 @@
 	          this.setGoal(currCoords);
 	        } else {
 	          if (this.start !== currCoords && this.goal !== currCoords) {
+	            console.log([Math.floor(e.stageX / this.dx), Math.floor(e.stageY / this.dy)].toString());
 	            var node = this.grid[currCoords];
 	            node.toggleIsObstacle();
 	          }
@@ -505,24 +508,30 @@
 	  value: true
 	});
 	var simple = {
+	  start: '4,11',
+	  goal: '22,11',
+	  obstacles: ['21,8', '21,9', '21,10', '21,11', '21,12', '21,13', '21,14', '20,7', '20,8', '20,9', '20,10', '20,11', '20,12', '20,13', '20,14', '20,15', '19,6', '19,7', '19,8', '19,9', '19,16', '19,15', '19,14', '19,13', '18,14', '18,15', '18,16', '18,17', '18,8', '18,7', '18,6', '18,5', '17,5', '17,6', '17,7', '16,5', '16,6', '16,7', '15,5', '15,6', '15,7', '14,6', '14,7', '13,7', '17,15', '17,16', '17,17', '16,15', '16,16', '16,17', '15,15', '15,16', '15,17', '14,15', '14,16', '13,15']
+	};
+	
+	var simple2 = {
 	  start: '9,18',
 	  goal: '21,6',
 	  obstacles: []
 	};
 	
 	for (var i = 11; i < 21; i++) {
-	  simple.obstacles.push(i + ',6');
-	  simple.obstacles.push(i + ',7');
-	  simple.obstacles.push(i + ',8');
+	  simple2.obstacles.push(i + ',6');
+	  simple2.obstacles.push(i + ',7');
+	  simple2.obstacles.push(i + ',8');
 	}
-	simple.obstacles.push('10,7');
+	simple2.obstacles.push('10,7');
 	for (var j = 7; j < 17; j++) {
-	  simple.obstacles.push('21,' + j);
+	  simple2.obstacles.push('21,' + j);
 	  if (j < 9) continue;
-	  simple.obstacles.push('20,' + j);
-	  simple.obstacles.push('19,' + j);
+	  simple2.obstacles.push('20,' + j);
+	  simple2.obstacles.push('19,' + j);
 	}
-	simple.obstacles.push('20,17');
+	simple2.obstacles.push('20,17');
 	
 	var maze = {
 	  start: '31,23',
