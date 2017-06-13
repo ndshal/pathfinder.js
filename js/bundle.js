@@ -246,8 +246,8 @@
 	    value: function resetDimensions() {
 	      this.DIM_X = this.stage.canvas.width;
 	      this.DIM_Y = this.stage.canvas.height;
-	      this.dx = 20;
-	      this.dy = 20;
+	      this.dx = 16;
+	      this.dy = 16;
 	    }
 	  }, {
 	    key: 'buildGrid',
@@ -425,11 +425,6 @@
 	
 	  return Board;
 	}();
-	
-	Board.dx = 12;
-	Board.dy = 12;
-	Board.DIM_X = 290; //pixels, not # gridpoints
-	Board.DIM_Y = 145;
 	
 	exports.default = Board;
 
@@ -1173,7 +1168,7 @@
 	    value: function processNeighbors(current) {
 	      this.board.neighbors(current).forEach(function (neighbor) {
 	        var type = this.board.grid[neighbor].type;
-	        var cost = type === 'obstacle' ? 20000 : 10;
+	        var cost = type === 'obstacle' ? 20000 : 6;
 	        var newCost = this.costSoFar[current] + cost;
 	
 	        if (!(neighbor in this.costSoFar) || newCost < this.costSoFar[neighbor]) {

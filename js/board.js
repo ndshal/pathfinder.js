@@ -14,8 +14,8 @@ class Board {
   resetDimensions(){
     this.DIM_X = this.stage.canvas.width;
     this.DIM_Y = this.stage.canvas.height;
-    this.dx = 20;
-    this.dy = 20;
+    this.dx = 16;
+    this.dy = 16;
   }
 
   buildGrid() {
@@ -161,10 +161,5 @@ class Board {
     return [x, y].toString();
   }
 }
-
-Board.dx = 12;
-Board.dy = 12;
-Board.DIM_X = 290; //pixels, not # gridpoints
-Board.DIM_Y = 145;
 
 export default Board;

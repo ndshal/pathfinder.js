@@ -119,10 +119,6 @@ h3 {
   transition: bottom 0.4s ease, opacity 0.2s ease
 }
 
-/*.instructions:hover {
-  opacity: 1
-}*/
-
 .instructions.minimized {
   opacity: 0.7;
   font-size: 20px;
