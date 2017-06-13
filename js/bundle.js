@@ -260,8 +260,6 @@
 	  }, {
 	    key: 'handleClick',
 	    value: function handleClick(e) {
-	      console.log([Math.floor(e.stageX / this.dx), Math.floor(e.stageY / this.dy)].toString());
-	
 	      var node = this.grid[this._getCoordsFromEvent(e)];
 	      node.toggleIsObstacle();
 	    }
