@@ -1,5 +1,7 @@
 # Pathfinder.js: A Pathfinding Algorithm Visualizer
 
+[Live Link](https://ndshal.github.io/pathfinder.js)
+
 ## Background
 Pathfinding comes up in a variety of contexts, from role-playing games to ride-sharing apps.
 The basic setup is as follows: given a graph (a list of connected nodes), a
