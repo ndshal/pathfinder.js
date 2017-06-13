@@ -115,6 +115,7 @@
 	      });
 	      $('#run-search').on('click', function (e) {
 	        e.preventDefault();
+	        _this.board.allowPaint = false;
 	        _this.finder.run();
 	      });
 	      $('#clear-search').on('click', function (e) {
@@ -213,6 +214,7 @@
 	    this.resetDimensions();
 	    this.grid = this.buildGrid();
 	    this.addListeners();
+	    this.allowPaint = true;
 	  }
 	
 	  _createClass(Board, [{
@@ -260,8 +262,10 @@
 	  }, {
 	    key: 'handleClick',
 	    value: function handleClick(e) {
-	      var node = this.grid[this._getCoordsFromEvent(e)];
-	      node.toggleIsObstacle();
+	      if (this.allowPaint) {
+	        var node = this.grid[this._getCoordsFromEvent(e)];
+	        node.toggleIsObstacle();
+	      }
 	    }
 	  }, {
 	    key: 'handleMouseMove',
@@ -278,8 +282,7 @@
 	        } else if (this.goal === prevCoords) {
 	          this.setGoal(currCoords);
 	        } else {
-	          if (this.start !== currCoords && this.goal !== currCoords) {
-	            console.log([Math.floor(e.stageX / this.dx), Math.floor(e.stageY / this.dy)].toString());
+	          if (this.start !== currCoords && this.goal !== currCoords && this.allowPaint) {
 	            var node = this.grid[currCoords];
 	            node.toggleIsObstacle();
 	          }
@@ -309,6 +312,7 @@
 	      for (var coords in this.grid) {
 	        this.grid[coords].clearIfSearch();
 	      }
+	      this.allowPaint = true;
 	    }
 	  }, {
 	    key: 'clearObstacles',

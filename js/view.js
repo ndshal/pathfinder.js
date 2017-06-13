@@ -25,6 +25,7 @@ class View {
     });
     $('#run-search').on('click', (e) => {
       e.preventDefault();
+      this.board.allowPaint = false;
       this.finder.run();
     });
     $('#clear-search').on('click', (e) => {
