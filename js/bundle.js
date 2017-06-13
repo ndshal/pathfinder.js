@@ -94,8 +94,6 @@
 	    this.board.init();
 	    this.finder = new Finders.AStar(this.board);
 	
-	    this.resetDimensions = this.resetDimensions.bind(this);
-	
 	    this.addListeners();
 	    this.resetDimensions();
 	  }
@@ -103,69 +101,95 @@
 	  _createClass(View, [{
 	    key: 'addListeners',
 	    value: function addListeners() {
-	      var _this = this;
+	      window.addEventListener('resize', this.resetDimensions.bind(this));
 	
-	      window.addEventListener('resize', this.resetDimensions);
-	
-	      $('#algo-controls input').on('change', function () {
-	        var algoName = $('input[name=algo]:checked', '#algo-controls').val();
-	        _this.finder.kill();
-	        _this.finder = new Finders[algoName](_this.board);
-	        _this.board.clearSearch();
-	      });
-	      $('#run-search').on('click', function (e) {
-	        e.preventDefault();
-	        _this.board.allowPaint = false;
-	        _this.finder.run();
-	      });
-	      $('#clear-search').on('click', function (e) {
-	        e.preventDefault();
-	        _this.finder.kill();
-	        _this.board.clearSearch();
-	      });
-	      $('#set-obs').on('click', function (e) {
-	        e.preventDefault();
-	        var preset = $('input[name=preset]:checked', '#obs-controls').val();
-	        _this.finder.kill();
-	        _this.board.clearSearch();
-	        if (preset === 'simple') {
-	          _this.board.setupSimple();
-	        } else if (preset === 'maze') {
-	          _this.board.setupMaze();
-	        }
-	      });
-	      $('#clear-obs').on('click', function (e) {
-	        e.preventDefault();
-	        _this.board.clearObstacles();
-	      });
-	      $('.instructions-hide').on('click', function (e) {
-	        e.preventDefault();
-	        $('.controls').removeClass('minimized');
-	        $('.instructions').addClass('minimized');
-	        $('.instructions .content').addClass('hidden');
-	        $('.instructions .buttons').addClass('hidden');
-	        $('.instructions .instructions-show').removeClass('hidden');
-	      });
-	      $('.instructions-show').on('click', function (e) {
-	        e.preventDefault();
-	        $('.controls').addClass('minimized');
-	        $('.instructions').removeClass('minimized');
-	        $('.instructions .content').removeClass('hidden');
-	        $('.instructions .buttons').removeClass('hidden');
-	        $('.instructions .demo-gif').addClass('hidden');
+	      $('#algo-controls input').on('change', this.setNewAlgo.bind(this));
+	      $('#run-search').on('click', this.runSearch.bind(this));
+	      $('#clear-search').on('click', this.clearSearch.bind(this));
+	      $('#set-obs').on('click', this.setObstaclePreset.bind(this));
+	      $('#clear-obs').on('click', this.clearObstacles.bind(this));
+	      $('.instructions-hide').on('click', this.hideInstructions.bind(this));
+	      $('.instructions-show').on('click', this.showInstructions.bind(this));
+	      $('.demo-show').on('click', this.showDemo.bind(this));
+	    }
+	  }, {
+	    key: 'setNewAlgo',
+	    value: function setNewAlgo(e) {
+	      e.preventDefault();
+	      var algoName = $('input[name=algo]:checked', '#algo-controls').val();
+	      this.finder.kill();
+	      this.finder = new Finders[algoName](this.board);
+	      this.board.clearSearch();
+	    }
+	  }, {
+	    key: 'runSearch',
+	    value: function runSearch(e) {
+	      e.preventDefault();
+	      this.board.allowPaint = false;
+	      this.finder.run();
+	    }
+	  }, {
+	    key: 'clearSearch',
+	    value: function clearSearch(e) {
+	      e.preventDefault();
+	      this.finder.kill();
+	      this.board.clearSearch();
+	    }
+	  }, {
+	    key: 'setObstaclePreset',
+	    value: function setObstaclePreset(e) {
+	      e.preventDefault();
+	      var preset = $('input[name=preset]:checked', '#obs-controls').val();
+	      this.finder.kill();
+	      this.board.clearSearch();
+	      if (preset === 'simple') {
+	        this.board.setupSimple();
+	      } else if (preset === 'maze') {
+	        this.board.setupMaze();
+	      }
+	    }
+	  }, {
+	    key: 'clearObstacles',
+	    value: function clearObstacles(e) {
+	      e.preventDefault();
+	      this.board.clearObstacles();
+	      // also clear search
+	      this.finder.kill();
+	      this.board.clearSearch();
+	    }
+	  }, {
+	    key: 'hideInstructions',
+	    value: function hideInstructions(e) {
+	      e.preventDefault();
+	      $('.controls').removeClass('minimized');
+	      $('.instructions').addClass('minimized');
+	      $('.instructions .content').addClass('hidden');
+	      $('.instructions .buttons').addClass('hidden');
+	      $('.instructions .instructions-show').removeClass('hidden');
+	    }
+	  }, {
+	    key: 'showInstructions',
+	    value: function showInstructions(e) {
+	      e.preventDefault();
+	      $('.controls').addClass('minimized');
+	      $('.instructions').removeClass('minimized');
+	      $('.instructions .content').removeClass('hidden');
+	      $('.instructions .buttons').removeClass('hidden');
+	      $('.instructions .demo-gif').addClass('hidden');
+	      $('.demo-show').text('Demo');
+	      $('.instructions .instructions-show').addClass('hidden');
+	    }
+	  }, {
+	    key: 'showDemo',
+	    value: function showDemo(e) {
+	      e.preventDefault();
+	      if ($('.demo-show').text() === 'Demo') {
+	        $('.demo-show').text('Back');
+	      } else {
 	        $('.demo-show').text('Demo');
-	        $('.instructions .instructions-show').addClass('hidden');
-	      });
-	      $('.demo-show').on('click', function (e) {
-	        e.preventDefault();
-	        if ($('.demo-show').text() === 'Demo') {
-	          $('.demo-show').text('Back');
-	        } else {
-	          $('.demo-show').text('Demo');
-	        }
-	        $('.instructions .content').toggleClass('hidden');
-	        $('.instructions .demo-gif').toggleClass('hidden');
-	      });
+	      }
+	      $('.instructions .content').toggleClass('hidden');
+	      $('.instructions .demo-gif').toggleClass('hidden');
 	    }
 	  }, {
 	    key: 'resetDimensions',
