@@ -54,7 +54,7 @@ body {
 #algo-controls, #obs-controls, header, .instructions {
   width: 180px;
   background: black;
-  opacity: 0.6;
+  opacity: 0.7;
   color: white;
 
   padding: 15px;
@@ -67,8 +67,8 @@ body {
   align-items: center;
 }
 
-#algo-controls:hover, #obs-controls:hover, header:hover, .instructions:hover {
-  opacity: 0.8;
+#algo-controls:hover, #obs-controls:hover, header:hover {
+  opacity: 0.95;
 }
 
 header {
@@ -108,7 +108,7 @@ h3 {
   padding: 20px 40px;
   border-radius: 8px;
 
-  opacity: 0.8;
+  opacity: .95;
   position: absolute;
   width: auto;
   left: 50%;
@@ -119,8 +119,12 @@ h3 {
   transition: bottom 0.4s ease, opacity 0.2s ease
 }
 
+/*.instructions:hover {
+  opacity: 1
+}*/
+
 .instructions.minimized {
-  opacity: 0.6;
+  opacity: 0.7;
   font-size: 20px;
   padding: 8px 12px;
   padding-bottom: 25px;
