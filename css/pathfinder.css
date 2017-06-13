@@ -52,7 +52,8 @@ body {
 }
 
 #algo-controls, #obs-controls, header, .instructions {
-  width: 180px;
+  /*width: 180px;*/
+  width: 18vw;
   background: black;
   opacity: 0.7;
   color: white;
@@ -85,19 +86,23 @@ h1 {
 
 h3 {
   font-weight: 500;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .controls {
-  height: 60vh;
+  height: 80vh;
   right: 1%;
-  top: 17%;
+  top: 10%;
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
 
   transition: right ease 0.4s;
+}
+
+#obs-controls {
+  margin-top: 3vh;
 }
 
 .controls.minimized {
@@ -170,7 +175,7 @@ h3 {
 
 .algo-options, .obs-presets {
   margin: 10px 0 15px;
-  font-size: 14px;
+  font-size: 16px;
 
   display: flex;
   flex-direction: column;
