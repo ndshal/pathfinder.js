@@ -141,7 +141,7 @@ processNeighbors(current) {
 #### Comparing A\* and Greedy Best-First Search on the Simply Barrier
 Best-First Search            |  A\* Algorithm
 :-------------------------:|:-------------------------:
-![Best-First on the barrier](assets/best_first_barrier.gif) | ![A\* on the barrier](assets/a_star_barrier.gif)
+![Best-First on the barrier](assets/best_first_barrier_2.gif) | ![A\* on the barrier](assets/a_star_barrier_2.gif)
 
 Both algorithms prioritize movement toward the goal and then explore, but the final path of Best-First is longer.
 
