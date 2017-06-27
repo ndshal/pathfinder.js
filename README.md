@@ -73,7 +73,7 @@ Dijkstra's algorithm is similar to BFS in the sense that the frontier expands in
 However, Dijkstra introduces the concept of **cost** to deal with obstacles. Moving through obstacle
 nodes has a high cost, and Dijkstra minimizes cost by preferring to explore around obstacles.
 
-**Note:** Because the cost obstacles is not infinite, when there is no other option the Dijkstra path
+**Note:** Because the cost of obstacles is not infinite, when there is no other option the Dijkstra path
 will actually move through an obstacle, whereas BFS will just get stuck.
 
 In Dijkstra's Algorithm, the frontier is a PriorityQueue data structure, built on MinHeap.
@@ -151,7 +151,7 @@ Breadth First Search           |  A\* Algorithm
 ![BFS on the maze](assets/bfs_maze.gif) | ![A\* on the barrier](assets/a_star_maze.gif)
 
 BFS explores the many corners of the maze, while A\* moves straight toward the goal. Note that both
-algorithms come with the same final path - BFS is still correct, A\* is just more efficient.
+algorithms come up with the same final path - BFS is still correct, A\* is just more efficient.
 
 ## Future Directions
 Some future ideas for Pathfinder.js include:
